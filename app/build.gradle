@@ -79,8 +79,8 @@ dependencies {
     annotationProcessor 'android.arch.lifecycle:compiler:' + rootProject.archLifecycleVersion
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.+"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.+"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_version_core"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_version_core"
 
 
     // alternatively - just ViewModel
