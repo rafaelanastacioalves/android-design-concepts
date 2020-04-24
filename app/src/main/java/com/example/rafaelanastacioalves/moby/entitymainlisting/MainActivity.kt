@@ -23,10 +23,8 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
 
-
     private val mClickListener = this
-    private var mTripPackageListAdapter: MainEntityAdapter? = null
-    private val tripPackageListLoaderId = 10
+    private var mainEntityAdapter: MainEntityAdapter? = null
     private var mRecyclerView: RecyclerView? = null
     lateinit private var mLiveDataMainEntityListViewModel: LiveDataMainEntityListViewModel
 
@@ -54,32 +52,32 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
     }
 
     private fun setupRecyclerView() {
-        mRecyclerView = findViewById<View>(R.id.trip_package_list) as RecyclerView
+        mRecyclerView = findViewById<View>(R.id.main_entity_list) as RecyclerView
         val layoutManager = LinearLayoutManager(applicationContext)
         mRecyclerView!!.layoutManager = layoutManager
-        if (mTripPackageListAdapter == null) {
-            mTripPackageListAdapter = MainEntityAdapter(this)
+        if (mainEntityAdapter == null) {
+            mainEntityAdapter = MainEntityAdapter(this)
         }
-        mTripPackageListAdapter!!.setRecyclerViewClickListener(mClickListener)
-        mRecyclerView!!.adapter = mTripPackageListAdapter
+        mainEntityAdapter!!.setRecyclerViewClickListener(mClickListener)
+        mRecyclerView!!.adapter = mainEntityAdapter
     }
 
 
     private fun populateRecyclerView(list: Resource<List<MainEntity>>?) {
         if (list == null) {
-            mTripPackageListAdapter!!.setItems(null)
+            mainEntityAdapter!!.setItems(null)
             //TODO add any error managing
-            Timber.w("Nothing returned from Trip Package List API")
+            Timber.w("Nothing returned from Main Entity List API")
 
         } else if (list.data!=null) {
-            mTripPackageListAdapter!!.setItems(list.data)
+            mainEntityAdapter!!.setItems(list.data)
         }
 
     }
 
 
     override fun onClick(view: View, position: Int) {
-        val MainEntity = mTripPackageListAdapter!!.getItems()!!.get(position)
+        val MainEntity = mainEntityAdapter!!.getItems()!!.get(position)
 
         val transitionImageView = view.findViewById<View>(R.id.main_entity_imageview)
         startActivityByVersion(MainEntity, transitionImageView as AppCompatImageView)
@@ -89,7 +87,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
 
     private fun startActivityByVersion(mainEntity: MainEntity, transitionImageView: AppCompatImageView) {
         val i = Intent(this, EntityDetailActivity::class.java)
-        i.putExtra(EntityDetailsFragment.ARG_PACKAGE_ID, mainEntity.getId())
+        i.putExtra(EntityDetailsFragment.ARG_ENTITY_ID, mainEntity.getId())
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             var bundle: Bundle? = null

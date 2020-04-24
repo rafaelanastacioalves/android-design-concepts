@@ -27,16 +27,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.containsString;
 
 
 @RunWith(AndroidJUnit4.class)
-public class MainEntityDetailActivityTest {
+public class EntityDetailActivityTest {
     @Rule
-    public ActivityTestRule<EntityDetailActivity> tripPackageDetailActivityTestRule = new ActivityTestRule<EntityDetailActivity>(EntityDetailActivity.class, true, false);
-    private String fileNameTripPackageDetailOKResponse = "package_detail_ok_response.json";
+    public ActivityTestRule<EntityDetailActivity> entityDetailActivityTestRule = new ActivityTestRule<EntityDetailActivity>(EntityDetailActivity.class, true, false);
+    private String fileNameEntityDetailOKResponse = "entity_detail_ok_response.json";
     private MockWebServer server;
-    private String MOCK_PACKAGE_ID = "01";
+    private String MOCK_ENTITY_ID = "01";
 
 
     @Before
@@ -48,18 +47,18 @@ public class MainEntityDetailActivityTest {
     }
 
     @Test
-    public void shouldShowTripPackageDetailSuccess() throws IOException {
+    public void shouldShowEntityDetailSuccess() throws IOException {
         server.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(RestServiceTestHelper.getStringFromFile(
                         InstrumentationRegistry.getInstrumentation().getContext()
-                        , fileNameTripPackageDetailOKResponse)
+                        , fileNameEntityDetailOKResponse)
                 )
         );
 
         Intent intent = new Intent();
-        intent.putExtra(EntityDetailsFragment.Companion.getARG_PACKAGE_ID(), MOCK_PACKAGE_ID);
-        tripPackageDetailActivityTestRule.launchActivity(intent);
+        intent.putExtra(EntityDetailsFragment.Companion.getARG_ENTITY_ID(), MOCK_ENTITY_ID);
+        entityDetailActivityTestRule.launchActivity(intent);
 
 
 

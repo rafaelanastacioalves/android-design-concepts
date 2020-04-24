@@ -14,15 +14,15 @@ object AppRepository {
             override suspend fun makeCall(): List<MainEntity>? {
 
                 var apiClient: APIClient = ServiceGenerator.createService(APIClient::class.java);
-                return apiClient.getTripPackageList()
+                return apiClient.getMainEntityList()
             }
 
             override suspend fun getFromDB(): List<MainEntity>? {
-                return DAO.getTripPackageList()
+                return DAO.getMainEntityList()
             }
 
             override fun saveIntoDB(resultData: List<MainEntity>?) {
-                DAO.saveTripPackageList(resultData)
+                DAO.saveMainEntityList(resultData)
             }
 
         }.fromHttpAndDB()
@@ -33,7 +33,7 @@ object AppRepository {
             override suspend fun makeCall(): List<MainEntity>? {
 
                 var apiClient: APIClient = ServiceGenerator.createService(APIClient::class.java);
-                return apiClient.getTripPackageListAdditional()
+                return apiClient.getMainEntityListAdditional()
             }
 
             override suspend fun getFromDB(): List<MainEntity>? {
@@ -51,7 +51,7 @@ object AppRepository {
         return object : NetworkBoundResource<EntityDetails, EntityDetails>() {
             override suspend fun makeCall(): EntityDetails? {
                 var apiClient: APIClient = ServiceGenerator.createService(APIClient::class.java)
-                return apiClient.getTripPackageDetails(requestId)
+                return apiClient.getEntityDetails(requestId)
             }
 
             override suspend fun getFromDB(): EntityDetails? {

@@ -36,7 +36,7 @@ class MainActivityTest {
 
     @get:Rule
     var mainActivityActivityTestRule = ActivityTestRule(MainActivity::class.java, true, false)
-    private val fileNameTripPackagesOKResponse = "trip_packages_ok_response.json"
+    private val fileNameMainEntityListOKResponse = "main_entity_ok_response.json"
     private var server: MockWebServer? = null
 
     @Before
@@ -52,11 +52,11 @@ class MainActivityTest {
 
     @Test
     @Throws(IOException::class)
-    fun shouldShowTripPackageSuccess() {
+    fun shouldEntityListSuccess() {
         server!!.enqueue(MockResponse()
                 .setResponseCode(200)
                 .setBody(RestServiceTestHelper.getStringFromFile(
-                        InstrumentationRegistry.getInstrumentation().context, fileNameTripPackagesOKResponse)
+                        InstrumentationRegistry.getInstrumentation().context, fileNameMainEntityListOKResponse)
                 )
         )
 
@@ -65,13 +65,13 @@ class MainActivityTest {
         mainActivityActivityTestRule.launchActivity(intent)
 
         onView(
-                withId(R.id.trip_package_list)
+                withId(R.id.main_entity_list)
         ).perform(
                 RecyclerViewActions.scrollToHolder(
-                        withHolderContainingId(R.id.main_entity_title_textview)
+                        withHolderContainingId(R.id.entity_detail_title_textview)
                 )
         )
-        onView(allOf<View>(withId(R.id.main_entity_title_textview), withText("Disney Premium"))).check(matches(isDisplayed()))
+        onView(allOf<View>(withId(R.id.entity_detail_title_textview), withText("Disney Premium"))).check(matches(isDisplayed()))
 
     }
 

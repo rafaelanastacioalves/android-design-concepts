@@ -7,15 +7,14 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface APIClient {
-
-
+    
     @POST("/trip-packages")
-    suspend fun getTripPackageList(): List<MainEntity>;
+    suspend fun getMainEntityList(): List<MainEntity>;
 
-    @POST("/trip-packages/{tripPackageID}")
-    suspend fun getTripPackageDetails(@Path("tripPackageID") id: String): EntityDetails
+    @POST("/trip-packages/{entityID}")
+    suspend fun getEntityDetails(@Path("entityID") id: String): EntityDetails
 
     @POST("/trip-packages-additional")
-    suspend fun getTripPackageListAdditional(): List<MainEntity>
+    suspend fun getMainEntityListAdditional(): List<MainEntity>
 
 }

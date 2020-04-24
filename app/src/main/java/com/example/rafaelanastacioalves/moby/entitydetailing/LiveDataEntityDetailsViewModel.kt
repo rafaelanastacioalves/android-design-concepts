@@ -16,12 +16,12 @@ internal class LiveDataEntityDetailsViewModel : ViewModel() {
 
     val entityDetailsInteractor: EntityDetailsInteractor = EntityDetailsInteractor()
 
-    fun loadData(tripPackageId: String?) : MutableLiveData<Resource<EntityDetails>> {
+    fun loadData(entityId: String?) : MutableLiveData<Resource<EntityDetails>> {
         Timber.i("LiveDataEntityDetailsViewModel loadData")
 
         entityDetails.postValue(Resource.loading())
         entityDetailsInteractor.execute(viewModelScope,
-                tripPackageId?.let{EntityDetailsInteractor.RequestValues(it)},{it -> handle(it)})
+                entityId?.let{EntityDetailsInteractor.RequestValues(it)},{ it -> handle(it)})
         return entityDetails
     }
 

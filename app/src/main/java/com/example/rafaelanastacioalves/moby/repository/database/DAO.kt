@@ -4,14 +4,14 @@ import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.orhanobut.hawk.Hawk
 
 object DAO {
-    private const val TRIP_PACKAGE_LIST_KEY = "AAAA"
+    private const val MAIN_ENTITY_LIST_KEY = "AAAA"
 
-    fun getTripPackageList(): List<MainEntity>? {
-        return Hawk.get(TRIP_PACKAGE_LIST_KEY)
+    fun getMainEntityList(): List<MainEntity>? {
+        return Hawk.get(MAIN_ENTITY_LIST_KEY)
     }
 
-    fun saveTripPackageList(resultData: List<MainEntity>?) {
-        val resultSuccessfull = Hawk.put(TRIP_PACKAGE_LIST_KEY, resultData)
+    fun saveMainEntityList(resultData: List<MainEntity>?) {
+        val resultSuccessfull = Hawk.put(MAIN_ENTITY_LIST_KEY, resultData)
         if (!resultSuccessfull) {
             throw Exception()
         }

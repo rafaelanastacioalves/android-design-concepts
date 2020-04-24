@@ -24,7 +24,7 @@ class MainEntityViewHolder(override val containerView: View) : RecyclerView.View
 
     }
     init {
-        itemView.trip_package_container.setOnClickListener(this)
+        itemView.detail_container.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -33,7 +33,7 @@ class MainEntityViewHolder(override val containerView: View) : RecyclerView.View
 
     fun bind(aMainEntity: MainEntity, context: Context) {
 
-        itemView.main_entity_title_textview.setText(aMainEntity.getTitle());
+        itemView.entity_detail_title_textview.setText(aMainEntity.getTitle());
         val placeholderList: StateListDrawable= context.getResources().getDrawable(R.drawable.ic_placeholder_map_selector) as StateListDrawable;
         Picasso.get()
                 .load(aMainEntity.getImage_url())

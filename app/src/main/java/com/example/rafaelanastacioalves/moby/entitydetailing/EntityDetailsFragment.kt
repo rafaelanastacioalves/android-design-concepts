@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -23,12 +21,7 @@ import kotlinx.android.synthetic.main.fragment_detail_entity_detail_view.*
  * A simple [Fragment] subclass.
  */
 class EntityDetailsFragment : Fragment(), View.OnClickListener {
-    private val PACKAGE_ID_LOADER_KEY = "package_id_loader_key"
-
     lateinit private var mLiveDataEntityDetailsViewModel: LiveDataEntityDetailsViewModel
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +29,9 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
     }
 
     private fun loadData() {
-        val mPackageId = arguments!!.getString(ARG_PACKAGE_ID)
+        val mEntityId = arguments!!.getString(ARG_ENTITY_ID)
         mLiveDataEntityDetailsViewModel = ViewModelProvider.NewInstanceFactory().create(LiveDataEntityDetailsViewModel::class.java)
-        mLiveDataEntityDetailsViewModel.loadData(mPackageId).observe(this, Observer { entityDetails -> setViewsWith(entityDetails?.data) })
+        mLiveDataEntityDetailsViewModel.loadData(mEntityId).observe(this, Observer { entityDetails -> setViewsWith(entityDetails?.data) })
 
     }
 
@@ -68,10 +61,10 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
     private fun setViewsWith(entityDetails: EntityDetails?) {
 
         detail_entity_detail_name!!.text = entityDetails?.price
-        setupActionBarWithTitle(entityDetails?.title?: "" )
+        setupActionBarWithTitle(entityDetails?.title ?: "")
         Picasso.get()
                 .load(entityDetails?.image_url)
-                .into(trip_package_detail_imageview, object : Callback {
+                .into(entity_detail_imageview, object : Callback {
                     override fun onSuccess() {
                         activity!!.supportStartPostponedEnterTransition()
                     }
@@ -95,8 +88,7 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
     }
 
     companion object {
-
-        var ARG_PACKAGE_ID: String? = null
+        var ARG_ENTITY_ID: String? = null
     }
 
 

@@ -8,7 +8,7 @@
 	tools:context="com.example.rafaelanastacioalves.moby.entitymainlisting.MainActivity">
 
 	<androidx.recyclerview.widget.RecyclerView
-		android:id="@+id/trip_package_list"
+		android:id="@+id/main_entity_list"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		app:layout_constraintBottom_toBottomOf="parent"
