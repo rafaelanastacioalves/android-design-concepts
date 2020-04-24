@@ -15,7 +15,9 @@ android {
         versionName "0.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
     }
+
 
     testBuildType "instrumentation"
     buildTypes {
@@ -90,6 +92,8 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.+"
 
+    // basic DB
+    implementation "com.orhanobut:hawk:$hawnkVersion"
 
 
 //    implementation "androidx.appcompat:appcompat:$android_ktx_version"

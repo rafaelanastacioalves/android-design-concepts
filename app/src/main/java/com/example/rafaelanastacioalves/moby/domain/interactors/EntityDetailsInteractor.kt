@@ -3,7 +3,7 @@ package com.example.rafaelanastacioalves.moby.domain.interactors
 
 import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
-import com.example.rafaelanastacioalves.moby.retrofit.AppRepository
+import com.example.rafaelanastacioalves.moby.repository.AppRepository
 
 class EntityDetailsInteractor :
         Interactor<Resource<EntityDetails>?, EntityDetailsInteractor.RequestValues>() {

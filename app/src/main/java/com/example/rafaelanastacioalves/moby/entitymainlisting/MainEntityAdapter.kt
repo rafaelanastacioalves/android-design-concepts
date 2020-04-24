@@ -27,19 +27,15 @@ class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewH
         notifyDataSetChanged();
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainEntityViewHolder  {
         return MainEntityViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.detail_entity_viewholder, parent, false), recyclerViewClickListener);
     }
 
-
-
     override fun onBindViewHolder(holder: MainEntityViewHolder,position: Int ) {
         val aRepoW = getItems()?.get(position) as MainEntity;
         holder.bind(aRepoW, mContext);
     }
-
 
     override fun getItemCount(): Int {
         if (getItems() != null){

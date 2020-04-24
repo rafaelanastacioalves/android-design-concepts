@@ -1,4 +1,4 @@
-package com.example.rafaelanastacioalves.moby.retrofit;
+package com.example.rafaelanastacioalves.moby.repository.http;
 
 
 import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails

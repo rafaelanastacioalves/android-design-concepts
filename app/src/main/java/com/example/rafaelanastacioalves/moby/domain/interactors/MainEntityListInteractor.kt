@@ -2,7 +2,7 @@ package com.example.rafaelanastacioalves.moby.domain.interactors
 
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
-import com.example.rafaelanastacioalves.moby.retrofit.AppRepository
+import com.example.rafaelanastacioalves.moby.repository.AppRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext

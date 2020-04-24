@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 
 import com.example.rafaelanastacioalves.moby.BuildConfig
+import com.orhanobut.hawk.Hawk
 import com.squareup.picasso.Picasso
 
 import timber.log.Timber
@@ -13,8 +14,13 @@ import timber.log.Timber
 class MainApplication : Application() {
     override fun onCreate() {
         setupLog()
+        setupDB()
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         super.onCreate()
+    }
+
+    private fun setupDB() {
+        Hawk.init(this).build();
     }
 
     private fun setupLog() {

@@ -1,4 +1,4 @@
-package com.example.rafaelanastacioalves.moby.retrofit;
+package com.example.rafaelanastacioalves.moby.repository.http;
 
 
 import okhttp3.Interceptor
@@ -8,7 +8,7 @@ import okhttp3.Response
 
 class AppInterceptor : Interceptor {
 
-    override fun intercept(chain: Chain) : Response  {
+    override fun intercept(chain: Chain): Response {
         val original: Request = chain.request();
 
         // Request customization: add request headers
