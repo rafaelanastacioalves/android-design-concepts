@@ -7,7 +7,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface APIClient {
-    
+
     @POST("/trip-packages")
     suspend fun getMainEntityList(): List<MainEntity>;
 

@@ -1,23 +1,17 @@
-package com.example.rafaelanastacioalves.moby.domain.entities;
+package com.example.rafaelanastacioalves.moby.domain.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-class MainEntity() {
+@Entity
+ data class MainEntity (
 
-    private lateinit var id: String;
-    private lateinit var title: String;
-    private lateinit var price: String;
-    private lateinit var price_currency: String;
-    private lateinit var image_url: String;
+    @PrimaryKey  var id: String,
+    @ColumnInfo(name = "title")   var title: String,
+    @ColumnInfo(name = "price")   var price: String,
+    @ColumnInfo(name = "price_currency")   var price_currency: String,
+    @ColumnInfo(name = "image_url")   var image_url: String
 
-    fun  getId(): String {
-        return id;
-    }
+)
 
-    fun getTitle(): String {
-        return title;
-    }
-
-    fun getImage_url(): String {
-        return image_url;
-    }
-}

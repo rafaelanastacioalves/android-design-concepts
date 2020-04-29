@@ -1,19 +1,20 @@
 package com.example.rafaelanastacioalves.moby.repository.database
 
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
-import com.orhanobut.hawk.Hawk
 
-object DAO {
-    private const val MAIN_ENTITY_LIST_KEY = "AAAA"
+@Dao
+interface DAO {
 
-    fun getMainEntityList(): List<MainEntity>? {
-        return Hawk.get(MAIN_ENTITY_LIST_KEY)
-    }
+    @Query("SELECT * FROM mainentity")
+    fun getMainEntityList(): List<MainEntity>
 
-    fun saveMainEntityList(resultData: List<MainEntity>?) {
-        val resultSuccessfull = Hawk.put(MAIN_ENTITY_LIST_KEY, resultData)
-        if (!resultSuccessfull) {
-            throw Exception()
-        }
-    }
+    @Insert
+    fun saveMainEntityList(resultData: List<MainEntity>?)
+
+    @Delete
+    fun delete(mainEntity: MainEntity)
 }

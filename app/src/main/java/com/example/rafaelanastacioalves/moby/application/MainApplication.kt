@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 
 import com.example.rafaelanastacioalves.moby.BuildConfig
-import com.orhanobut.hawk.Hawk
+import com.example.rafaelanastacioalves.moby.repository.database.AppDataBase
 import com.squareup.picasso.Picasso
 
 import timber.log.Timber
@@ -20,7 +20,7 @@ class MainApplication : Application() {
     }
 
     private fun setupDB() {
-        Hawk.init(this).build();
+        AppDataBase.setupAtApplicationStartup(this)
     }
 
     private fun setupLog() {

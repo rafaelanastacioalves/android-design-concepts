@@ -3,26 +3,33 @@ package com.example.rafaelanastacioalves.moby.repository
 import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
+import com.example.rafaelanastacioalves.moby.repository.database.AppDataBase
 import com.example.rafaelanastacioalves.moby.repository.database.DAO
 import com.example.rafaelanastacioalves.moby.repository.http.APIClient
 import com.example.rafaelanastacioalves.moby.repository.http.ServiceGenerator
 
 object AppRepository {
+    private val appDao: DAO = AppDataBase.getInstance().appDAO()
+    var apiClient: APIClient = ServiceGenerator.createService(APIClient::class.java);
 
     suspend fun mainEntity(): Resource<List<MainEntity>> {
         return object : NetworkBoundResource<List<MainEntity>, List<MainEntity>>() {
             override suspend fun makeCall(): List<MainEntity>? {
 
-                var apiClient: APIClient = ServiceGenerator.createService(APIClient::class.java);
                 return apiClient.getMainEntityList()
             }
 
             override suspend fun getFromDB(): List<MainEntity>? {
-                return DAO.getMainEntityList()
+                val mainEntityList = appDao.getMainEntityList()
+                return if(mainEntityList.isNotEmpty()){
+                    mainEntityList
+                }else{
+                    null
+                }
             }
 
             override fun saveIntoDB(resultData: List<MainEntity>?) {
-                DAO.saveMainEntityList(resultData)
+                appDao.saveMainEntityList(resultData)
             }
 
         }.fromHttpAndDB()
@@ -31,8 +38,6 @@ object AppRepository {
     suspend fun mainEntityAdditional(): Resource<List<MainEntity>> {
         return object : NetworkBoundResource<List<MainEntity>, List<MainEntity>>() {
             override suspend fun makeCall(): List<MainEntity>? {
-
-                var apiClient: APIClient = ServiceGenerator.createService(APIClient::class.java);
                 return apiClient.getMainEntityListAdditional()
             }
 
@@ -50,7 +55,6 @@ object AppRepository {
     suspend fun entityDetails(requestId: String): Resource<EntityDetails> {
         return object : NetworkBoundResource<EntityDetails, EntityDetails>() {
             override suspend fun makeCall(): EntityDetails? {
-                var apiClient: APIClient = ServiceGenerator.createService(APIClient::class.java)
                 return apiClient.getEntityDetails(requestId)
             }
 
