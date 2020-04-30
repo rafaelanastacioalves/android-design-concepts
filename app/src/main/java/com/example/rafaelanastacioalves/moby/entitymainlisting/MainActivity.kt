@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rafaelanastacioalves.moby.R
@@ -26,20 +27,26 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
     private val mClickListener = this
     private var mainEntityAdapter: MainEntityAdapter? = null
     private var mRecyclerView: RecyclerView? = null
-    lateinit private var mLiveDataMainEntityListViewModel: LiveDataMainEntityListViewModel
+    private val mLiveDataMainEntityListViewModel: LiveDataMainEntityListViewModel by lazy {
+        ViewModelProvider(this).get(LiveDataMainEntityListViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupViews()
         setupRecyclerView()
         subscribe()
+        loadData()
 
+    }
+
+    private fun loadData() {
+        mLiveDataMainEntityListViewModel.loadDataIfNecessary()
     }
 
 
     private fun subscribe() {
-        mLiveDataMainEntityListViewModel = ViewModelProvider.NewInstanceFactory().create(LiveDataMainEntityListViewModel::class.java)
-        mLiveDataMainEntityListViewModel.loadData().observeForever(Observer { mainEntities ->
+        mLiveDataMainEntityListViewModel.mainEntityListLiveData.observeForever(Observer { mainEntities ->
             Timber.d("On Changed")
             populateRecyclerView(mainEntities)
         })

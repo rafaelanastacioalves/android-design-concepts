@@ -1,5 +1,6 @@
 package com.example.rafaelanastacioalves.moby.entitymainlisting;
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,23 +11,21 @@ import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListIn
 
 class LiveDataMainEntityListViewModel : ViewModel() {
 
-    val mainEntityList = MutableLiveData<Resource<List<MainEntity>>>();
-
-    val mainEntityListInteractor: MainEntityListInteractor = MainEntityListInteractor()
-
+    val mainEntityListLiveData = MutableLiveData<Resource<List<MainEntity>>>();
+    private val mainEntityListInteractor: MainEntityListInteractor = MainEntityListInteractor()
 
 
-    fun loadData() : MutableLiveData<Resource<List<MainEntity>>> {
-        mainEntityListInteractor.execute(viewModelScope,null, {
-            handle(it)
-        })
 
-        return mainEntityList
-
+    fun loadDataIfNecessary(){
+        if (mainEntityListLiveData.value == null){
+            mainEntityListInteractor.execute(viewModelScope,null, {
+                handle(it)
+            })
+        }
     }
 
     private fun handle(it: Resource<List<MainEntity>>) {
-        mainEntityList.postValue(it)
+        mainEntityListLiveData.postValue(it)
     }
 
 }
