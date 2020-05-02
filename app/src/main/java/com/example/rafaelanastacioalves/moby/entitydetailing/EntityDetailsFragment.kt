@@ -63,7 +63,7 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
         detail_entity_detail_name!!.text = entityDetails?.price
         setupActionBarWithTitle(entityDetails?.title ?: "")
         Picasso.get()
-                .load(entityDetails?.image_url)
+                .load(entityDetails?.imageUrl)
                 .into(entity_detail_imageview, object : Callback {
                     override fun onSuccess() {
                         activity!!.supportStartPostponedEnterTransition()

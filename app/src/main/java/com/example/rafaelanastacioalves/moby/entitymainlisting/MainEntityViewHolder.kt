@@ -36,7 +36,7 @@ class MainEntityViewHolder(override val containerView: View) : RecyclerView.View
         itemView.entity_detail_title_textview.setText(aMainEntity.title);
         val placeholderList: StateListDrawable= context.getResources().getDrawable(R.drawable.ic_placeholder_map_selector) as StateListDrawable;
         Picasso.get()
-                .load(aMainEntity.image_url)
+                .load(aMainEntity.imageUrl)
                 .placeholder(placeholderList)
                 .into(itemView.main_entity_imageview as ImageView);
 
