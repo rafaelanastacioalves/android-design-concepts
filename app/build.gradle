@@ -40,11 +40,8 @@ android {
             buildConfigField "boolean", "IS_TEST", 'true'
 
         }
-
-        packagingOptions {
-            exclude 'META-INF/proguard/coroutines.pro'
-        }
     }
+
 }
 
 dependencies {
@@ -55,8 +52,15 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "androidx.test:core:1.2.0"
+    androidTestImplementation "androidx.arch.core:core-runtime:2.1.0"
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+
+
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
+
+    testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
 
 
     implementation 'androidx.annotation:annotation:1.0.0'
