@@ -17,4 +17,7 @@ interface DAO {
 
     @Delete
     fun delete(mainEntity: MainEntity)
+
+    @Query("DELETE FROM mainentity")
+    fun delteAllMainEntities()
 }

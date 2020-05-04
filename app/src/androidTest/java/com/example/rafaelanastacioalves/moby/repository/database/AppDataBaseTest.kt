@@ -1,30 +1,76 @@
 package com.example.rafaelanastacioalves.moby.repository.database
 
 import android.content.Context
-import okhttp3.mockwebserver.MockResponse
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
+import org.hamcrest.CoreMatchers
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.StringContains
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
-import org.mockito.Mock
-import androidx.test.core.app.ApplicationProvider;
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Rule
+import java.util.*
 
 
 @RunWith(AndroidJUnit4::class)
- class AppDataBaseTest {
+class AppDataBaseTest {
 
     @get:Rule
-    public var instantTaskExecutorRule : InstantTaskExecutorRule  = InstantTaskExecutorRule();
+    var instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule();
+
+    private val context: Context by lazy {
+        ApplicationProvider.getApplicationContext() as Context
+    }
+
+    private val testedDAO: DAO by lazy {
+        AppDataBase.getInstance().appDAO()
+    }
 
     @Test
     fun when_savingMainEntity_Should_ReturnMainEntity() {
 
-        val context: Context = ApplicationProvider.getApplicationContext()
-
         AppDataBase.setupAtApplicationStartup(context)
-        val testedDAO: DAO = AppDataBase.getInstance().appDAO()
-        assert(true)
+        testedDAO.delteAllMainEntities()
+
+        val mainEntityList: List<MainEntity> = Arrays.asList(
+                MainEntity(
+                        "1",
+                        "Title",
+                        "RS12,00",
+                        "Real",
+                        "www.google.com"
+                ),
+                MainEntity("2",
+                        "Title2",
+                        "RS123,00",
+                        "Real",
+                        "www.google.com"))
+        
+        testedDAO.saveMainEntityList(mainEntityList)
+
+        val restoredMainEntityList = testedDAO.getMainEntityList()
+        val restoredFirstMainEntity = restoredMainEntityList.get(0)
+
+        assertThat(restoredMainEntityList.size, CoreMatchers.`is`(2))
+        assertThat(restoredFirstMainEntity.title, StringContains("Title"))
+        assertThat(restoredFirstMainEntity.price, StringContains("RS12,00"))
+        assertThat(restoredFirstMainEntity.priceCurrency, StringContains("Real"))
+        assertThat(restoredFirstMainEntity.imageUrl, StringContains("www.google.com"))
+
     }
+
+    @Test
+    fun when_ThereIsNoMainEntity_Should_Return_EmptyList() {
+        AppDataBase.setupAtApplicationStartup(context)
+        val testedDAO: DAO = testedDAO
+
+        testedDAO.delteAllMainEntities()
+
+        val restoredMainEntityList = testedDAO.getMainEntityList()
+
+        assertThat(restoredMainEntityList.size, CoreMatchers.`is`(0))
+    }
+
 }
