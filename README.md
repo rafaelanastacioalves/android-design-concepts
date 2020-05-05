@@ -2,7 +2,7 @@
 
 ## Descrição Geral
 
-Desafio tecnico da empresa <empresa>.
+Um template que utiliza conceitos e tecnologias aprendidas por mim.
 
 ![tela de listagem](captures/)
 
