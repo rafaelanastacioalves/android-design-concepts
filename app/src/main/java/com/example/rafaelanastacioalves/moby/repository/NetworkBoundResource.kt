@@ -13,11 +13,10 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
     val viewModelScope = CoroutineScope(Dispatchers.IO)
     private lateinit var result: Resource<ResultType>
 
-    abstract suspend fun makeCall(): ResultType?
-
+    abstract suspend fun makeCall(): ResultType
     abstract suspend fun getFromDB(): ResultType?
 
-    abstract fun saveIntoDB(resultData: ResultType?)
+    abstract fun saveIntoDB(request: ResultType?)
 
     private suspend fun fetchFromNetwork() {
         val resultData: ResultType?

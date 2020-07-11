@@ -14,7 +14,7 @@ object AppRepository {
 
     suspend fun mainEntity(): Resource<List<MainEntity>> {
         return object : NetworkBoundResource<List<MainEntity>, List<MainEntity>>() {
-            override suspend fun makeCall(): List<MainEntity>? {
+            override suspend fun makeCall(): List<MainEntity> {
 
                 return apiClient.getMainEntityList()
             }
@@ -37,7 +37,7 @@ object AppRepository {
 
     suspend fun mainEntityAdditional(): Resource<List<MainEntity>> {
         return object : NetworkBoundResource<List<MainEntity>, List<MainEntity>>() {
-            override suspend fun makeCall(): List<MainEntity>? {
+            override suspend fun makeCall(): List<MainEntity> {
                 return apiClient.getMainEntityListAdditional()
             }
 
@@ -54,7 +54,7 @@ object AppRepository {
 
     suspend fun entityDetails(requestId: String): Resource<EntityDetails> {
         return object : NetworkBoundResource<EntityDetails, EntityDetails>() {
-            override suspend fun makeCall(): EntityDetails? {
+            override suspend fun makeCall(): EntityDetails {
                 return apiClient.getEntityDetails(requestId)
             }
 
@@ -62,7 +62,7 @@ object AppRepository {
                 TODO("Not yet implemented")
             }
 
-            override fun saveIntoDB(resultData: EntityDetails?) {
+            override fun saveIntoDB(request: EntityDetails?) {
                 TODO("Not yet implemented")
             }
         }.fromHttpOnly()
