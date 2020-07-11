@@ -28,7 +28,7 @@ class MainEntityViewHolder(override val containerView: View) : RecyclerView.View
     }
 
     override fun onClick(v: View) {
-        aRecyclerViewListener.onClick(v, getAdapterPosition());
+//        aRecyclerViewListener.onClick(v, getAdapterPosition());
     }
 
     fun bind(aMainEntity: MainEntity, context: Context) {
