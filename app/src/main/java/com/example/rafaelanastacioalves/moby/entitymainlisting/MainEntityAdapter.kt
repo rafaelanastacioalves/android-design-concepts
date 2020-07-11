@@ -1,9 +1,15 @@
 package com.example.rafaelanastacioalves.moby.entitymainlisting;
 
+import android.animation.TimeInterpolator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Toast
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
 import androidx.core.view.doOnLayout
 import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
@@ -13,10 +19,14 @@ import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.detail_entity_viewholder.view.*
 
-class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewHolder>() {
+
+class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityViewHolder>() {
+    private lateinit var recyclerView: RecyclerView
     lateinit private var recyclerViewClickListener: RecyclerViewClickListener
     private var items: List<MainEntity>? = null
 
+    private var originalHeight: Int = 0
+    private var additionalHeight: Int = 0
     private val mContext: Context = context
 
     private var expandedPosition: Int = -1
@@ -43,42 +53,82 @@ class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewH
 
         val aRepoW = getItems()?.get(position) as MainEntity
         holder.bind(aRepoW, mContext)
-        holder.containerView.doOnLayout {view ->
+        val action: (view: View) -> Unit = { view ->
             val container = view.detail_container
             val additionalViewContainer = view.additionalViewContainer
 
-            val originalHeight = container.measuredHeight
+            originalHeight = container.measuredHeight
             additionalViewContainer.isVisible = true
 
             additionalViewContainer.doOnNextLayout { view ->
-                val additionalHeight = view.measuredHeight
+                additionalHeight = view.measuredHeight
                 view.post { view.isVisible = false }
             }
         }
+        holder.containerView.doOnLayout(action)
         holder.containerView.setOnClickListener { view ->
 
             if (expandedPosition < 0){
-                measureExpandViewHolderAtPosition(position)
+                expandViewHolderAtPosition(position)
             }else{
                 if (position.compareTo(expandedPosition) == 0) {
-                    measureCollapseViewHolderAtPosition(expandedPosition)
+                    collapseViewHolderAtPosition(expandedPosition)
                     expandedPosition = -1
                 }else {
-                    measureCollapseViewHolderAtPosition(expandedPosition)
-                    measureExpandViewHolderAtPosition(position)
+                    collapseViewHolderAtPosition(expandedPosition)
+                    expandViewHolderAtPosition(position)
                 }
             }
 
         }
     }
 
-    private fun measureExpandViewHolderAtPosition(position: Int) {
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
+    }
+
+    private fun expandViewHolderAtPosition(position: Int) {
         expandedPosition = position
+
+        val holder = recyclerView.findViewHolderForAdapterPosition(position) as MainEntityViewHolder
+
+        val animator = getValueAnimator(true, 1000, AccelerateDecelerateInterpolator()){
+            progress ->
+            holder.containerView.layoutParams.height = originalHeight + (additionalHeight)*progress.toInt()
+            holder.containerView.requestLayout()
+        }
+        animator.doOnStart { holder.containerView.isVisible = true }
+        animator.start()
         Toast.makeText(mContext, "Expanding item at position $position", Toast.LENGTH_SHORT).show()
     }
 
-    private fun measureCollapseViewHolderAtPosition(position: Int) {
+    private fun collapseViewHolderAtPosition(position: Int) {
+        val holder = recyclerView.findViewHolderForAdapterPosition(position) as MainEntityViewHolder
+
+        val animator = getValueAnimator(true, 1000, AccelerateDecelerateInterpolator()){
+            progress ->
+            holder.containerView.layoutParams.height = originalHeight + (additionalHeight)*progress.toInt()
+            holder.containerView.requestLayout()
+        }
+        animator.doOnEnd { holder.containerView.isVisible = false }
+        animator.start()
         Toast.makeText(mContext, "Collapsing item at position $position", Toast.LENGTH_SHORT).show()
+    }
+
+    inline fun getValueAnimator(
+            forward: Boolean = true,
+            duration: Long,
+            interpolator: TimeInterpolator,
+            crossinline updateListener: (progress: Float) -> Unit
+    ): ValueAnimator {
+        val a =
+                if (forward) ValueAnimator.ofFloat(0f, 1f)
+                else ValueAnimator.ofFloat(1f, 0f)
+        a.addUpdateListener { updateListener(it.animatedValue as Float) }
+        a.duration = duration
+        a.interpolator = interpolator
+        return a
     }
 
     override fun getItemCount(): Int {
