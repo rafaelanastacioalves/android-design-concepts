@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-	android:id="@+id/detail_container"
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/detail_container"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<TextView
-		android:id="@+id/entity_detail_title_textview"
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/additionalViewContainer"
+		android:visibility="gone"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		app:layout_constraintEnd_toEndOf="parent"
 		android:layout_marginEnd="8dp"
 		android:layout_marginStart="16dp"
 		android:layout_marginTop="16dp"
-		tools:text="@string/detail_entitiy_title_textview"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/main_entity_imageview"
 		android:layout_marginRight="8dp"
-		android:layout_marginLeft="16dp"/>
+		app:layout_constraintStart_toStartOf="parent">
+
+		<TextView
+			android:id="@+id/entity_detail_title_textview"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:layout_constraintEnd_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:text="@string/detail_entitiy_title_textview" />
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
 
 	<androidx.appcompat.widget.AppCompatImageView
 		android:id="@+id/main_entity_imageview"

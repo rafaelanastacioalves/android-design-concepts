@@ -2,11 +2,16 @@ package com.example.rafaelanastacioalves.moby.entitymainlisting;
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnLayout
+import androidx.core.view.doOnNextLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rafaelanastacioalves.moby.R
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
+import kotlinx.android.synthetic.main.detail_entity_viewholder.view.*
 
 class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewHolder>() {
     lateinit private var recyclerViewClickListener: RecyclerViewClickListener
@@ -33,8 +38,20 @@ class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewH
     }
 
     override fun onBindViewHolder(holder: MainEntityViewHolder,position: Int ) {
-        val aRepoW = getItems()?.get(position) as MainEntity;
-        holder.bind(aRepoW, mContext);
+        val aRepoW = getItems()?.get(position) as MainEntity
+        holder.bind(aRepoW, mContext)
+        holder.containerView.doOnLayout {view ->
+            val container = view.detail_container
+            val additionalViewContainer = view.additionalViewContainer
+
+            val originalHeight = container.measuredHeight
+            additionalViewContainer.isVisible = true
+
+            additionalViewContainer.doOnNextLayout { view ->
+                val additionalHeight = view.measuredHeight
+                view.post { view.isVisible = false }
+            }
+        }
     }
 
     override fun getItemCount(): Int {

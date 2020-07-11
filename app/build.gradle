@@ -18,6 +18,15 @@ android {
 
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
 
     testBuildType "instrumentation"
     buildTypes {
@@ -101,6 +110,9 @@ dependencies {
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
+
+    // Android X Core View
+    implementation "androidx.core:core-ktx:$android_x_view_version"
 }
 repositories {
     mavenCentral()
