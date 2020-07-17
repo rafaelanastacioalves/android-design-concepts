@@ -88,8 +88,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
 
         val transitionImageView = view.findViewById<View>(R.id.main_entity_imageview)
         startActivityByVersion(MainEntity, transitionImageView as AppCompatImageView)
-
-
     }
 
     private fun startActivityByVersion(mainEntity: MainEntity, transitionImageView: AppCompatImageView) {

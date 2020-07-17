@@ -93,12 +93,12 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
 
         val holder = recyclerView.findViewHolderForAdapterPosition(position) as MainEntityViewHolder
 
-        val animator = getValueAnimator(true, 1000, AccelerateDecelerateInterpolator()){
+        val animator = getValueAnimator(true, 2000, AccelerateDecelerateInterpolator()){
             progress ->
             holder.containerView.layoutParams.height = originalHeight + (additionalHeight)*progress.toInt()
             holder.containerView.requestLayout()
         }
-        animator.doOnStart { holder.containerView.isVisible = true }
+        animator.doOnStart { holder.containerView.additionalViewContainer.isVisible = true }
         animator.start()
         Toast.makeText(mContext, "Expanding item at position $position", Toast.LENGTH_SHORT).show()
     }
@@ -106,12 +106,12 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
     private fun collapseViewHolderAtPosition(position: Int) {
         val holder = recyclerView.findViewHolderForAdapterPosition(position) as MainEntityViewHolder
 
-        val animator = getValueAnimator(true, 1000, AccelerateDecelerateInterpolator()){
+        val animator = getValueAnimator(true, 2000, AccelerateDecelerateInterpolator()){
             progress ->
-            holder.containerView.layoutParams.height = originalHeight + (additionalHeight)*progress.toInt()
+            holder.containerView.layoutParams.height = originalHeight + (additionalHeight)*(1 - progress).toInt()
             holder.containerView.requestLayout()
         }
-        animator.doOnEnd { holder.containerView.isVisible = false }
+        animator.doOnEnd { holder.containerView.additionalViewContainer.isVisible = false }
         animator.start()
         Toast.makeText(mContext, "Collapsing item at position $position", Toast.LENGTH_SHORT).show()
     }
