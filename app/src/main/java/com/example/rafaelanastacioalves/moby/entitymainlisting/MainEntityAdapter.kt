@@ -31,8 +31,9 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
     private var originalHeight: Int = -1
     private var additionalHeight: Int = -1
     private val mContext: Context = context
-
     private var expandedPosition: Int = -1
+    private var toBeCollapsedPosition: Int = -1
+
 
     fun setRecyclerViewClickListener(aRVC: RecyclerViewClickListener) {
         this.recyclerViewClickListener = aRVC;
@@ -51,11 +52,24 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
                 .inflate(R.layout.detail_entity_viewholder, parent, false), recyclerViewClickListener);
     }
 
+    override fun onViewAttachedToWindow(holder: MainEntityViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        if (holder.adapterPosition.compareTo(toBeCollapsedPosition) == 0){
+            resetHeight(holder)
+            toBeCollapsedPosition = -1
+        }
+    }
+
+    private fun resetHeight(holder: MainEntityViewHolder) {
+        holder.containerView.layoutParams.height = originalHeight
+        holder.containerView.requestLayout()
+    }
 
     override fun onBindViewHolder(holder: MainEntityViewHolder, position: Int ) {
 
         val aRepoW = getItems()?.get(position) as MainEntity
         holder.bind(aRepoW, mContext)
+
         if (additionalHeight < 0) {
             val action: (view: View) -> Unit = { view ->
                 val container = view.detail_container
@@ -77,15 +91,21 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
                 expandViewHolderAtPosition(position)
             }else{
                 if (position.compareTo(expandedPosition) == 0) {
-                    collapseViewHolderAtPosition(expandedPosition)
+                    toBeCollapsedPosition = expandedPosition
+                    collapseViewHolderAtPosition(toBeCollapsedPosition)
+                    toBeCollapsedPosition = -1
                     expandedPosition = -1
                 }else {
                     if (recyclerView.findViewHolderForAdapterPosition(expandedPosition)!=null){
-                        collapseViewHolderAtPosition(expandedPosition)
-                        expandViewHolderAtPosition(position)
-                    }else{
-                        expandViewHolderAtPosition(position)
+                        toBeCollapsedPosition = expandedPosition
+                        collapseViewHolderAtPosition(toBeCollapsedPosition)
                         expandedPosition = position
+                        expandViewHolderAtPosition(expandedPosition)
+                    }else{
+                        toBeCollapsedPosition = expandedPosition
+                        expandedPosition = position
+                        expandViewHolderAtPosition(expandedPosition)
+                        notifyItemChanged(toBeCollapsedPosition)
                     }
 
                 }
@@ -126,7 +146,7 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
         }
         animator.doOnEnd { holder.containerView.additionalViewContainer.isVisible = false }
         animator.start()
-//        Toast.makeText(mContext, "Collapsing item at position $position", Toast.LENGTH_SHORT).show()
+        Toast.makeText(mContext, "Collapsing item at position $position", Toast.LENGTH_SHORT).show()
     }
 
     inline fun getValueAnimator(
