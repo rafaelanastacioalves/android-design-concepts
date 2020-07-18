@@ -80,8 +80,14 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
                     collapseViewHolderAtPosition(expandedPosition)
                     expandedPosition = -1
                 }else {
-                    collapseViewHolderAtPosition(expandedPosition)
-                    expandViewHolderAtPosition(position)
+                    if (recyclerView.findViewHolderForAdapterPosition(expandedPosition)!=null){
+                        collapseViewHolderAtPosition(expandedPosition)
+                        expandViewHolderAtPosition(position)
+                    }else{
+                        expandViewHolderAtPosition(position)
+                        expandedPosition = position
+                    }
+
                 }
             }
 
