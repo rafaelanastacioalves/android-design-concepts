@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rafaelanastacioalves.moby.R
+import com.example.rafaelanastacioalves.moby.domain.entities.FakeData
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.entitydetailing.EntityDetailActivity
@@ -22,7 +23,7 @@ import com.example.rafaelanastacioalves.moby.entitydetailing.EntityDetailsFragme
 import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
+class MainActivity : AppCompatActivity(){
 
     private val mClickListener = this
     private var mainEntityAdapter: MainEntityAdapter? = null
@@ -35,22 +36,15 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
         super.onCreate(savedInstanceState)
         setupViews()
         setupRecyclerView()
-        subscribe()
-        loadData()
+        populateRecyclerView(generateFakeData())
 
     }
 
-    private fun loadData() {
-        mLiveDataMainEntityListViewModel.loadDataIfNecessary()
+    private fun generateFakeData(): Resource<List<FakeData>>? {
+        return Resource.success(arrayListOf(FakeData(1), FakeData(2), FakeData(3)))
     }
 
 
-    private fun subscribe() {
-        mLiveDataMainEntityListViewModel.mainEntityListLiveData.observeForever(Observer { mainEntities ->
-            Timber.d("On Changed")
-            populateRecyclerView(mainEntities)
-        })
-    }
 
     private fun setupViews() {
         setContentView(R.layout.activity_main)
@@ -65,12 +59,11 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
         if (mainEntityAdapter == null) {
             mainEntityAdapter = MainEntityAdapter(this)
         }
-        mainEntityAdapter!!.setRecyclerViewClickListener(mClickListener)
         mRecyclerView!!.adapter = mainEntityAdapter
     }
 
 
-    private fun populateRecyclerView(list: Resource<List<MainEntity>>?) {
+    private fun populateRecyclerView(list: Resource<List<FakeData>>?) {
         if (list == null) {
             mainEntityAdapter!!.setItems(null)
             //TODO add any error managing
@@ -83,12 +76,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
     }
 
 
-    override fun onClick(view: View, position: Int) {
-        val MainEntity = mainEntityAdapter!!.getItems()!!.get(position)
-
-        val transitionImageView = view.findViewById<View>(R.id.main_entity_imageview)
-        startActivityByVersion(MainEntity, transitionImageView as AppCompatImageView)
-    }
 
     private fun startActivityByVersion(mainEntity: MainEntity, transitionImageView: AppCompatImageView) {
         val i = Intent(this, EntityDetailActivity::class.java)

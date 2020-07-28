@@ -3,7 +3,6 @@ package com.example.rafaelanastacioalves.moby.entitymainlisting;
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.os.Debug
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,20 +12,19 @@ import android.widget.Toast
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.doOnLayout
-import androidx.core.view.doOnNextLayout
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rafaelanastacioalves.moby.R
+import com.example.rafaelanastacioalves.moby.domain.entities.FakeData
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
-import kotlinx.android.synthetic.main.detail_entity_viewholder.view.*
+import kotlinx.android.synthetic.main.main_entity_viewholder.view.*
 
 
 class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityViewHolder>() {
     private lateinit var recyclerView: RecyclerView
-    lateinit private var recyclerViewClickListener: RecyclerViewClickListener
-    private var items: List<MainEntity>? = null
+    private var items: List<FakeData>? = null
 
     private var originalHeight: Int = -1
     private var additionalHeight: Int = -1
@@ -35,21 +33,19 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
     private var toBeCollapsedPosition: Int = -1
 
 
-    fun setRecyclerViewClickListener(aRVC: RecyclerViewClickListener) {
-        this.recyclerViewClickListener = aRVC;
-    }
 
-    fun getItems(): List<MainEntity>? {
+
+    fun getItems(): List<FakeData>? {
         return this.items;
     }
-    fun setItems(items: List<MainEntity>?) {
-        this.items = items as ArrayList<MainEntity>;
+    fun setItems(items: List<FakeData>?) {
+        this.items = items as ArrayList<FakeData>;
         notifyDataSetChanged();
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainEntityViewHolder  {
         return MainEntityViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.detail_entity_viewholder, parent, false), recyclerViewClickListener);
+                .inflate(R.layout.main_entity_viewholder, parent, false));
     }
 
     override fun onViewAttachedToWindow(holder: MainEntityViewHolder) {
@@ -67,7 +63,7 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
 
     override fun onBindViewHolder(holder: MainEntityViewHolder, position: Int ) {
 
-        val aRepoW = getItems()?.get(position) as MainEntity
+        val aRepoW = getItems()?.get(position) as FakeData
         holder.bind(aRepoW, mContext)
 
         if (additionalHeight < 0) {
