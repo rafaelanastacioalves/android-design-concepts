@@ -31,7 +31,7 @@ allprojects {
 ext {
     compileSdkVersionExt = 28
     buildToolsVersionExt = "28.0.3"
-    minSdkVersionExt = 15
+    minSdkVersionExt = 21
     targetSdkVersionExt = 28
     crashlytics = "2.7.1@aar"
     androidSupportLibrariesExt = "28.+"
