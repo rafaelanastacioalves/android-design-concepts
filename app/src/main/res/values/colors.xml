@@ -9,7 +9,7 @@
 	<color name="color_blue_light">#6db5e1</color>
 	<color name="colorWhite">#FFFFFF</color>
 
-
+<!--	Main Entity Item -->
 	<color name="title_color"> #84D6DE</color>
 	<color name="subtitle_color">#B0E7EF</color>
 	<color name="container_collapsed">#E2FAFF</color>
