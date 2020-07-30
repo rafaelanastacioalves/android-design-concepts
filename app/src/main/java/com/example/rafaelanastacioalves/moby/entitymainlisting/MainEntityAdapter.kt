@@ -67,9 +67,10 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
         holder.bind(aRepoW, mContext)
 
         if (additionalHeight < 0) {
-            val action: (view: View) -> Unit = { view ->
-                val container = view.detail_container
-                val additionalViewContainer = view.additionalViewContainer
+
+            holder.containerView.doOnLayout { container ->
+                val container = container.detail_container
+                val additionalViewContainer = container.additionalViewContainer
                 additionalHeight = 0
                 originalHeight = container.measuredHeight
                 additionalViewContainer.isVisible = true
@@ -79,9 +80,8 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
                     view.post { view.isVisible = false }
                 }
             }
-            holder.containerView.doOnLayout(action)
         }
-        holder.containerView.setOnClickListener { view ->
+        holder.containerView.detail_container.setOnClickListener { view ->
 
             if (expandedPosition < 0){
                 expandViewHolderAtPosition(position)
