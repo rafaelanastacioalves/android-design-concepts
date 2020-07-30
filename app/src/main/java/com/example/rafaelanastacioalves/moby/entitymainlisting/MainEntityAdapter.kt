@@ -11,9 +11,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Toast
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
-import androidx.core.view.doOnLayout
-import androidx.core.view.doOnPreDraw
-import androidx.core.view.isVisible
+import androidx.core.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rafaelanastacioalves.moby.R
 import com.example.rafaelanastacioalves.moby.domain.entities.FakeData
@@ -72,12 +70,12 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
                 val container = container.detail_container
                 val additionalViewContainer = container.additionalViewContainer
                 additionalHeight = 0
-                originalHeight = container.measuredHeight
+                originalHeight = container.height
                 additionalViewContainer.isVisible = true
 
                 additionalViewContainer.doOnPreDraw { view ->
-                    additionalHeight = view.measuredHeight
-                    view.post { view.isVisible = false }
+                    additionalHeight = view.height + view.marginTop + view.marginBottom
+                    view.isVisible = false
                 }
             }
         }
