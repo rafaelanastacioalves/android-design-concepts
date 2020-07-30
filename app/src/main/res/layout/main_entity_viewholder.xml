@@ -6,8 +6,9 @@
 	android:layout_height="wrap_content"
 	android:id="@+id/detail_container"
 	android:layout_width="match_parent"
-	tools:layout_marginLeft="20dp"
-	tools:layout_marginRight="20dp"
+	tools:layout_marginLeft="16dp"
+	tools:layout_marginRight="16dp"
+	android:layout_marginBottom="16dp"
 	android:orientation="vertical"
 	app:cardBackgroundColor="@color/container_collapsed">
 
