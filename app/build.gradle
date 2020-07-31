@@ -51,6 +51,17 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layouts/expandable-view-item',
+                            'src/main/res/layouts',
+                            'src/main/res'
+                    ]
+        }
+    }
+
 }
 
 dependencies {

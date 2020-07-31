@@ -1,16 +1,10 @@
 package com.example.rafaelanastacioalves.moby.entitymainlisting;
 
 import android.content.Context
-import android.graphics.drawable.StateListDrawable
 import android.view.View
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
-import com.example.rafaelanastacioalves.moby.R
 import com.example.rafaelanastacioalves.moby.domain.entities.FakeData
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
-import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
-import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.main_entity_viewholder.view.*
 
