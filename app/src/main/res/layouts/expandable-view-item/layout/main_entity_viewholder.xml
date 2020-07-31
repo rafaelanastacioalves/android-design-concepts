@@ -20,15 +20,25 @@
 		android:paddingHorizontal="16dp"
 		android:paddingVertical="16dp">
 
+		<androidx.appcompat.widget.AppCompatImageView
+			android:id="@+id/appCompatImageView2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:tint="@color/title_color"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:srcCompat="@drawable/chevron_right" />
+
 		<View
 			android:id="@+id/title"
-			android:layout_width="wrap_content"
+			android:layout_width="0dp"
 			android:layout_height="10dp"
+			android:layout_marginStart="8dp"
 			android:background="@drawable/pill_background_form_drawable"
 			android:backgroundTint="@color/title_color"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent" />
+			app:layout_constraintStart_toEndOf="@+id/appCompatImageView2"
+			app:layout_constraintTop_toTopOf="@id/appCompatImageView2" />
 
 		<View
 			android:id="@+id/subtitle_1"
