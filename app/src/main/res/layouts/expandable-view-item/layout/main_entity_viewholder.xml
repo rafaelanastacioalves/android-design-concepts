@@ -3,6 +3,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	tools:showIn="@layout/activity_main"
 	android:layout_height="wrap_content"
 	android:layout_width="match_parent"
 	android:layout_marginLeft="16dp"
@@ -21,7 +22,7 @@
 		android:paddingVertical="16dp">
 
 		<androidx.appcompat.widget.AppCompatImageView
-			android:id="@+id/appCompatImageView2"
+			android:id="@+id/chevron"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:tint="@color/title_color"
@@ -37,8 +38,8 @@
 			android:background="@drawable/pill_background_form_drawable"
 			android:backgroundTint="@color/title_color"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toEndOf="@+id/appCompatImageView2"
-			app:layout_constraintTop_toTopOf="@id/appCompatImageView2" />
+			app:layout_constraintStart_toEndOf="@+id/chevron"
+			app:layout_constraintTop_toTopOf="@id/chevron" />
 
 		<View
 			android:id="@+id/subtitle_1"

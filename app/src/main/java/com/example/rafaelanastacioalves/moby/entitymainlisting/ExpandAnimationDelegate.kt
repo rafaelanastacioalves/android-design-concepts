@@ -81,11 +81,11 @@ class ExpandAnimationDelegate {
 
             val holder = recyclerView.findViewHolderForAdapterPosition(position) as MainEntityViewHolder
 
-            val animator = getValueAnimator(true, 300L, AccelerateDecelerateInterpolator()) { progress ->
+            val animator = getValueAnimator(true, 600L, AccelerateDecelerateInterpolator()) { progress ->
                 holder.containerView.layoutParams.height = originalHeight + ((additionalHeight) * progress).toInt()
+                holder.itemView.chevron.rotation = 90*progress
 //            Log.d("Expanding", "additionalHeight:" + additionalHeight.toString())
 //            Log.d("Expanding", "originalHeight:" + originalHeight.toString())
-
                 holder.containerView.requestLayout()
             }
             animator.doOnStart { holder.containerView.additionalViewContainer.isVisible = true }
@@ -97,6 +97,7 @@ class ExpandAnimationDelegate {
 
             val animator = getValueAnimator(true, 300L, AccelerateDecelerateInterpolator()) { progress ->
                 holder.containerView.layoutParams.height = originalHeight + ((additionalHeight) * (1 - progress)).toInt()
+                holder.itemView.chevron.rotation = 90 * (1 - progress)
                 Log.d("Collapsing", "progress: $progress")
                 holder.containerView.requestLayout()
             }
