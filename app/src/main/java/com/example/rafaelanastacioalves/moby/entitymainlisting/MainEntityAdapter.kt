@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.main_entity_viewholder.view.*
 class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityViewHolder>() {
     private var items: List<FakeData>? = null
     private val mContext: Context = context
-    private val animator: ExpandAnimationDelegate = ExpandAnimationDelegate()
+    private val animator: ExpandAnimationDelegate = ExpandAnimationDelegate(context)
 
     private fun getItems(): List<FakeData>? {
         return this.items

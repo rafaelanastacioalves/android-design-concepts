@@ -1,91 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	tools:showIn="@layout/activity_main"
-	android:layout_height="wrap_content"
 	android:layout_width="match_parent"
-	android:layout_marginLeft="16dp"
-	android:layout_marginRight="16dp"
-	android:layout_marginBottom="16dp"
-	android:orientation="vertical"
-	app:cardCornerRadius="6dp"
-	app:cardBackgroundColor="@color/container_collapsed">
-
-
-	<androidx.constraintlayout.widget.ConstraintLayout
+	android:layout_height="wrap_content">
+	<androidx.cardview.widget.CardView
+		tools:showIn="@layout/activity_main"
+		android:id="@+id/detail_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/detail_container"
-		android:paddingHorizontal="16dp"
-		android:paddingVertical="16dp">
+		android:layout_gravity="center_horizontal"
+		android:layout_marginBottom="16dp"
+		android:orientation="vertical"
+		app:cardCornerRadius="6dp"
+		tools:layout_marginLeft="20dp"
+		tools:layout_marginRight="20dp"
+		app:cardBackgroundColor="@color/container_collapsed">
 
-		<androidx.appcompat.widget.AppCompatImageView
-			android:id="@+id/chevron"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:tint="@color/title_color"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			app:srcCompat="@drawable/chevron_right" />
 
-		<View
-			android:id="@+id/title"
-			android:layout_width="0dp"
-			android:layout_height="10dp"
-			android:layout_marginStart="8dp"
-			android:background="@drawable/pill_background_form_drawable"
-			android:backgroundTint="@color/title_color"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toEndOf="@+id/chevron"
-			app:layout_constraintTop_toTopOf="@id/chevron" />
-
-		<View
-			android:id="@+id/subtitle_1"
-			android:layout_width="100dp"
-			android:layout_height="10dp"
-			android:background="@drawable/pill_background_form_drawable"
-			android:layout_marginTop="8dp"
-			android:backgroundTint="@color/subtitle_color"
-			app:layout_constraintStart_toStartOf="@id/title"
-			app:layout_constraintTop_toBottomOf="@id/title" />
-		<View
-			android:id="@+id/subtitle_2"
-			android:layout_width="100dp"
-			android:layout_height="10dp"
-			android:layout_marginHorizontal="8dp"
-			android:background="@drawable/pill_background_form_drawable"
-			android:backgroundTint="@color/subtitle_color"
-			app:layout_constraintStart_toEndOf="@id/subtitle_1"
-			app:layout_constraintTop_toTopOf="@id/subtitle_1"
-			 />
-
-		<LinearLayout
-			android:id="@+id/additionalViewContainer"
-			android:visibility="gone"
+		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
-			android:orientation="vertical"
 			android:layout_height="wrap_content"
-			app:layout_constraintEnd_toEndOf="@id/title"
-			app:layout_constraintTop_toBottomOf="@id/subtitle_1"
-			tools:visibility="visible"
-			android:layout_marginTop="32dp"
-			app:layout_constraintStart_toStartOf="@id/title"
-			>
+			android:paddingHorizontal="16dp"
+			android:paddingVertical="16dp">
 
-			<include layout="@layout/description_line_1" />
-			<include layout="@layout/description_line_2" />
-			<include layout="@layout/description_line_1" />
-			<include layout="@layout/description_line_2" />
+			<androidx.appcompat.widget.AppCompatImageView
+				android:id="@+id/chevron"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:tint="@color/title_color"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:srcCompat="@drawable/chevron_right" />
+
+			<View
+				android:id="@+id/title"
+				android:layout_width="0dp"
+				android:layout_height="10dp"
+				android:layout_marginStart="8dp"
+				android:background="@drawable/pill_background_form_drawable"
+				android:backgroundTint="@color/title_color"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toEndOf="@+id/chevron"
+				app:layout_constraintTop_toTopOf="@id/chevron" />
+
+			<View
+				android:id="@+id/subtitle_1"
+				android:layout_width="100dp"
+				android:layout_height="10dp"
+				android:background="@drawable/pill_background_form_drawable"
+				android:layout_marginTop="8dp"
+				android:backgroundTint="@color/subtitle_color"
+				app:layout_constraintStart_toStartOf="@id/title"
+				app:layout_constraintTop_toBottomOf="@id/title" />
+			<View
+				android:id="@+id/subtitle_2"
+				android:layout_width="100dp"
+				android:layout_height="10dp"
+				android:layout_marginHorizontal="8dp"
+				android:background="@drawable/pill_background_form_drawable"
+				android:backgroundTint="@color/subtitle_color"
+				app:layout_constraintStart_toEndOf="@id/subtitle_1"
+				app:layout_constraintTop_toTopOf="@id/subtitle_1"
+				/>
+
+			<LinearLayout
+				android:id="@+id/additionalViewContainer"
+				android:visibility="gone"
+				android:layout_width="match_parent"
+				android:orientation="vertical"
+				android:layout_height="wrap_content"
+				app:layout_constraintEnd_toEndOf="@id/title"
+				app:layout_constraintTop_toBottomOf="@id/subtitle_1"
+				tools:visibility="gone"
+				android:layout_marginTop="32dp"
+				app:layout_constraintStart_toStartOf="@id/title"
+				>
+
+				<include layout="@layout/description_line_1" />
+				<include layout="@layout/description_line_2" />
+				<include layout="@layout/description_line_1" />
+				<include layout="@layout/description_line_2" />
 
 
 
 
-		</LinearLayout>
+			</LinearLayout>
 
-	</androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</androidx.cardview.widget.CardView>
+
+
+</FrameLayout>
 
 
 

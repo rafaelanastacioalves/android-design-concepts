@@ -2,7 +2,12 @@ package com.example.rafaelanastacioalves.moby.entitymainlisting
 
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
+import android.content.Context
+import android.content.res.Resources
+import android.graphics.Point
 import android.util.Log
+import android.util.TypedValue
+import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
@@ -10,13 +15,23 @@ import androidx.core.view.*
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.main_entity_viewholder.view.*
 
-class ExpandAnimationDelegate {
+class ExpandAnimationDelegate(context: Context) {
+    private val Int.dp: Int
+        get() {
+            return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,this.toFloat(), Resources.getSystem().displayMetrics).toInt()
+        }
+    private val Context.screenWidth: Int
+        get() {
+            return Point().also { (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(it) }.x
+        }
 
         private lateinit var recyclerView: RecyclerView
-        private var originalHeight: Int = -1
+    private var originalHeight: Int = -1
         private var additionalHeight: Int = -1
         private var expandedPosition: Int = -1
         private var toBeCollapsedPosition: Int = -1
+        private val originalWidth: Int = context.screenWidth - 48.dp
+        private val additionalWidth: Int = 24.dp
 
         fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
             this.recyclerView = recyclerView
@@ -59,6 +74,11 @@ class ExpandAnimationDelegate {
         }
 
         fun calculateMeasures(holder: MainEntityViewHolder) {
+            if (holder.adapterPosition.equals(expandedPosition) ){
+
+            }else{
+                holder.containerView.detail_container.layoutParams.width = originalWidth
+            }
             if (additionalHeight < 0) {
 
                 holder.containerView.doOnLayout { container ->
@@ -82,11 +102,12 @@ class ExpandAnimationDelegate {
             val holder = recyclerView.findViewHolderForAdapterPosition(position) as MainEntityViewHolder
 
             val animator = getValueAnimator(true, 600L, AccelerateDecelerateInterpolator()) { progress ->
-                holder.containerView.layoutParams.height = originalHeight + ((additionalHeight) * progress).toInt()
+                holder.itemView.detail_container.layoutParams.height = originalHeight + ((additionalHeight) * progress).toInt()
                 holder.itemView.chevron.rotation = 90*progress
+                holder.itemView.detail_container.layoutParams.width = originalWidth + ((additionalWidth)*(progress)).toInt()
 //            Log.d("Expanding", "additionalHeight:" + additionalHeight.toString())
 //            Log.d("Expanding", "originalHeight:" + originalHeight.toString())
-                holder.containerView.requestLayout()
+                holder.itemView.detail_container.requestLayout()
             }
             animator.doOnStart { holder.containerView.additionalViewContainer.isVisible = true }
             animator.start()
@@ -96,10 +117,12 @@ class ExpandAnimationDelegate {
             val holder = recyclerView.findViewHolderForAdapterPosition(position) as MainEntityViewHolder
 
             val animator = getValueAnimator(true, 300L, AccelerateDecelerateInterpolator()) { progress ->
-                holder.containerView.layoutParams.height = originalHeight + ((additionalHeight) * (1 - progress)).toInt()
+                holder.itemView.detail_container.layoutParams.height = originalHeight + ((additionalHeight) * (1 - progress)).toInt()
                 holder.itemView.chevron.rotation = 90 * (1 - progress)
+                holder.itemView.detail_container.layoutParams.width = originalWidth + ((additionalWidth)*(1 - progress)).toInt()
+
                 Log.d("Collapsing", "progress: $progress")
-                holder.containerView.requestLayout()
+                holder.itemView.detail_container.requestLayout()
             }
             animator.doOnEnd { holder.containerView.additionalViewContainer.isVisible = false }
             animator.start()
