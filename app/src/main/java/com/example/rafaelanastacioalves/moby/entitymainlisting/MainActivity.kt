@@ -41,10 +41,22 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun generateFakeData(): Resource<List<FakeData>>? {
-        return Resource.success(arrayListOf(FakeData(1), FakeData(2), FakeData(3)))
+        return Resource.success(arrayListOf(
+                FakeData(1),
+                FakeData(2),
+                FakeData(3),
+                FakeData(4),
+                FakeData(5),
+                FakeData(6),
+                FakeData(7),
+                FakeData(8),
+                FakeData(9),
+                FakeData(10),
+                FakeData(11),
+                FakeData(12),
+                FakeData(13)
+                ))
     }
-
-
 
     private fun setupViews() {
         setContentView(R.layout.activity_main)

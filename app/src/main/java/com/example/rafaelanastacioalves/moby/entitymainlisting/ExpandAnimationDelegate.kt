@@ -69,7 +69,8 @@ class ExpandAnimationDelegate(context: Context) {
         }
 
         private fun resetHeight(holder: MainEntityViewHolder) {
-            holder.containerView.layoutParams.height = originalHeight
+            holder.containerView.detail_container.layoutParams.height = originalHeight
+            holder.containerView.detail_container.layoutParams.width = originalWidth
             holder.containerView.requestLayout()
         }
 
