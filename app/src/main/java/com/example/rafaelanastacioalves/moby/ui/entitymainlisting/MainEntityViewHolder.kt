@@ -1,4 +1,4 @@
-package com.example.rafaelanastacioalves.moby.entitymainlisting;
+package com.example.rafaelanastacioalves.moby.ui.entitymainlisting;
 
 import android.content.Context
 import android.view.View

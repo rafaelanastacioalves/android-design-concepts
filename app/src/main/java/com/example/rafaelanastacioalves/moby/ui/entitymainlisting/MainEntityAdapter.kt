@@ -1,4 +1,4 @@
-package com.example.rafaelanastacioalves.moby.entitymainlisting
+package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -22,7 +22,7 @@ class MainEntityAdapter(context: Context ) : RecyclerView.Adapter<MainEntityView
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainEntityViewHolder  {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainEntityViewHolder {
         return MainEntityViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.main_entity_viewholder, parent, false))
     }

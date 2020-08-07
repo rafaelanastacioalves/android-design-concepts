@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 
 
-import com.example.rafaelanastacioalves.moby.entitymainlisting.MainActivity
+import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainActivity
 import com.example.rafaelanastacioalves.moby.util.RestServiceTestHelper
 
 import org.junit.After

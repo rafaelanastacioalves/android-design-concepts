@@ -1,4 +1,4 @@
-package com.example.rafaelanastacioalves.moby.entitymainlisting;
+package com.example.rafaelanastacioalves.moby.ui.entitymainlisting;
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

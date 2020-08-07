@@ -6,7 +6,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
 	<androidx.cardview.widget.CardView
-		tools:showIn="@layout/activity_main"
+		tools:showIn="@layout/main_entity_listing_activity"
 		android:id="@+id/detail_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

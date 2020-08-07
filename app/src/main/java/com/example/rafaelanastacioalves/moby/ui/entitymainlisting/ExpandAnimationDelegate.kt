@@ -1,4 +1,4 @@
-package com.example.rafaelanastacioalves.moby.entitymainlisting
+package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator

@@ -15,4 +15,9 @@
 	<color name="container_collapsed">#E2FAFF</color>
 	<color name="windowBackground">#51D1E2</color>
 
+	<color name="ltgray">#ffe0e0e0</color>
+	<color name="reading_text">#263238</color>
+	<color name="reading_text_link">#263238</color>
+	<color name="reading_background">#fff8e1</color>
+	<color name="title_background">#263238</color>
 </resources>

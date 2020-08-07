@@ -1,4 +1,4 @@
-package com.example.rafaelanastacioalves.moby.entitymainlisting
+package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 
 
 import android.content.Intent
@@ -9,18 +9,14 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityOptionsCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rafaelanastacioalves.moby.R
 import com.example.rafaelanastacioalves.moby.domain.entities.FakeData
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
-import com.example.rafaelanastacioalves.moby.entitydetailing.EntityDetailActivity
-import com.example.rafaelanastacioalves.moby.entitydetailing.EntityDetailsFragment
-import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
+
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity(){
@@ -36,6 +32,8 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setupViews()
         setupRecyclerView()
+        title = "Expand/Collapse Animation"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         populateRecyclerView(generateFakeData())
 
     }
@@ -59,7 +57,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun setupViews() {
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_entity_listing_activity)
         Timber.tag("LifeCycles")
         Timber.i("onCreate Activity")
     }
@@ -89,18 +87,18 @@ class MainActivity : AppCompatActivity(){
 
 
 
-    private fun startActivityByVersion(mainEntity: MainEntity, transitionImageView: AppCompatImageView) {
-        val i = Intent(this, EntityDetailActivity::class.java)
-        i.putExtra(EntityDetailsFragment.ARG_ENTITY_ID, mainEntity.id)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            var bundle: Bundle? = null
-            bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity,
-                    transitionImageView, transitionImageView.transitionName).toBundle()
-            startActivity(i, bundle)
-
-        } else {
-            startActivity(i)
-        }
-    }
+//    private fun startActivityByVersion(mainEntity: MainEntity, transitionImageView: AppCompatImageView) {
+//        val i = Intent(this, EntityDetailActivity::class.java)
+//        i.putExtra(EntityDetailsFragment.ARG_ENTITY_ID, mainEntity.id)
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            var bundle: Bundle? = null
+//            bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity,
+//                    transitionImageView, transitionImageView.transitionName).toBundle()
+//            startActivity(i, bundle)
+//
+//        } else {
+//            startActivity(i)
+//        }
+//    }
 }
