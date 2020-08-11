@@ -19,5 +19,5 @@
 	<color name="reading_text">#263238</color>
 	<color name="reading_text_link">#263238</color>
 	<color name="reading_background">#fff8e1</color>
-	<color name="title_background">#263238</color>
+	<color name="title_background">@color/container_collapsed</color>
 </resources>

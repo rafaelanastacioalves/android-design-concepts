@@ -7,14 +7,17 @@ android {
     compileSdkVersion rootProject.compileSdkVersionExt
     defaultConfig {
 
-        applicationId "com.example.rafaelanastacioalves"
+        applicationId "com.rafaelanastacioalves.design.concepts"
         buildToolsVersion rootProject.buildToolsVersionExt
         minSdkVersion rootProject.minSdkVersionExt
         targetSdkVersion rootProject.targetSdkVersionExt
-        versionCode 11
-        versionName "0.1.1"
+        versionCode 1
+        versionName "0.9.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+
+
 
     }
 
@@ -65,67 +68,51 @@ android {
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:' + androidxEspresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation "androidx.test:core:1.2.0"
-    androidTestImplementation "androidx.arch.core:core-runtime:2.1.0"
-    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    androidTestImplementation 'androidx.test.ext:junit:' + androidxTest
+    androidTestImplementation "androidx.test:core:" + androidxTest
+    androidTestImplementation "androidx.arch.core:core-runtime:$androidxArch"
+    androidTestImplementation "androidx.arch.core:core-testing:$androidxArch"
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:' + androidxEspresso
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:'+ androidxEspresso
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
 
-
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
-
-    testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
-
-
-    implementation 'androidx.annotation:annotation:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "com.squareup.okhttp3:mockwebserver:$rootProject.mockWebServerExt"
-
-    //retrofit + gson
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitExt"
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitExt"
-    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp3Ext"
-
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation "com.squareup.picasso:picasso:$rootProject.picassoExt"
-    implementation "com.jakewharton.timber:timber:$rootProject.timberExt"
+    //http + retrofit + gson
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitExt"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitExt"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Ext"
+    implementation "com.squareup.okhttp3:mockwebserver:$mockWebServerExt"
 
     // architecture components
-
-    implementation 'android.arch.lifecycle:extensions:' + rootProject.archLifecycleVersion
-    annotationProcessor 'android.arch.lifecycle:compiler:' + rootProject.archLifecycleVersion
+    implementation 'android.arch.lifecycle:extensions:' + archLifecycleVersion
+    annotationProcessor 'android.arch.lifecycle:compiler:' + archLifecycleVersion
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidKtxLifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidKtxLifecycle_livedata"
+    implementation "androidx.lifecycle:lifecycle-extensions:$androidKtxLifecycle"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_version_core"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_version_core"
+    //coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinVersionCore"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinVersionCore"
 
-
-    // alternatively - just ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.+"
-
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha01"
-
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.+"
-
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
-
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation "androidx.room:room-ktx:$room_version"
-
-    // Android X Core View
+    //other
+    implementation 'androidx.constraintlayout:constraintlayout:' + androidxContraintLayout
+    implementation "com.squareup.picasso:picasso:$picassoExt"
+    implementation 'androidx.annotation:annotation:' + androidxBasics
+    implementation 'androidx.recyclerview:recyclerview:' + androidxBasics
+    implementation 'com.google.android.material:material:' + materialLibrary
+    implementation 'androidx.appcompat:appcompat:' + androidxBasics
+    implementation 'androidx.legacy:legacy-support-v4:' + androidxLegacy
     implementation "androidx.core:core-ktx:$android_x_view_version"
+
 }
 repositories {
     mavenCentral()

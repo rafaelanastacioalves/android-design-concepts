@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
+import com.rafaelanastacioalves.design.concepts.domain.entities.MainEntity
+import com.rafaelanastacioalves.design.concepts.repository.database.AppDataBase
+import com.rafaelanastacioalves.design.concepts.repository.database.DAO
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.StringContains
