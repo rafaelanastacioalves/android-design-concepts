@@ -7,16 +7,16 @@
     android:layout_width="match_parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    android:layout_marginHorizontal="32dp"
     app:layout_constraintEnd_toEndOf="parent"
     android:layout_height="wrap_content"
-    tools:showIn="@layout/main_entity_viewholder">
+    android:paddingHorizontal="16dp"
+    tools:showIn="@layout/expand_collapse_viewholder">
 
     <View
         android:id="@+id/description_1"
         android:layout_width="0dp"
         android:layout_height="10dp"
-        android:layout_marginVertical="8dp"
+        android:layout_marginVertical="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/pill_background_form_drawable"
         android:backgroundTint="@color/subtitle_color"
@@ -33,7 +33,7 @@
         android:background="@drawable/pill_background_form_drawable"
         android:backgroundTint="@color/subtitle_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent" />

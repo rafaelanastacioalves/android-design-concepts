@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 
 
-import com.rafaelanastacioalves.design.concepts.ui.entitymainlisting.MainActivity
+import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseActivity
 import com.example.rafaelanastacioalves.moby.util.RestServiceTestHelper
 
 import org.junit.After
@@ -32,10 +32,10 @@ import org.hamcrest.core.AllOf.allOf
 
 
 @RunWith(AndroidJUnit4::class)
-class MainActivityTest {
+class ExpandCollapseActivityTest {
 
     @get:Rule
-    var mainActivityActivityTestRule = ActivityTestRule(MainActivity::class.java, true, false)
+    var mainActivityActivityTestRule = ActivityTestRule(ExpandCollapseActivity::class.java, true, false)
     private val fileNameMainEntityListOKResponse = "main_entity_ok_response.json"
     private var server: MockWebServer? = null
 

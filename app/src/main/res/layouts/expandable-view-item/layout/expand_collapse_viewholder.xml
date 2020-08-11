@@ -6,7 +6,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
 	<androidx.cardview.widget.CardView
-		tools:showIn="@layout/main_entity_listing_activity"
+		tools:showIn="@layout/expand_collapse_animation_activity"
 		android:id="@+id/detail_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -18,12 +18,18 @@
 		tools:layout_marginRight="20dp"
 		app:cardBackgroundColor="@color/container_collapsed">
 
-
+		<View
+			android:id="@+id/foreground_view"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:alpha="0"
+			android:background="@color/expanded_foreground_color"
+			tools:visibility="gone"/>
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:paddingHorizontal="16dp"
-			android:paddingVertical="16dp">
+			android:paddingHorizontal="32dp"
+			android:paddingVertical="32dp">
 
 			<androidx.appcompat.widget.AppCompatImageView
 				android:id="@+id/chevron"
@@ -38,7 +44,7 @@
 				android:id="@+id/title"
 				android:layout_width="0dp"
 				android:layout_height="10dp"
-				android:layout_marginStart="8dp"
+				android:layout_marginStart="24dp"
 				android:background="@drawable/pill_background_form_drawable"
 				android:backgroundTint="@color/title_color"
 				app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +56,7 @@
 				android:layout_width="100dp"
 				android:layout_height="10dp"
 				android:background="@drawable/pill_background_form_drawable"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:backgroundTint="@color/subtitle_color"
 				app:layout_constraintStart_toStartOf="@id/title"
 				app:layout_constraintTop_toBottomOf="@id/title" />
@@ -73,7 +79,7 @@
 				android:layout_height="wrap_content"
 				app:layout_constraintEnd_toEndOf="@id/title"
 				app:layout_constraintTop_toBottomOf="@id/subtitle_1"
-				tools:visibility="gone"
+				tools:visibility="visible"
 				android:layout_marginTop="32dp"
 				app:layout_constraintStart_toStartOf="@id/title"
 				>
@@ -89,6 +95,7 @@
 			</LinearLayout>
 
 		</androidx.constraintlayout.widget.ConstraintLayout>
+
 	</androidx.cardview.widget.CardView>
 
 
