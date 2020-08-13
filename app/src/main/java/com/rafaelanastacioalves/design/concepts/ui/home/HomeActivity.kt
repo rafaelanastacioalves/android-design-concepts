@@ -3,6 +3,7 @@ package com.rafaelanastacioalves.design.concepts.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.system.Os.close
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
 import com.rafaelanastacioalves.design.concepts.ui.articledetail.ArticleDetailActivity
 import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseActivity
+import com.rafaelanastacioalves.design.concepts.ui.viewpaging.ViewPagerActivity
 
 class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
     private val recyclerView : RecyclerView by lazy {
@@ -24,6 +26,7 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        goToViewPager()
         setContentView(R.layout.home_activity)
         setupToolbar()
         setupRecyclerView()
@@ -43,12 +46,12 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     }
 
-
     private fun setupToolbar() {
         title = "Design Demonstrations"
         setSupportActionBar(findViewById(R.id.toolbar))
         actionBar?.setDisplayShowTitleEnabled(true)
     }
+
 
     private fun setupRecyclerView() {
         val adapter = Adapter(this)
@@ -76,11 +79,11 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
         list.add(HomeItemData("Expand/Collapse Item Demonstration", "Item expansion/collapse animation effect", Intent(this, ExpandCollapseActivity::class.java)))
         return list
     }
+
     private class Adapter : RecyclerView.Adapter<ArticleItemViewHolder?> {
-
         private lateinit var clickListener: RecyclerViewClickListener
-        var mArraylist: List<HomeItemData>? = null
 
+        var mArraylist: List<HomeItemData>? = null
         constructor( clickListener: RecyclerViewClickListener) {
             this.clickListener = clickListener
         }
@@ -90,13 +93,13 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
             notifyItemRangeChanged(0,2)
         }
 
-
        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleItemViewHolder {
             Log.i("adapter", "onCreateViewHolder")
             val view: View = LayoutInflater.from(parent.context).inflate(R.layout.home_artcile_viewholder, parent, false)
             val vh = ArticleItemViewHolder(view)
             return vh
         }
+
 
         override fun getItemId(position: Int): Long {
             return position.toLong()
@@ -108,6 +111,7 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
             holder.subtitleView.text = data.subtitle
             holder.itemView.setOnClickListener { clickListener.onClick(view = it, position = position ) }
         }
+
         override fun getItemCount(): Int {
             return if (mArraylist != null) {
                 mArraylist!!.size
@@ -115,7 +119,12 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
                 0
             }
         }
+    }
 
+
+    private fun goToViewPager() {
+        val intent = Intent(this, ViewPagerActivity::class.java)
+        startActivity(intent)
     }
 
 

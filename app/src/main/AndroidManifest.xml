@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
+        <activity android:name=".ui.viewpaging.ViewPagerActivity"
+            android:parentActivityName=".ui.home.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rafaelanastacioalves.design.concepts.ui.home.HomeActivity" />
+        </activity>
         <activity
             android:name=".ui.home.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -19,26 +25,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseActivity"
-            android:parentActivityName="com.rafaelanastacioalves.design.concepts.ui.home.HomeActivity">
+        <activity
+            android:name=".ui.expand_collapse_animation.ExpandCollapseActivity"
+            android:parentActivityName=".ui.home.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rafaelanastacioalves.design.concepts.ui.home.HomeActivity" />
         </activity>
-
         <activity
-            android:name="com.rafaelanastacioalves.design.concepts.ui.articledetail.ArticleDetailActivity"
-            android:parentActivityName="com.rafaelanastacioalves.design.concepts.ui.home.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".ui.articledetail.ArticleDetailActivity"
+            android:parentActivityName=".ui.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rafaelanastacioalves.design.concepts.ui.home.HomeActivity" />
         </activity>
-
     </application>
 
 </manifest>
