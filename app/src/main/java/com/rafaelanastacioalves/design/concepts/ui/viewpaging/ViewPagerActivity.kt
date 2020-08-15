@@ -9,6 +9,7 @@ import android.widget.SimpleAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.RecyclerView.inflate
+import com.google.android.material.tabs.TabLayoutMediator
 import com.rafaelanastacioalves.design.concepts.R
 import kotlinx.android.synthetic.main.viewpager_activity.*
 import kotlinx.android.synthetic.main.viewpager_viewholder.view.*
@@ -24,6 +25,10 @@ class ViewPagerActivity : AppCompatActivity() {
         val adapter = SampleAdapter()
         adapter.adapterlist = generateData()
         view_pager.adapter = adapter
+        TabLayoutMediator(tablayout,view_pager) { tab, position ->
+            tab.text = "Section ${position + 1}"
+
+        }.attach()
 
     }
 

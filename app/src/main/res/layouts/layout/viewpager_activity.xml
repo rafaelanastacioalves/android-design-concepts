@@ -8,6 +8,14 @@
     tools:context=".ui.viewpaging.ViewPagerActivity">
 
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </com.google.android.material.tabs.TabLayout>
+
     <androidx.viewpager2.widget.ViewPager2
         tools:listitem="@layout/viewpager_viewholder"
         android:id="@+id/view_pager"
