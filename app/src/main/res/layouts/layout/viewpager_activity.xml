@@ -7,14 +7,12 @@
     android:orientation="vertical"
     tools:context=".ui.viewpaging.ViewPagerActivity">
 
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tablayout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/viewpager_tab_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-    </com.google.android.material.tabs.TabLayout>
+        android:orientation="horizontal"
+        tools:listitem="@layout/viewpager_recyclerview_tab_viewholder"
+        android:layout_height="wrap_content"/>
 
     <androidx.viewpager2.widget.ViewPager2
         tools:listitem="@layout/viewpager_viewholder"
