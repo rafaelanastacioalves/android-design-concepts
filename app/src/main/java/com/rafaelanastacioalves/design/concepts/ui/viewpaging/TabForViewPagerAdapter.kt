@@ -29,6 +29,11 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
         }else{
             holder.itemView.textView.text = tabList[position].textPage
         }
+
+        if (tabList[position].hasSelectinos){
+            var text = holder.itemView.textView.text
+            holder.itemView.textView.text = text.toString() + "[X]"
+        }
         holder.itemView.setOnClickListener({ v ->
             recyclerViewClickListener.onClick(v, position)
             selectedItemIndex = position

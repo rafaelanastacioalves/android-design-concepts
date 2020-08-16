@@ -12,7 +12,7 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.viewpager_activity.*
-import kotlinx.android.synthetic.main.viewpager_viewholder.view.*
+import kotlinx.android.synthetic.main.viewpager_item_viewholder.view.*
 
 class ViewPagerActivity : AppCompatActivity() {
     val list = generateTabItemViewHolderData()
@@ -43,7 +43,7 @@ class ViewPagerActivity : AppCompatActivity() {
     private fun generateTabItemViewHolderData(): List<TabItemElement> {
         val arrayList = ArrayList<TabItemElement>()
         for (i in 1..6) {
-            arrayList.add(TabItemElement("Tab ${i}", "Visualization ${i}"))
+            arrayList.add(TabItemElement("Tab ${i}", "Visualization ${i}", false))
         }
         return arrayList
     }
@@ -51,7 +51,8 @@ class ViewPagerActivity : AppCompatActivity() {
     private fun setupViewPager() {
         viewPagerAdapter = ViewPagerAdapter(object : RecyclerViewClickListener{
             override fun onClick(view: View, position: Int) {
-                TODO("Not yet implemented")
+                list.get(position).hasSelectinos = list.get(position).hasSelectinos.not()
+                updateAdapters()
             }
 
         })
@@ -68,13 +69,21 @@ class ViewPagerActivity : AppCompatActivity() {
         })
     }
 
+    private fun updateAdapters() {
+        tabForViewPagerAdapter.tabList = list
+        tabForViewPagerAdapter.notifyDataSetChanged()
+        viewPagerAdapter.adapterlist = list
+        viewPagerAdapter.notifyDataSetChanged()
+
+    }
+
 }
 
-class ViewPagerAdapter(param: RecyclerViewClickListener) : RecyclerView.Adapter<SampleViewHolder>() {
+class ViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener) : RecyclerView.Adapter<SampleViewHolder>() {
 
     lateinit var adapterlist : List<TabItemElement>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SampleViewHolder {
-        return SampleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.viewpager_viewholder,parent, false))
+        return SampleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.viewpager_item_viewholder,parent, false))
     }
 
 
@@ -88,6 +97,9 @@ class ViewPagerAdapter(param: RecyclerViewClickListener) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: SampleViewHolder, position: Int) {
         holder.itemView.textView.text = adapterlist.get(position).textPage
+        holder.itemView.button.setOnClickListener({ v-> recyclerViewClickListener.onClick(
+                v, position
+        ) })
     }
 
 }
