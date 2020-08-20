@@ -72,12 +72,6 @@ class ViewPagerActivity : AppCompatActivity() {
         view_pager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             var currentPosition = 0
             var currentAbsoluteOffset = 0
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                tabForViewPagerAdapter.selectedItemIndex = position
-                tabForViewPagerAdapter.notifyDataSetChanged()
-
-            }
 
             private fun calculateDx(position: Int): Int {
 
@@ -92,6 +86,9 @@ class ViewPagerActivity : AppCompatActivity() {
                     viewpager_tab_recyclerview.animateToPosition(position, calculateDx(
                             if (position > currentPosition) 1 else -1))
                     currentPosition = position
+                    tabForViewPagerAdapter.selectedItemIndex = position
+                    tabForViewPagerAdapter.notifyDataSetChanged()
+
 
                 }
 
@@ -124,7 +121,6 @@ class ViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener)
         return SampleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.viewpager_item_viewholder, parent, false))
     }
 
-
     override fun getItemCount(): Int {
         return if (adapterlist.isNullOrEmpty()) {
             0
@@ -134,15 +130,11 @@ class ViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener)
     }
 
     override fun onBindViewHolder(holder: SampleViewHolder, position: Int) {
-
-
         holder.itemView.textView.text = adapterlist.get(position).textPage
         holder.itemView.button.setOnClickListener({ v-> recyclerViewClickListener.onClick(
                 v, position
         ) })
     }
-
-
 
 }
 
