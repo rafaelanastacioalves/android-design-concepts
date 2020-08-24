@@ -84,12 +84,13 @@ class ViewPagerActivity : AppCompatActivity() {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
                 println("onPageScrolled: position: ${position}, positionOffSet: ${positionOffset}, positionOffSetPixels ${positionOffsetPixels}")
                 viewpager_tab_recyclerview.animateToPosition(position, calculateScrollBy(positionOffset,position))
-                if (position != currentPosition) {
+                if (position > currentPosition || positionOffset == 0.0F) {
                     currentPosition = position
                     currentOffSet = 0F
                     tabForViewPagerAdapter.selectedItemIndex = position
+                    viewpager_tab_recyclerview.suppressLayout(false)
                     tabForViewPagerAdapter.notifyDataSetChanged()
-
+                    viewpager_tab_recyclerview.suppressLayout(true)
 
                 }
 
@@ -100,7 +101,9 @@ class ViewPagerActivity : AppCompatActivity() {
 
     private fun updateAdapters() {
         tabForViewPagerAdapter.tabList = list
+        viewpager_tab_recyclerview.suppressLayout(false)
         tabForViewPagerAdapter.notifyDataSetChanged()
+        viewpager_tab_recyclerview.suppressLayout(true)
         viewPagerAdapter.adapterlist = list
         viewPagerAdapter.notifyDataSetChanged()
 

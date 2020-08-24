@@ -26,7 +26,7 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
         return if (tabList.isNullOrEmpty()) {
             0
         } else {
-            tabList.size + 2
+            tabList.size + 3
         }
     }
 
