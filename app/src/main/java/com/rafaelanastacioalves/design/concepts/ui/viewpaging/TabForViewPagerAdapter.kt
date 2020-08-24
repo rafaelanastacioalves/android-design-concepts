@@ -3,8 +3,6 @@ package com.rafaelanastacioalves.design.concepts.ui.viewpaging
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.marginEnd
-import androidx.core.view.marginStart
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
@@ -12,13 +10,15 @@ import kotlinx.android.synthetic.main.viewpager_recyclerview_tab_viewholder.view
 
 class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener) : RecyclerView.Adapter<TabViewHolder>() {
 
-    var viewHolderWidth: Int = 0
-    var viewHolderOffSet: Int = 0
+    var viewHolderWidth: Float = 0F
     var selectedItemIndex: Int = 0
 
     enum class ViewHolderType {NORMAL, FOOTER_VIEW}
     lateinit var tabList: List<TabItemElement>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TabViewHolder {
+        if (viewHolderWidth == 0F) {
+            viewHolderWidth = parent.context.resources.getDimension(R.dimen.viewpageging_tab_item_margin_horizonal)
+        }
         return TabViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.viewpager_recyclerview_tab_viewholder, parent, false))
     }
 
@@ -56,8 +56,6 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
 
     override fun onViewAttachedToWindow(holder: TabViewHolder) {
         super.onViewAttachedToWindow(holder)
-        viewHolderWidth =  if (viewHolderWidth == 0)  holder.itemView.measuredWidth else viewHolderWidth
-        viewHolderOffSet = if (viewHolderOffSet == 0) holder.itemView.let { it.marginStart + it.marginEnd } else viewHolderOffSet
         if(holder.itemViewType == ViewHolderType.FOOTER_VIEW.ordinal){
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.minimumWidth = 200

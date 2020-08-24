@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginEnd
-import androidx.core.view.marginStart
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
-import kotlinx.android.synthetic.main.home_activity.*
 import kotlinx.android.synthetic.main.viewpager_activity.*
 import kotlinx.android.synthetic.main.viewpager_item_viewholder.view.*
 
@@ -21,7 +18,7 @@ class ViewPagerActivity : AppCompatActivity() {
     val list = generateTabItemViewHolderData()
     lateinit var tabForViewPagerAdapter: TabForViewPagerAdapter
     lateinit var viewPagerAdapter: ViewPagerAdapter
-    var totalDxScroll: Int = 0
+    var totalDxTabScroll: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +43,7 @@ class ViewPagerActivity : AppCompatActivity() {
         viewpager_tab_recyclerview.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                totalDxScroll = +dx
+                totalDxTabScroll += dx
             }
         })
     }
@@ -72,20 +69,24 @@ class ViewPagerActivity : AppCompatActivity() {
         view_pager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             var currentPosition = 0
             var currentAbsoluteOffset = 0
+            var currentOffSet : Float = 0F
 
-            private fun calculateDx(position: Int): Int {
 
-                var dx = 0
-                dx =+ (tabForViewPagerAdapter.viewHolderWidth + tabForViewPagerAdapter.viewHolderOffSet)*(position)
-                return dx
+            private fun calculateScrollBy(offsetPercent: Float, position: Int): Int {
+
+                var dx = (position + offsetPercent)*(tabForViewPagerAdapter.viewHolderWidth) - totalDxTabScroll
+
+                println("Calculate ScrollBy dx: ${dx} ")
+                return dx.toInt()
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                if (position != currentPosition){
-                    viewpager_tab_recyclerview.animateToPosition(position, calculateDx(
-                            if (position > currentPosition) 1 else -1))
+                println("onPageScrolled: position: ${position}, positionOffSet: ${positionOffset}, positionOffSetPixels ${positionOffsetPixels}")
+                viewpager_tab_recyclerview.animateToPosition(position, calculateScrollBy(positionOffset,position))
+                if (position != currentPosition) {
                     currentPosition = position
+                    currentOffSet = 0F
                     tabForViewPagerAdapter.selectedItemIndex = position
                     tabForViewPagerAdapter.notifyDataSetChanged()
 
@@ -109,9 +110,9 @@ class ViewPagerActivity : AppCompatActivity() {
 
 private fun RecyclerView.animateToPosition(position: Int, dx: Int) {
     suppressLayout(false)
-    (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 20)
+//    (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 20)
+    scrollBy(dx, 0)
     suppressLayout(true)
-//    scrollBy(dx, 0)
 }
 
 class ViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener) : RecyclerView.Adapter<SampleViewHolder>() {
