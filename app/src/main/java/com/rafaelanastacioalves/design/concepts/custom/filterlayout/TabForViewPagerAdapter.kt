@@ -1,4 +1,4 @@
-package com.rafaelanastacioalves.design.concepts.ui.viewpaging
+package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
-import kotlinx.android.synthetic.main.viewpager_recyclerview_tab_viewholder.view.*
+import kotlinx.android.synthetic.main.custom_filterlayout_viewpager_recyclerview_tab_viewholder.view.*
 
 class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener) : RecyclerView.Adapter<TabViewHolder>() {
 
@@ -19,7 +19,7 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
         if (viewHolderWidth == 0F) {
             viewHolderWidth = parent.context.resources.getDimension(R.dimen.viewpageging_tab_item_margin_horizonal)
         }
-        return TabViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.viewpager_recyclerview_tab_viewholder, parent, false))
+        return TabViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.custom_filterlayout_viewpager_recyclerview_tab_viewholder, parent, false))
     }
 
     override fun getItemCount(): Int {

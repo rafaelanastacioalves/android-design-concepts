@@ -1,4 +1,4 @@
-package com.rafaelanastacioalves.design.concepts.custom
+package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 
 import android.content.Context
 import android.util.AttributeSet
@@ -11,10 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
-import com.rafaelanastacioalves.design.concepts.ui.viewpaging.TabForViewPagerAdapter
-import com.rafaelanastacioalves.design.concepts.ui.viewpaging.TabItemElement
-import kotlinx.android.synthetic.main.customview_filterlayout.view.*
-import kotlinx.android.synthetic.main.viewpager_item_viewholder.view.*
+import kotlinx.android.synthetic.main.custom_filterlayout.view.*
+import kotlinx.android.synthetic.main.custom_filterlayout_viewpager_item_viewholder.view.*
 
 class FilterLayout @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -26,7 +24,7 @@ class FilterLayout @JvmOverloads constructor(
     var totalDxTabScroll: Int = 0
 
     init{
-        inflate(context, R.layout.customview_filterlayout, this)
+        inflate(context, R.layout.custom_filterlayout, this)
         setupViewPager()
         setupTabForRecyclerView()
 
@@ -131,7 +129,7 @@ class FilterLayout @JvmOverloads constructor(
 class ViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener) : RecyclerView.Adapter<SampleViewHolder>() {
     lateinit var adapterlist: List<TabItemElement>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SampleViewHolder {
-        return SampleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.viewpager_item_viewholder, parent, false))
+        return SampleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.custom_filterlayout_viewpager_item_viewholder, parent, false))
     }
 
     override fun getItemCount(): Int {

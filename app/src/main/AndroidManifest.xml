@@ -10,12 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".ui.viewpaging.ViewPagerActivity"
-            android:parentActivityName=".ui.home.HomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rafaelanastacioalves.design.concepts.ui.home.HomeActivity" />
-        </activity>
         <activity
             android:name=".ui.home.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">

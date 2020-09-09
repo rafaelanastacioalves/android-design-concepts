@@ -26,11 +26,11 @@
 		tools:listitem="@layout/expand_collapse_viewholder"
 		app:layout_constraintTop_toTopOf="parent"/>
 
-	<com.rafaelanastacioalves.design.concepts.custom.FilterLayout
+	<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayout
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/guideline">
 
-	</com.rafaelanastacioalves.design.concepts.custom.FilterLayout>
+	</com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
