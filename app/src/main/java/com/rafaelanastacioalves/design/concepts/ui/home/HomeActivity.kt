@@ -26,7 +26,7 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        goToViewPager()
+//        goToViewPager()
         setContentView(R.layout.home_activity)
         setupToolbar()
         setupRecyclerView()

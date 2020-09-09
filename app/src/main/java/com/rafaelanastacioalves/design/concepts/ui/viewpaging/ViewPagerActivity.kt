@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.viewpager_item_viewholder.view.*
 
 class ViewPagerActivity : AppCompatActivity() {
 
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.viewpager_activity)
