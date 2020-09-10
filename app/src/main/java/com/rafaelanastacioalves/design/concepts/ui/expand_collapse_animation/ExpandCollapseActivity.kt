@@ -5,15 +5,18 @@ import android.os.Bundle
 
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
+import com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutContract
 import com.rafaelanastacioalves.design.concepts.domain.entities.FakeData
 import com.rafaelanastacioalves.design.concepts.domain.entities.Resource
+import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
 
 
-class ExpandCollapseActivity : AppCompatActivity(){
+class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract{
 
     private val mClickListener = this
     private var expandCollapseAdapter: ExpandCollapseAdapter? = null
@@ -29,7 +32,36 @@ class ExpandCollapseActivity : AppCompatActivity(){
         title = "Expand/Collapse Animation"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         populateRecyclerView(generateFakeData())
+        setupFilterLayout()
+        setupFab()
 
+    }
+
+    private fun setupFilterLayout() {
+        filterLayout.init(this)
+    }
+
+    private fun setupFab() {
+        fab.setOnClickListener{
+            showFilter()
+            hideFab()
+        }
+    }
+
+    private fun hideFab() {
+        fab.isVisible = false
+    }
+
+    private fun showFab() {
+        fab.isVisible = true
+    }
+
+    private fun showFilter() {
+        filterLayout.isVisible = true
+    }
+
+    private fun hideFilter() {
+        filterLayout.isVisible = false
     }
 
     private fun generateFakeData(): Resource<List<FakeData>>? {
@@ -76,6 +108,15 @@ class ExpandCollapseActivity : AppCompatActivity(){
 
     }
 
+    override fun onFilterDismiss() {
+        hideFilter()
+        showFab()
+    }
+
+    override fun onFilterConfirmed() {
+        hideFilter()
+        showFab()
+    }
 
 
 //    private fun startActivityByVersion(mainEntity: MainEntity, transitionImageView: AppCompatImageView) {

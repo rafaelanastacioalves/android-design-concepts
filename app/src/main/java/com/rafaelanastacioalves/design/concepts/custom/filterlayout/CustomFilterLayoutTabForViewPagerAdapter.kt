@@ -14,7 +14,7 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
     var selectedItemIndex: Int = 0
 
     enum class ViewHolderType {NORMAL, FOOTER_VIEW}
-    lateinit var tabList: List<TabItemElement>
+    lateinit var customFilterLayoutTabList: List<CustomFilterLayoutTabItemElement>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TabViewHolder {
         if (viewHolderWidth == 0F) {
             viewHolderWidth = parent.context.resources.getDimension(R.dimen.viewpageging_tab_item_margin_horizonal)
@@ -23,22 +23,22 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
     }
 
     override fun getItemCount(): Int {
-        return if (tabList.isNullOrEmpty()) {
+        return if (customFilterLayoutTabList.isNullOrEmpty()) {
             0
         } else {
-            tabList.size + 3
+            customFilterLayoutTabList.size + 3
         }
     }
 
     override fun onBindViewHolder(holder: TabViewHolder, position: Int) {
         if (holder.itemViewType == ViewHolderType.NORMAL.ordinal) {
             if (selectedItemIndex == position){
-                holder.itemView.textView.text = tabList[position].textPage + "*"
+                holder.itemView.textView.text = customFilterLayoutTabList[position].textPage + "*"
             }else{
-                holder.itemView.textView.text = tabList[position].textPage
+                holder.itemView.textView.text = customFilterLayoutTabList[position].textPage
             }
 
-            if (tabList[position].hasSelectinos){
+            if (customFilterLayoutTabList[position].hasSelectinos){
                 var text = holder.itemView.textView.text
                 holder.itemView.textView.text = text.toString() + "[X]"
             }
@@ -50,7 +50,7 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position < tabList.size) ViewHolderType.NORMAL.ordinal else ViewHolderType.FOOTER_VIEW.ordinal
+        return if (position < customFilterLayoutTabList.size) ViewHolderType.NORMAL.ordinal else ViewHolderType.FOOTER_VIEW.ordinal
 
     }
 

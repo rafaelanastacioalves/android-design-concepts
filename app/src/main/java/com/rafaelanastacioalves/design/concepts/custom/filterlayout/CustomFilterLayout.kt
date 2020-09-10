@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -16,8 +16,9 @@ import kotlinx.android.synthetic.main.custom_filterlayout_viewpager_item_viewhol
 
 class FilterLayout @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : ConstraintLayout(context, attrs, defStyleAttr) {
 
+    private lateinit var delegate: FilterLayoutContract
     val list = generateTabItemViewHolderData()
     lateinit var tabForViewPagerAdapter: TabForViewPagerAdapter
     lateinit var viewPagerAdapter: ViewPagerAdapter
@@ -27,7 +28,21 @@ class FilterLayout @JvmOverloads constructor(
         inflate(context, R.layout.custom_filterlayout, this)
         setupViewPager()
         setupTabForRecyclerView()
+    }
 
+    public fun init(delegate: FilterLayoutContract): Unit {
+        this.delegate = delegate
+        setupListeners()
+    }
+
+    private fun setupListeners() {
+        okButton.setOnClickListener{
+            delegate.onFilterDismiss()
+        }
+
+        dismissButton.setOnClickListener{
+            delegate.onFilterDismiss()
+        }
     }
 
     private fun setupTabForRecyclerView() {
@@ -36,7 +51,7 @@ class FilterLayout @JvmOverloads constructor(
                 view_pager.setCurrentItem(position, true)
             }
         })
-        tabForViewPagerAdapter.tabList = list
+        tabForViewPagerAdapter.customFilterLayoutTabList = list
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = RecyclerView.HORIZONTAL
         viewpager_tab_recyclerview.apply {
@@ -99,7 +114,7 @@ class FilterLayout @JvmOverloads constructor(
     }
 
     private fun updateAdapters() {
-        tabForViewPagerAdapter.tabList = list
+        tabForViewPagerAdapter.customFilterLayoutTabList = list
         viewpager_tab_recyclerview.suppressLayout(false)
         tabForViewPagerAdapter.notifyDataSetChanged()
         viewpager_tab_recyclerview.suppressLayout(true)
@@ -108,10 +123,10 @@ class FilterLayout @JvmOverloads constructor(
 
     }
 
-    private fun generateTabItemViewHolderData(): List<TabItemElement> {
-        val arrayList = ArrayList<TabItemElement>()
+    private fun generateTabItemViewHolderData(): List<CustomFilterLayoutTabItemElement> {
+        val arrayList = ArrayList<CustomFilterLayoutTabItemElement>()
         for (i in 1..6) {
-            arrayList.add(TabItemElement("Tab ${i}", "Visualization ${i}", false))
+            arrayList.add(CustomFilterLayoutTabItemElement("Tab ${i}", "Visualization ${i}", false))
         }
         return arrayList
     }
@@ -127,7 +142,7 @@ class FilterLayout @JvmOverloads constructor(
 }
 
 class ViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener) : RecyclerView.Adapter<SampleViewHolder>() {
-    lateinit var adapterlist: List<TabItemElement>
+    lateinit var adapterlist: List<CustomFilterLayoutTabItemElement>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SampleViewHolder {
         return SampleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.custom_filterlayout_viewpager_item_viewholder, parent, false))
     }
@@ -152,5 +167,10 @@ class ViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener)
 
 class SampleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+}
+
+interface FilterLayoutContract {
+    fun onFilterDismiss()
+    fun onFilterConfirmed()
 }
 

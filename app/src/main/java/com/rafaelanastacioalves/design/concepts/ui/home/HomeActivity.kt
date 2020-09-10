@@ -24,11 +24,16 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        goTo(Intent(baseContext,ExpandCollapseActivity::class.java))
         setContentView(R.layout.home_activity)
         setupToolbar()
         setupRecyclerView()
         animateIntro()
 
+    }
+
+    private fun goTo(intent: Intent) {
+        startActivity(intent)
     }
 
     override fun onResume() {
