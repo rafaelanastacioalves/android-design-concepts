@@ -33,20 +33,27 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
     override fun onBindViewHolder(holder: TabViewHolder, position: Int) {
         if (holder.itemViewType == ViewHolderType.NORMAL.ordinal) {
             if (selectedItemIndex == position){
-                holder.itemView.textView.text = customFilterLayoutTabList[position].textPage + "*"
+                markAsCurrent(true)
             }else{
-                holder.itemView.textView.text = customFilterLayoutTabList[position].textPage
+                markAsCurrent(false)
             }
 
             if (customFilterLayoutTabList[position].hasSelectinos){
-                var text = holder.itemView.textView.text
-                holder.itemView.textView.text = text.toString() + "[X]"
+                markHasSelections(true)
             }
             holder.itemView.setOnClickListener({ v ->
                 recyclerViewClickListener.onClick(v, position)
                 selectedItemIndex = position
             })
         }
+    }
+
+    private fun markHasSelections(b: Boolean) {
+//        TODO("Not yet implemented")
+    }
+
+    private fun markAsCurrent(b: Boolean) {
+//        TODO("Not yet implemented")
     }
 
     override fun getItemViewType(position: Int): Int {

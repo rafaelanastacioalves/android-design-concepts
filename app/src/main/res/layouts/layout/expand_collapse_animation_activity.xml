@@ -16,7 +16,9 @@
 		android:layout_marginBottom="16dp"
 		android:layout_weight="1"
 		android:clickable="true"
-		android:src="@android:drawable/btn_plus"
+		app:srcCompat="@drawable/ic_filter"
+		android:tint="@color/lightGrey"
+		android:backgroundTint="@color/colorPrimaryDark"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent" />
 
@@ -24,7 +26,7 @@
 		android:id="@+id/guideline"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		app:layout_constraintGuide_percent="0.5"
+		app:layout_constraintGuide_percent="0.35"
 		android:orientation="horizontal" />
 
 	<androidx.recyclerview.widget.RecyclerView
@@ -43,9 +45,9 @@
 		android:id="@+id/filterLayout"
 		android:layout_width="match_parent"
 		android:visibility="gone"
+		tools:visibility="visible"
 		android:layout_height="0dp"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/guideline">
-
 	</com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

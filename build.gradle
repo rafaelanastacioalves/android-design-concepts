@@ -31,7 +31,7 @@ allprojects {
 ext {
     compileSdkVersionExt = 30
     buildToolsVersionExt = "30.0.1"
-    minSdkVersionExt = 15
+    minSdkVersionExt = 21
     targetSdkVersionExt = 30
     retrofitExt = "2.6.+"
     okhttp3Ext = "3.10.0"

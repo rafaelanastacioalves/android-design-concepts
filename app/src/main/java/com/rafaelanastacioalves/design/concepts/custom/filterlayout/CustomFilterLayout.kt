@@ -12,7 +12,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.custom_filterlayout.view.*
-import kotlinx.android.synthetic.main.custom_filterlayout_viewpager_item_viewholder.view.*
 
 class FilterLayout @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -144,24 +143,27 @@ class FilterLayout @JvmOverloads constructor(
 class ViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener) : RecyclerView.Adapter<SampleViewHolder>() {
     lateinit var adapterlist: List<CustomFilterLayoutTabItemElement>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SampleViewHolder {
-        return SampleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.custom_filterlayout_viewpager_item_viewholder, parent, false))
+        return if (viewType == 0) {
+            SampleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.custom_filterlayout_viewpager_item_holder_3, parent, false))
+        } else {
+            SampleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.custom_filterlayout_viewpager_item_holder_1, parent, false))
+        }
     }
 
     override fun getItemCount(): Int {
         return if (adapterlist.isNullOrEmpty()) {
             0
-        }else{
+        } else {
             adapterlist.size
         }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position % 2
+    }
+
     override fun onBindViewHolder(holder: SampleViewHolder, position: Int) {
-        holder.itemView.textView.text = adapterlist.get(position).textPage
-        holder.itemView.button.setOnClickListener { v ->
-            recyclerViewClickListener.onClick(
-                    v, position
-            )
-        }
+
     }
 }
 

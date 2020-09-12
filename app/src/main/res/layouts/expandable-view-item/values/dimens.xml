@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="viewpageging_tab_item_margin_horizonal">120dp</dimen>
+    <dimen name="viewpageging_tab_item_margin_horizonal">110dp</dimen>
+    <dimen name="customfilterlayout_Item_height">40dp</dimen>
 </resources>
