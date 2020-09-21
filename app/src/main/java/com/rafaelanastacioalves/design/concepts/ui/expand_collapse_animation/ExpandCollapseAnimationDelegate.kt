@@ -15,6 +15,10 @@ import androidx.core.view.*
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.view.*
 
+     val Context.screenHeight: Int
+        get() {
+            return Point().also { display?.getSize(it) }.y
+        }
 class ExpandCollapseAnimationDelegate(context: Context) {
     private val Int.dp: Int
         get() {
@@ -22,9 +26,8 @@ class ExpandCollapseAnimationDelegate(context: Context) {
         }
     private val Context.screenWidth: Int
         get() {
-            return Point().also { (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(it) }.x
+            return Point().also { display?.getSize(it) }.x
         }
-
         private lateinit var recyclerView: RecyclerView
     private var originalHeight: Int = -1
         private var additionalHeight: Int = -1
@@ -121,7 +124,7 @@ class ExpandCollapseAnimationDelegate(context: Context) {
             val animator = getValueAnimator(true, 300L, AccelerateDecelerateInterpolator()) { progress ->
                 holder.itemView.detail_container.layoutParams.height = originalHeight + ((additionalHeight) * (1 - progress)).toInt()
                 holder.itemView.chevron.rotation = 90 * (1 - progress)
-                holder.itemView.detail_container.layoutParams.width = originalWidth + ((additionalWidth)*(1 - progress)).toInt()
+                holder.itemView.detail_container.layoutParams.width = originalWidth + ((additionalWidth) * (1 - progress)).toInt()
                 holder.itemView.foreground_view.alpha = 1 - progress
 
 
@@ -132,7 +135,8 @@ class ExpandCollapseAnimationDelegate(context: Context) {
             animator.start()
         }
 
-        private inline fun getValueAnimator(
+    companion object {
+        inline fun getValueAnimator(
                 forward: Boolean = true,
                 duration: Long,
                 interpolator: TimeInterpolator,
@@ -146,5 +150,6 @@ class ExpandCollapseAnimationDelegate(context: Context) {
             a.interpolator = interpolator
             return a
         }
-
     }
+
+}

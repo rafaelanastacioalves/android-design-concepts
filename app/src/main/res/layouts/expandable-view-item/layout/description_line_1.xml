@@ -24,7 +24,7 @@
         android:backgroundTint="@color/subtitle_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/horizonalGuidelineForButtons"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -37,11 +37,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/horizonalGuidelineForButtons"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/horizonalGuidelineForButtons"
         android:layout_marginHorizontal="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

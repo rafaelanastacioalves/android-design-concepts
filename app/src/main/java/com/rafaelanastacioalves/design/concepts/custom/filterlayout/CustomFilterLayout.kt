@@ -1,32 +1,52 @@
 package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 
+import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Point
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
+import androidx.core.view.doOnLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
+import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseAnimationDelegate
 import kotlinx.android.synthetic.main.custom_filterlayout.view.*
+import kotlin.math.roundToInt
 
 class FilterLayout @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr) {
+) : LinearLayout(context, attrs, defStyleAttr) {
 
+    private val tabMaxHeight by lazy { resources.getDimension(R.dimen.customLayoutTabMaxHeight) }
+    var withoutTabsHeight: Int = 0
+    private val windowsWidth = Point().also {
+        (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager)
+                .defaultDisplay.getSize(it)
+    }.x
     private lateinit var delegate: FilterLayoutContract
     val list = generateTabItemViewHolderData()
     lateinit var tabForViewPagerAdapter: TabForViewPagerAdapter
     lateinit var viewPagerAdapter: ViewPagerAdapter
     var totalDxTabScroll: Int = 0
 
-    init{
+    init {
         inflate(context, R.layout.custom_filterlayout, this)
         setupViewPager()
         setupTabForRecyclerView()
+        calculateTabDimensions()
     }
 
     public fun init(delegate: FilterLayoutContract): Unit {
@@ -53,7 +73,7 @@ class FilterLayout @JvmOverloads constructor(
         tabForViewPagerAdapter.customFilterLayoutTabList = list
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = RecyclerView.HORIZONTAL
-        viewpager_tab_recyclerview.apply {
+        viewpagerTabRecyclerview.apply {
             adapter = tabForViewPagerAdapter
             layoutManager = linearLayoutManager
             suppressLayout(true)
@@ -66,10 +86,6 @@ class FilterLayout @JvmOverloads constructor(
         }
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-
-    }
 
     private fun setupViewPager() {
         viewPagerAdapter = ViewPagerAdapter(object : RecyclerViewClickListener{
@@ -95,7 +111,7 @@ class FilterLayout @JvmOverloads constructor(
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
                 println("onPageScrolled: position: ${position}, positionOffSet: ${positionOffset}, positionOffSetPixels ${positionOffsetPixels}")
-                viewpager_tab_recyclerview.let {
+                viewpagerTabRecyclerview.let {
                     it.animateToPosition(position, calculateScrollBy(positionOffset, position))
                     if (position > currentPosition || positionOffset == 0.0F) {
                         currentPosition = position
@@ -114,9 +130,9 @@ class FilterLayout @JvmOverloads constructor(
 
     private fun updateAdapters() {
         tabForViewPagerAdapter.customFilterLayoutTabList = list
-        viewpager_tab_recyclerview.suppressLayout(false)
+        viewpagerTabRecyclerview.suppressLayout(false)
         tabForViewPagerAdapter.notifyDataSetChanged()
-        viewpager_tab_recyclerview.suppressLayout(true)
+        viewpagerTabRecyclerview.suppressLayout(true)
         viewPagerAdapter.adapterlist = list
         viewPagerAdapter.notifyDataSetChanged()
 
@@ -137,8 +153,56 @@ class FilterLayout @JvmOverloads constructor(
         suppressLayout(true)
     }
 
+    fun preparetoOpenAnimation() {
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(buttonsContainer)
+        okButton.isVisible = false
+        constraintSet.clear(okButton.id, ConstraintSet.START)
+        constraintSet.clear(okButton.id, ConstraintSet.END)
+        okButton.x = this.width / 2f
+        dismissButton.isVisible = false
+        constraintSet.clear(dismissButton.id, ConstraintSet.START)
+        constraintSet.clear(dismissButton.id, ConstraintSet.END)
+        dismissButton.x = this.width / 2f
+        constraintSet.applyTo(buttonsContainer)
 
+    }
+
+    fun animateOpening(progress: Float) {
+        okButton.isVisible = true
+        dismissButton.isVisible = true
+        okButton.x = width / 2 + (width / 4) * (progress)
+        dismissButton.x = width / 2 - (width / 4) * (progress)
+        viewpagerTabRecyclerview.layoutParams.height = (tabMaxHeight * progress).toInt()
+        layoutParams.height = withoutTabsHeight + (tabMaxHeight * progress).roundToInt()
+        println("With Tab Height: ${layoutParams.height}")
+
+        requestLayout()
+    }
+
+    fun calculateTabDimensions() {
+        isVisible = true
+        doOnLayout {
+
+            withoutTabsHeight = it.measuredHeight
+
+            isVisible = false
+        }
+    }
+
+    fun showTabs() {
+        viewpagerTabRecyclerview.isVisible = true
+    }
+
+    fun animateExpansion(): ValueAnimator {
+        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(true, 1000L, AccelerateDecelerateInterpolator()) { progress ->
+            animateOpening(progress)
+        }
+        return valueAnimator
+
+    }
 }
+
 
 class ViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener) : RecyclerView.Adapter<SampleViewHolder>() {
     lateinit var adapterlist: List<CustomFilterLayoutTabItemElement>

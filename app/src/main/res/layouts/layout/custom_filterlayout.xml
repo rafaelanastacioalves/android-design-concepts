@@ -1,72 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/DarkGreen">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/filterLayoutContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:background="@color/DarkGreen">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/viewpager_tab_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="32dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/custom_filterlayout_viewpager_recyclerview_tab_viewholder" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/viewpagerTabRecyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                tools:layout_height="@dimen/customLayoutTabMaxHeight"
+                android:orientation="horizontal"
+                android:paddingHorizontal="32dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@id/view_pager"
+                tools:listitem="@layout/custom_filterlayout_viewpager_recyclerview_tab_viewholder"
+                tools:visibility="visible" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
-        android:layout_height="0dp"
-        android:layout_width="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewpager_tab_recyclerview"
-        tools:listitem="@layout/custom_filterlayout_viewpager_item_holder_3"/>
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:layout_constraintBottom_toTopOf="@id/button_background"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:listitem="@layout/custom_filterlayout_viewpager_item_holder_3" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.8"
-        android:orientation="horizontal" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/lightGreen"
-        app:layout_constraintTop_toBottomOf="@id/guideline"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:id="@+id/buttonsContainer"
+                android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/dismissButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:srcCompat="@drawable/ic_close"
-        app:tint="@color/colorWhite" />
+                <View
+                    android:id="@+id/button_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:background="@color/lightGreen"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/okButton"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
-        app:layout_constraintTop_toBottomOf="@id/guideline"
-        app:srcCompat="@drawable/ic_filter"
-        app:tint="@color/colorWhite" />
+                <ImageView
+                    android:id="@+id/dismissButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/button_background"
+                    app:srcCompat="@drawable/ic_close"
+                    app:tint="@color/colorWhite" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineVertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline" />
+                <ImageView
+                    android:id="@+id/okButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="56dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
+                    app:layout_constraintTop_toTopOf="@id/button_background"
+                    app:srcCompat="@drawable/ic_filter"
+                    app:tint="@color/colorWhite" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelineVertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintGuide_percent="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>

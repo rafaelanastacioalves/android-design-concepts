@@ -2,4 +2,6 @@
 <resources>
     <dimen name="viewpageging_tab_item_margin_horizonal">110dp</dimen>
     <dimen name="customfilterlayout_Item_height">40dp</dimen>
+    <dimen name="custom_filter_main_height">300dp</dimen>
+    <dimen name="customLayoutTabMaxHeight">64dp</dimen>
 </resources>

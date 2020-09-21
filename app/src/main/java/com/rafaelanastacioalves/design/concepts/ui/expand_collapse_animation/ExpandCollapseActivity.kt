@@ -1,10 +1,16 @@
 package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
 
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import android.os.Bundle
-
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,16 +20,24 @@ import com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayout
 import com.rafaelanastacioalves.design.concepts.domain.entities.FakeData
 import com.rafaelanastacioalves.design.concepts.domain.entities.Resource
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
+import kotlin.math.roundToInt
 
 
-class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract{
+class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
 
+    private var tabMaxHeight: Int = 0
     private val mClickListener = this
     private var expandCollapseAdapter: ExpandCollapseAdapter? = null
     private var mRecyclerView: RecyclerView? = null
+    var filterMaxWith: Int = 0
+    var filterMaxHeight: Int = 0
+
+    var fabMiddlePosition: Float = 0f
+
     private val mLiveDataMainEntityListViewModel: ExpandCollapseViewModel by lazy {
         ViewModelProvider(this).get(ExpandCollapseViewModel::class.java)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,19 +46,94 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract{
         title = "Expand/Collapse Animation"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         populateRecyclerView(generateFakeData())
-        setupFilterLayout()
-        setupFab()
 
+        setupFab()
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        setupFilterLayout()
     }
 
     private fun setupFilterLayout() {
         filterLayout.init(this)
+//        filterLayout.calculateTabDimensions()
     }
 
     private fun setupFab() {
-        fab.setOnClickListener{
+        fab.setOnClickListener {
+            val constraintSet = ConstraintSet()
+            constraintSet.clone(constraint)
+            constraintSet.clear(fab.id)
+            constraintSet.applyTo(constraint)
+            animate()
+
+
+        }
+    }
+
+    private fun animate() {
+        val animateFab = animateFab()
+        val animateShowFilter = animateShowFilter()
+        val animateFilterExpansion = filterLayout.animateExpansion()
+
+        val animatorSet = AnimatorSet()
+        animatorSet.play(animateFab).before(animateShowFilter)
+        animatorSet.play(animateShowFilter).before(animateFilterExpansion)
+        animatorSet.start()
+    }
+
+    private fun animateFab(): ValueAnimator {
+        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(true, 1000L, AccelerateDecelerateInterpolator()) { progress ->
+            fab.translationX = -400f * progress
+            fab.translationY = -400f * progress
+        }
+
+        valueAnimator.doOnEnd {
+            calculateFabPosition()
+        }
+        return valueAnimator
+    }
+
+    private fun calculateFabPosition() {
+        fabMiddlePosition = fab.y
+    }
+
+    private fun animateShowFilter(): ValueAnimator {
+        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(true, 1500, AccelerateDecelerateInterpolator()) { progress ->
+
+            filterLayout.alpha = progress
+            filterLayout.layoutParams.width = (progress * filterMaxWith).roundToInt()
+            println("Width: ${filterLayout.layoutParams.width}")
+
+            fab.alpha = 1 - progress
+            fab.y = fabMiddlePosition + (this.screenHeight - fabMiddlePosition - 400f) * (progress)
+            filterLayout.layoutParams.height = (progress * filterLayout.withoutTabsHeight.toFloat()).toInt()
+            println("Height: ${filterLayout.layoutParams.height}")
+
+            filterLayout.requestLayout()
+        }
+        valueAnimator.doOnStart {
+            filterLayout.preparetoOpenAnimation()
+            filterLayout.doOnPreDraw {
+                if ((filterMaxWith + filterMaxHeight) == 0) {
+                    calculateFilterFinalDimensions(it)
+                    filterLayout.alpha = 0f
+
+                }
+            }
             showFilter()
+        }
+        valueAnimator.doOnEnd {
             hideFab()
+        }
+        return valueAnimator
+    }
+
+    private fun calculateFilterFinalDimensions(view: View) {
+        if (filterMaxHeight == 0 || filterMaxWith == 0) {
+            filterMaxWith = view.measuredWidth
+            filterMaxHeight = view.height
         }
     }
 
@@ -96,7 +185,6 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract{
         mRecyclerView!!.adapter = expandCollapseAdapter
     }
 
-
     private fun populateRecyclerView(list: Resource<List<FakeData>>?) {
         if (list == null) {
             expandCollapseAdapter!!.setItems(null)
@@ -117,20 +205,4 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract{
         hideFilter()
         showFab()
     }
-
-
-//    private fun startActivityByVersion(mainEntity: MainEntity, transitionImageView: AppCompatImageView) {
-//        val i = Intent(this, EntityDetailActivity::class.java)
-//        i.putExtra(EntityDetailsFragment.ARG_ENTITY_ID, mainEntity.id)
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            var bundle: Bundle? = null
-//            bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity,
-//                    transitionImageView, transitionImageView.transitionName).toBundle()
-//            startActivity(i, bundle)
-//
-//        } else {
-//            startActivity(i)
-//        }
-//    }
 }

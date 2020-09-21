@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="64dp"
+    android:layout_height="@dimen/customLayoutTabMaxHeight"
     android:layout_width="@dimen/viewpageging_tab_item_margin_horizonal"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <View
-        android:id="@+id/container"
+        android:id="@+id/filterLayoutConstraint"
         android:layout_width="match_parent"
         android:layout_height="16dp"
         android:background="@drawable/pill_background_form_drawable"
@@ -18,7 +18,7 @@
         android:id="@+id/tabBadge"
         android:layout_width="16dp"
         android:background="@drawable/tab_badge"
-        app:layout_constraintCircle="@id/container"
+        app:layout_constraintCircle="@id/filterLayoutConstraint"
         app:layout_constraintCircleAngle="80"
         app:layout_constraintCircleRadius="45dp"
         android:layout_marginBottom="6dp"
