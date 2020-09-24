@@ -7,12 +7,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
@@ -25,19 +23,16 @@ import kotlin.math.roundToInt
 
 class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
 
-    private var tabMaxHeight: Int = 0
-    private val mClickListener = this
     private var expandCollapseAdapter: ExpandCollapseAdapter? = null
     private var mRecyclerView: RecyclerView? = null
-    var filterMaxWith: Int = 0
-    var filterMaxHeight: Int = 0
+    private var filterMaxWith: Int = 0
+    private var filterMaxHeight: Int = 0
+    var filterFinalPosition = 0f
 
-    var fabMiddlePosition: Float = 0f
+    private var fabMiddlePosition: Float = 0f
 
-    private val mLiveDataMainEntityListViewModel: ExpandCollapseViewModel by lazy {
-        ViewModelProvider(this).get(ExpandCollapseViewModel::class.java)
-    }
 
+    private val b = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,29 +57,30 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
 
     private fun setupFab() {
         fab.setOnClickListener {
-            val constraintSet = ConstraintSet()
-            constraintSet.clone(constraint)
-            constraintSet.clear(fab.id)
-            constraintSet.applyTo(constraint)
-            animate()
+            animateFilterShowUp(true)
 
 
         }
     }
 
-    private fun animate() {
-        val animateFab = animateFab()
-        val animateShowFilter = animateShowFilter()
-        val animateFilterExpansion = filterLayout.animateExpansion()
+    private fun animateFilterShowUp(isForward: Boolean) {
+        val animateFab = animateFab(isForward)
+        val animateShowFilter = animateShowFilter(isForward)
+        val animateFilterExpansion = filterLayout.animateExpansion(isForward)
 
         val animatorSet = AnimatorSet()
-        animatorSet.play(animateFab).before(animateShowFilter)
-        animatorSet.play(animateShowFilter).before(animateFilterExpansion)
+        if (isForward) {
+            animatorSet.play(animateFab).before(animateShowFilter)
+            animatorSet.play(animateShowFilter).before(animateFilterExpansion)
+        } else {
+            animatorSet.play(animateShowFilter).after(animateFilterExpansion)
+            animatorSet.play(animateFab).after(animateShowFilter)
+        }
         animatorSet.start()
     }
 
-    private fun animateFab(): ValueAnimator {
-        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(true, 1000L, AccelerateDecelerateInterpolator()) { progress ->
+    private fun animateFab(isForward: Boolean): ValueAnimator {
+        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
             fab.translationX = -400f * progress
             fab.translationY = -400f * progress
         }
@@ -99,8 +95,8 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
         fabMiddlePosition = fab.y
     }
 
-    private fun animateShowFilter(): ValueAnimator {
-        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(true, 1500, AccelerateDecelerateInterpolator()) { progress ->
+    private fun animateShowFilter(isForward: Boolean): ValueAnimator {
+        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(isForward, 1500, AccelerateDecelerateInterpolator()) { progress ->
 
             filterLayout.alpha = progress
             filterLayout.layoutParams.width = (progress * filterMaxWith).roundToInt()
@@ -114,7 +110,7 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
             filterLayout.requestLayout()
         }
         valueAnimator.doOnStart {
-            filterLayout.preparetoOpenAnimation()
+            filterLayout.prepareToOpenAnimation()
             filterLayout.doOnPreDraw {
                 if ((filterMaxWith + filterMaxHeight) == 0) {
                     calculateFilterFinalDimensions(it)
@@ -123,15 +119,19 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
                 }
             }
             showFilter()
+            if (isForward.not()) {
+                showFab()
+            }
         }
         valueAnimator.doOnEnd {
-            hideFab()
+            if (isForward) hideFab() else {showFab()}
         }
         return valueAnimator
     }
 
     private fun calculateFilterFinalDimensions(view: View) {
         if (filterMaxHeight == 0 || filterMaxWith == 0) {
+            filterFinalPosition = view.y
             filterMaxWith = view.measuredWidth
             filterMaxHeight = view.height
         }
@@ -197,12 +197,10 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     }
 
     override fun onFilterDismiss() {
-        hideFilter()
-        showFab()
+        animateFilterShowUp(false)
     }
 
     override fun onFilterConfirmed() {
-        hideFilter()
-        showFab()
+        animateFilterShowUp(false)
     }
 }

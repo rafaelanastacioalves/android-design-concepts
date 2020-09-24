@@ -51,12 +51,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/button_background"
                     app:srcCompat="@drawable/ic_close"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     app:tint="@color/colorWhite" />
 
                 <ImageView
                     android:id="@+id/okButton"
                     android:layout_width="wrap_content"
                     android:layout_height="56dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
