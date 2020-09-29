@@ -5,6 +5,10 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.compileSdkVersionExt
+
+    androidExtensions {
+        experimental = true
+    }
     defaultConfig {
 
         applicationId "com.rafaelanastacioalves.design.concepts"

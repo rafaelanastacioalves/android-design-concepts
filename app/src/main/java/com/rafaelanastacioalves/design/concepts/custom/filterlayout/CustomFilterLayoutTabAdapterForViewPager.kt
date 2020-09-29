@@ -1,12 +1,13 @@
 package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
+import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
-import kotlinx.android.synthetic.main.custom_filterlayout_viewpager_recyclerview_tab_viewholder.view.*
 
 class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener) : RecyclerView.Adapter<TabViewHolder>() {
 
@@ -33,13 +34,13 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
     override fun onBindViewHolder(holder: TabViewHolder, position: Int) {
         if (holder.itemViewType == ViewHolderType.NORMAL.ordinal) {
             if (selectedItemIndex == position){
-                markAsCurrent(true)
+                markAsCurrent(holder,true)
             }else{
-                markAsCurrent(false)
+                markAsCurrent(holder, false)
             }
 
-            if (customFilterLayoutTabList[position].hasSelectinos){
-                markHasSelections(true)
+            if (customFilterLayoutTabList[position].hasSelections){
+                markHasSelections(holder,true)
             }
             holder.itemView.setOnClickListener({ v ->
                 recyclerViewClickListener.onClick(v, position)
@@ -48,12 +49,14 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
         }
     }
 
-    private fun markHasSelections(b: Boolean) {
-//        TODO("Not yet implemented")
+    private fun markHasSelections(holder: TabViewHolder, marked: Boolean) {
+        Log.d(javaClass.name, "Marking TabView has selections in position ${holder.adapterPosition}: $marked")
     }
 
-    private fun markAsCurrent(b: Boolean) {
-//        TODO("Not yet implemented")
+    private fun markAsCurrent(holder: TabViewHolder, isCurrent: Boolean) {
+        if (isCurrent){
+            Log.d(javaClass.name, "TabView of position ${holder.adapterPosition} is the current")
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -73,3 +76,5 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
 class TabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 }
+
+
