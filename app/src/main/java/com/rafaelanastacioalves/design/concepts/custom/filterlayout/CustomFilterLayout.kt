@@ -85,13 +85,13 @@ class FilterLayout @JvmOverloads constructor(
 
             private fun calculateScrollBy(offsetPercent: Float, position: Int): Int {
                 val dx = (position + offsetPercent) * (tabAdapterForViewPager.viewHolderWidth) - totalDxTabScroll
-                println("Calculate ScrollBy dx: $dx ")
+//                println("Calculate ScrollBy dx: $dx ")
                 return dx.toInt()
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                println("onPageScrolled: position: ${position}, positionOffSet: ${positionOffset}, positionOffSetPixels $positionOffsetPixels")
+//                println("onPageScrolled: position: ${position}, positionOffSet: ${positionOffset}, positionOffSetPixels $positionOffsetPixels")
                 viewpagerTabRecyclerview.let {
                     it.animateToPosition(calculateScrollBy(positionOffset, position))
                     if (position > currentPosition || positionOffset == 0.0F) {
@@ -146,7 +146,7 @@ class FilterLayout @JvmOverloads constructor(
         dismissButton.x = width / 2 - (width / 4) * (progress)
         viewpagerTabRecyclerview.layoutParams.height = (tabMaxHeight * progress).toInt()
         layoutParams.height = withoutTabsHeight + (tabMaxHeight * progress).roundToInt()
-        println("With Tab Height: ${layoutParams.height}")
+//        println("With Tab Height: ${layoutParams.height}")
 
         requestLayout()
     }
@@ -167,12 +167,22 @@ class FilterLayout @JvmOverloads constructor(
     }
 
     override fun onFilterItemClicked(pagePosition: Int, viewPagerItemsSelectionMap: Map<Int, List<Int>>) {
-        if (viewPagerItemsSelectionMap[pagePosition]?.isEmpty()!!){
-        tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections = false
-        }else if (tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections.not()){
+        if (viewPagerItemsSelectionMap[pagePosition]?.isEmpty()!!) {
+            tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections = false
+            tabAdapterForViewPager.isToAnimateBadge = true
+
+            viewpagerTabRecyclerview.suppressLayout(false)
+            tabAdapterForViewPager.notifyItemChanged(pagePosition)
+            viewpagerTabRecyclerview.suppressLayout(true)
+        }else if (tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections.not()) {
             tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections = true
+            tabAdapterForViewPager.isToAnimateBadge = true
+
+            viewpagerTabRecyclerview.suppressLayout(false)
+            tabAdapterForViewPager.notifyItemChanged(pagePosition)
+            viewpagerTabRecyclerview.suppressLayout(true)
         }
-        tabAdapterForViewPager.notifyDataSetChanged()
+
     }
 }
 

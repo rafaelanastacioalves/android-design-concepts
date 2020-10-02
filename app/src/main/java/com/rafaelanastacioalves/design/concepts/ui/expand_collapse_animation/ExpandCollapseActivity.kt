@@ -100,12 +100,12 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
 
             filterLayout.alpha = progress
             filterLayout.layoutParams.width = (progress * filterMaxWith).roundToInt()
-            println("Width: ${filterLayout.layoutParams.width}")
+//            println("Width: ${filterLayout.layoutParams.width}")
 
             fab.alpha = 1 - progress
             fab.y = fabMiddlePosition + (this.screenHeight - fabMiddlePosition - 400f) * (progress)
             filterLayout.layoutParams.height = (progress * filterLayout.withoutTabsHeight.toFloat()).toInt()
-            println("Height: ${filterLayout.layoutParams.height}")
+//            println("Height: ${filterLayout.layoutParams.height}")
 
             filterLayout.requestLayout()
         }
