@@ -2,6 +2,7 @@ package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.rafaelanastacioalves.design.concepts.R
+import com.rafaelanastacioalves.design.concepts.R.color.colorWhite
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
 import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseAnimationDelegate
@@ -99,6 +101,7 @@ class FilterLayout @JvmOverloads constructor(
                         currentOffSet = 0F
                         tabAdapterForViewPager.selectedItemIndex = position
                         it.suppressLayout(false)
+
                         tabAdapterForViewPager.notifyDataSetChanged()
                         it.suppressLayout(true)
                     }
@@ -172,14 +175,14 @@ class FilterLayout @JvmOverloads constructor(
             tabAdapterForViewPager.isToAnimateBadge = true
 
             viewpagerTabRecyclerview.suppressLayout(false)
-            tabAdapterForViewPager.notifyItemChanged(pagePosition)
+            tabAdapterForViewPager.notifyItemChanged(pagePosition, tabAdapterForViewPager.UPDATEBADGE)
             viewpagerTabRecyclerview.suppressLayout(true)
         }else if (tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections.not()) {
             tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections = true
             tabAdapterForViewPager.isToAnimateBadge = true
 
             viewpagerTabRecyclerview.suppressLayout(false)
-            tabAdapterForViewPager.notifyItemChanged(pagePosition)
+            tabAdapterForViewPager.notifyItemChanged(pagePosition, tabAdapterForViewPager.UPDATEBADGE)
             viewpagerTabRecyclerview.suppressLayout(true)
         }
 

@@ -4,19 +4,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import androidx.core.animation.doOnEnd
-import androidx.core.animation.doOnStart
-import androidx.core.view.isVisible
+import android.view.animation.OvershootInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
-import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseAnimationDelegate
 import kotlinx.android.synthetic.main.custom_filterlayout_viewpager_recyclerview_tab_viewholder.view.*
 
 class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickListener) : RecyclerView.Adapter<TabViewHolder>() {
 
+    val UPDATEBADGE: String = "update_badget"
     var viewHolderWidth: Float = 0F
     var selectedItemIndex: Int = 0
 
@@ -41,19 +38,13 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
 
     override fun onBindViewHolder(holder: TabViewHolder, position: Int) {
         if (holder.itemViewType == ViewHolderType.NORMAL.ordinal) {
-            if (selectedItemIndex == position){
-                markAsCurrent(holder,true)
-            }else{
+            if (selectedItemIndex == position) {
+                markAsCurrent(holder, true)
+            } else {
                 markAsCurrent(holder, false)
             }
-
-            customFilterLayoutTabList[position].hasSelections.let{
-                if (isToAnimateBadge) {
-                    markHasSelections(holder, it)
-                    isToAnimateBadge = false
-                } else {
-                    holder.makeBadgeVisible(it)
-                }
+            customFilterLayoutTabList[position].hasSelections.let {
+                holder.makeBadgeVisible(it)
             }
             holder.itemView.setOnClickListener({ v ->
                 recyclerViewClickListener.onClick(v, position)
@@ -62,10 +53,17 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
         }
     }
 
-    override fun onViewDetachedFromWindow(holder: TabViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        holder.makeBadgeVisible(false)
-
+    override fun onBindViewHolder(holder: TabViewHolder, position: Int, payloads: MutableList<Any>) {
+        payloads.firstOrNull() { it is String && it.equals(UPDATEBADGE) }
+                ?: super.onBindViewHolder(holder, position, payloads)
+        customFilterLayoutTabList[position].hasSelections.let {
+            if (isToAnimateBadge) {
+                markHasSelections(holder, it)
+                isToAnimateBadge = false
+            } else {
+                holder.makeBadgeVisible(it)
+            }
+        }
     }
 
     private fun markHasSelections(holder: TabViewHolder, isToMark: Boolean) {
@@ -97,28 +95,26 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
 
 class TabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun animate(isToMark: Boolean) {
-        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(isToMark, 100L, AccelerateDecelerateInterpolator()) { progress ->
-            itemView.tabBadge.scaleX = progress
-            itemView.tabBadge.scaleY = progress
-        }
-        if (isToMark) {
-            valueAnimator.doOnStart {
-                itemView.tabBadge.isVisible = true
-            }
-        } else {
-            valueAnimator.doOnEnd {
-                itemView.tabBadge.isVisible = false
-            }
-        }
-        valueAnimator.start()
+        itemView.tabBadge.animate()
+                .setDuration(100L)
+                .scaleX(if (isToMark) 1f else {
+                    0f
+                })
+                .scaleY(if (isToMark) 1f else {
+                    0f
+                })
+                .setInterpolator(OvershootInterpolator(3f))
+                .start()
+
     }
 
-    fun makeBadgeVisible(visibility: Boolean) {
-        itemView.tabBadge.isVisible = visibility
+    fun makeBadgeVisible(visible: Boolean) {
+        itemView.tabBadge.scaleX = if (visible) 1f else 0f
+        itemView.tabBadge.scaleY = if (visible) 1f else 0f
     }
 
     fun isBadgeVisible(): Boolean {
-        return itemView.tabBadge.isVisible
+        return itemView.tabBadge.let { it.scaleY > 0 && it.scaleX > 0 }
     }
 
 }
