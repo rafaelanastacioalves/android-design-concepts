@@ -1,17 +1,19 @@
 package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 
-import android.util.Log
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
+import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseAnimationDelegate
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.custom_filterlayout_viewpager_item_holder_1.*
 
-class ViewPagerAdapter(private val customFilter : FilterLayout) : RecyclerView.Adapter<ViewPagerViewHolder>() {
-    private val itemsSelectionMap  = mutableMapOf<Int, MutableList<Int>>()
+class ViewPagerAdapter(private val customFilter: FilterLayout) : RecyclerView.Adapter<ViewPagerAdapter.ViewPagerViewHolder>() {
+    private val itemsSelectionMap = mutableMapOf<Int, MutableList<Int>>()
     lateinit var adapterlist: List<CustomFilterLayoutTabItemElement>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewPagerViewHolder {
         return if (viewType == 0) {
@@ -19,7 +21,6 @@ class ViewPagerAdapter(private val customFilter : FilterLayout) : RecyclerView.A
         } else {
             ViewPagerViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.custom_filterlayout_viewpager_item_holder_1, parent, false))
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -35,30 +36,38 @@ class ViewPagerAdapter(private val customFilter : FilterLayout) : RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: ViewPagerViewHolder, holderPosition: Int) {
-        val holderItemIndexSelectionList =  itemsSelectionMap.getOrPut(holderPosition, {mutableListOf()})
+        val holderItemIndexSelectionList = itemsSelectionMap.getOrPut(holderPosition, { mutableListOf() })
         holder.listOfFilterItems.forEachIndexed { holderItemIndex, view ->
-            view.setOnClickListener{
-                if (holderItemIndexSelectionList.contains(holderItemIndex)){
+            view.setOnClickListener {
+                if (holderItemIndexSelectionList.contains(holderItemIndex)) {
                     holderItemIndexSelectionList.removeAt(holderItemIndexSelectionList.indexOf(holderItemIndex))
-                    animateItemSelection(holderItemIndex, false)
-                }else{
+                    animateItemSelection(view, false)
+                } else {
                     holderItemIndexSelectionList.add(holderItemIndex)
-                    animateItemSelection(holderItemIndex, true)
+                    animateItemSelection(view, true)
                 }
-                customFilter.onFilterItemClicked(holderPosition, itemsSelectionMap )
+                customFilter.onFilterItemClicked(holderPosition, itemsSelectionMap)
             }
         }
     }
 
-    private fun animateItemSelection(index: Int, isSelection: Boolean) {
-            Log.d(javaClass.name, "Animating item selection of index: $index - $isSelection")
+    private fun animateItemSelection(view: View, isSelection: Boolean) {
+        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(isSelection, 100L, AccelerateInterpolator()) { progress ->
+            val color = if(isSelection) {
+                view.resources.getColor(R.color.colorWhite)
+            } else{
+                view.resources.getColor(R.color.lightGreen)
+            }
+            view.backgroundTintList = ColorStateList.valueOf(color)
         }
-}
+        valueAnimator.start()
+    }
 
-class ViewPagerViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
-    var listOfFilterItems : List<View>
+    class ViewPagerViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+        var listOfFilterItems: List<View>
 
-    init {
-        listOfFilterItems = listOfNotNull(filterOne, filterTwo, filterThree, filterFour, filterFive, filterSix)
+        init {
+            listOfFilterItems = listOfNotNull(filterOne, filterTwo, filterThree, filterFour, filterFive, filterSix)
+        }
     }
 }
