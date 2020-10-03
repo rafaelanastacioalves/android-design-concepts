@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.doOnLayout
@@ -14,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.rafaelanastacioalves.design.concepts.R
-import com.rafaelanastacioalves.design.concepts.R.color.colorWhite
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
 import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseAnimationDelegate
@@ -173,6 +173,7 @@ class FilterLayout @JvmOverloads constructor(
         if (viewPagerItemsSelectionMap[pagePosition]?.isEmpty()!!) {
             tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections = false
             tabAdapterForViewPager.isToAnimateBadge = true
+            updateBottom(viewPagerItemsSelectionMap)
 
             viewpagerTabRecyclerview.suppressLayout(false)
             tabAdapterForViewPager.notifyItemChanged(pagePosition, tabAdapterForViewPager.UPDATEBADGE)
@@ -180,12 +181,35 @@ class FilterLayout @JvmOverloads constructor(
         }else if (tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections.not()) {
             tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections = true
             tabAdapterForViewPager.isToAnimateBadge = true
+            updateBottom(viewPagerItemsSelectionMap)
 
             viewpagerTabRecyclerview.suppressLayout(false)
             tabAdapterForViewPager.notifyItemChanged(pagePosition, tabAdapterForViewPager.UPDATEBADGE)
             viewpagerTabRecyclerview.suppressLayout(true)
         }
 
+    }
+
+    private fun updateBottom(viewPagerItemsSelectionMap: Map<Int, List<Int>>) {
+        viewPagerItemsSelectionMap.forEach {
+            if (it.value.isNullOrEmpty().not()) {
+                animateBottom(hasSelections = true)
+                return
+            }
+        }
+        animateBottom(hasSelections = false)
+    }
+
+    private fun animateBottom(hasSelections: Boolean) {
+        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(hasSelections, 100, AccelerateInterpolator()) {
+            val color = if (hasSelections) {
+                resources.getColor(R.color.colorAccent)
+            } else {
+                resources.getColor(R.color.lightGreen)
+            }
+            button_background.backgroundTintList = ColorStateList.valueOf(color)
+        }
+        valueAnimator.start()
     }
 }
 
