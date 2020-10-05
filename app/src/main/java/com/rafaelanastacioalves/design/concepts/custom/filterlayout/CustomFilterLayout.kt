@@ -9,12 +9,14 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.animation.doOnEnd
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.rafaelanastacioalves.design.concepts.R
+import com.rafaelanastacioalves.design.concepts.common.Utils.Companion.mergeColors
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
 import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseAnimationDelegate
@@ -201,13 +203,18 @@ class FilterLayout @JvmOverloads constructor(
     }
 
     private fun animateBottom(hasSelections: Boolean) {
-        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(hasSelections, 100, AccelerateInterpolator()) {
-            val color = if (hasSelections) {
-                resources.getColor(R.color.colorAccent)
-            } else {
-                resources.getColor(R.color.lightGreen)
-            }
-            button_background.backgroundTintList = ColorStateList.valueOf(color)
+        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(hasSelections, 100, AccelerateInterpolator()) { progress ->
+
+            button_background.backgroundTintList = ColorStateList.valueOf(
+                    mergeColors(
+                            resources.getColor(R.color.colorAccent),
+                            resources.getColor(R.color.lightGreen),
+                            progress
+                    )
+            )
+        }
+        valueAnimator.doOnEnd {
+            button_background.isActivated = hasSelections
         }
         valueAnimator.start()
     }

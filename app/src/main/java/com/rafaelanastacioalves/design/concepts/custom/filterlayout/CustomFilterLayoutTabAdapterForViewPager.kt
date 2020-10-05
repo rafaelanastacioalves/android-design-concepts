@@ -55,7 +55,7 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
 
     override fun onBindViewHolder(holder: TabViewHolder, position: Int, payloads: MutableList<Any>) {
         payloads.firstOrNull() { it is String && it.equals(UPDATEBADGE) }
-                ?: super.onBindViewHolder(holder, position, payloads)
+                ?: return super.onBindViewHolder(holder, position, payloads)
         customFilterLayoutTabList[position].hasSelections.let {
             if (isToAnimateBadge) {
                 markHasSelections(holder, it)

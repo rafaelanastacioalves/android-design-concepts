@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
+import com.rafaelanastacioalves.design.concepts.common.Utils
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
 import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseAnimationDelegate
 import kotlinx.android.extensions.LayoutContainer
@@ -53,12 +54,9 @@ class ViewPagerAdapter(private val customFilter: FilterLayout) : RecyclerView.Ad
 
     private fun animateItemSelection(view: View, isSelection: Boolean) {
         val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(isSelection, 100L, AccelerateInterpolator()) { progress ->
-            val color = if(isSelection) {
-                view.resources.getColor(R.color.colorWhite)
-            } else{
-                view.resources.getColor(R.color.lightGreen)
-            }
-            view.backgroundTintList = ColorStateList.valueOf(color)
+            view.backgroundTintList = ColorStateList.valueOf(
+                    Utils.mergeColors(view.resources.getColor(R.color.colorWhite), view.resources.getColor(R.color.lightGreen), progress)
+            )
         }
         valueAnimator.start()
     }
