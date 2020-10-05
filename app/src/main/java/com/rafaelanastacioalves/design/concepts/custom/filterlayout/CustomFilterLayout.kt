@@ -195,11 +195,14 @@ class FilterLayout @JvmOverloads constructor(
     private fun updateBottom(viewPagerItemsSelectionMap: Map<Int, List<Int>>) {
         viewPagerItemsSelectionMap.forEach {
             if (it.value.isNullOrEmpty().not()) {
-                animateBottom(hasSelections = true)
-                return
+                if (button_background.isActivated) return else {
+                    animateBottom(hasSelections = true)
+                }
             }
         }
-        animateBottom(hasSelections = false)
+        if (button_background.isActivated.not()) return else {
+            animateBottom(hasSelections = false)
+        }
     }
 
     private fun animateBottom(hasSelections: Boolean) {
