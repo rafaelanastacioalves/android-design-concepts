@@ -12,7 +12,7 @@ class ExpandCollapseViewHolder(override val containerView: View) : RecyclerView.
 
 
     init {
-        itemView.detail_container.setOnClickListener(this)
+        itemView.container.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {

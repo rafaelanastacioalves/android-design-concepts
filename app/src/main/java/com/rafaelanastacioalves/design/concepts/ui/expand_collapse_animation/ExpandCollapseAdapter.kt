@@ -1,5 +1,6 @@
 package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import com.rafaelanastacioalves.design.concepts.domain.entities.FakeData
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.view.*
 
 
-class ExpandCollapseAdapter(context: Context ) : RecyclerView.Adapter<ExpandCollapseViewHolder>() {
+class ExpandCollapseAdapter (context: Context ) : RecyclerView.Adapter<ExpandCollapseViewHolder>() {
     private var items: List<FakeData>? = null
     private val mContext: Context = context
     private val animator: ExpandCollapseAnimationDelegate = ExpandCollapseAnimationDelegate(context)
@@ -43,6 +44,11 @@ class ExpandCollapseAdapter(context: Context ) : RecyclerView.Adapter<ExpandColl
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         animator.onAttachedToRecyclerView(recyclerView)
+
+    }
+
+    fun animateScaleDown(forward: Boolean): ValueAnimator {
+        return animator.escaleDown(forward)
     }
 
     override fun onBindViewHolder(holder: ExpandCollapseViewHolder, position: Int ) {
@@ -51,7 +57,7 @@ class ExpandCollapseAdapter(context: Context ) : RecyclerView.Adapter<ExpandColl
         holder.bind(aRepoW, mContext)
 
         animator.calculateMeasures(holder)
-        holder.containerView.detail_container.setOnClickListener {
+        holder.containerView.container.setOnClickListener {
             animator.onClick(position)
         }
     }

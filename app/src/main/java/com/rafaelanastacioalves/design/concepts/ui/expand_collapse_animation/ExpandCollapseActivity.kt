@@ -37,7 +37,7 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupViews()
-        setupRecyclerView()
+        setupExpandCollapseRecyclerView()
         title = "Expand/Collapse Animation"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         populateRecyclerView(generateFakeData())
@@ -67,8 +67,11 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
         val animateFab = animateFab(isForward)
         val animateShowFilter = animateShowFilter(isForward)
         val animateFilterExpansion = filterLayout.animateExpansion(isForward)
+        val animateScaleDown = expandCollapseAdapter?.animateScaleDown(isForward)
 
         val animatorSet = AnimatorSet()
+        animatorSet.play(animateFab).with(animateScaleDown)
+
         if (isForward) {
             animatorSet.play(animateFab).before(animateShowFilter)
             animatorSet.play(animateShowFilter).before(animateFilterExpansion)
@@ -175,7 +178,7 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
         setContentView(R.layout.expand_collapse_animation_activity)
     }
 
-    private fun setupRecyclerView() {
+    private fun setupExpandCollapseRecyclerView() {
         mRecyclerView = findViewById<View>(R.id.main_entity_list) as RecyclerView
         val layoutManager = LinearLayoutManager(applicationContext)
         mRecyclerView!!.layoutManager = layoutManager
