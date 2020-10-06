@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.common.Utils
+import kotlinx.android.synthetic.main.expand_collapse_viewholder.*
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.view.*
 
 val Context.screenHeight: Int
@@ -158,7 +159,11 @@ class ExpandCollapseAnimationDelegate(context: Context) {
             for (visiblePosition in (recyclerView.layoutManager as LinearLayoutManager).visibleItensRange) {
                 val holder = recyclerView.findViewHolderForAdapterPosition(visiblePosition) as ExpandCollapseViewHolder
                 holder.itemView.container.scaleX = 1 - 0.1f*progress
-                holder.itemView.container.scaleY = 1 - 0.05f*progress
+                holder.itemView.container.scaleY = 1 - 0.02f*progress
+                holder.itemView.foreground_view.alpha = 0.67f*progress
+                Log.d("foreground alpha", "lapha: ${holder.itemView.foreground_view.alpha}")
+                val defaultMargin = recyclerView.resources.getDimension(R.dimen.expand_collapse_holder_internal_horizontal_margin).toInt()
+                holder.internal_container.setPadding(defaultMargin,defaultMargin, defaultMargin +(64*progress).toInt(),defaultMargin)
             }
         }
     }

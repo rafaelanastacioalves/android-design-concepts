@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_list_item_foreground">#aa7CDDE7</color>
+    <color name="color_list_item_foreground">#7CDDE7</color>
     <color name="expanded_foreground_color">@android:color/white</color>
 </resources>

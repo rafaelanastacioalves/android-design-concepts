@@ -14,22 +14,19 @@
 		android:layout_marginBottom="16dp"
 		android:orientation="vertical"
 		app:cardCornerRadius="6dp"
+		app:cardElevation="0dp"
+		app:cardMaxElevation="0dp"
 		tools:layout_marginLeft="20dp"
 		tools:layout_marginRight="20dp"
 		app:cardBackgroundColor="@color/container_collapsed">
 
-		<View
-			android:id="@+id/foreground_view"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:alpha="0"
-			android:background="@color/expanded_foreground_color"
-			tools:visibility="gone"/>
+
 		<androidx.constraintlayout.widget.ConstraintLayout
+			android:id="@+id/internal_container"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:paddingHorizontal="32dp"
-			android:paddingVertical="32dp">
+			android:paddingHorizontal="@dimen/expand_collapse_holder_internal_horizontal_margin"
+			android:paddingVertical="@dimen/expand_collapse_holder_internal_horizontal_margin">
 
 			<androidx.appcompat.widget.AppCompatImageView
 				android:id="@+id/chevron"
@@ -53,7 +50,7 @@
 
 			<View
 				android:id="@+id/subtitle_1"
-				android:layout_width="100dp"
+				android:layout_width="104dp"
 				android:layout_height="10dp"
 				android:background="@drawable/pill_background_form_drawable"
 				android:layout_marginTop="12dp"
@@ -62,7 +59,7 @@
 				app:layout_constraintTop_toBottomOf="@id/title" />
 			<View
 				android:id="@+id/subtitle_2"
-				android:layout_width="100dp"
+				android:layout_width="88dp"
 				android:layout_height="10dp"
 				android:layout_marginHorizontal="8dp"
 				android:background="@drawable/pill_background_form_drawable"
@@ -95,6 +92,13 @@
 			</LinearLayout>
 
 		</androidx.constraintlayout.widget.ConstraintLayout>
+		<View
+			android:id="@+id/foreground_view"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:alpha="0"
+			tools:visibility="gone"
+			android:background="@color/color_list_item_foreground" />
 
 	</androidx.cardview.widget.CardView>
 
