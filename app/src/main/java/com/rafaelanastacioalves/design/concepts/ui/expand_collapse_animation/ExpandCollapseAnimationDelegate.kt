@@ -3,6 +3,7 @@ package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Point
 import android.util.Log
@@ -13,6 +14,8 @@ import androidx.core.animation.doOnStart
 import androidx.core.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.rafaelanastacioalves.design.concepts.R
+import com.rafaelanastacioalves.design.concepts.common.Utils
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.view.*
 
 val Context.screenHeight: Int
@@ -111,11 +114,16 @@ class ExpandCollapseAnimationDelegate(context: Context) {
             holder.itemView.container.layoutParams.height = originalHeight + ((additionalHeight) * progress).toInt()
             holder.itemView.chevron.rotation = 90 * progress
             holder.itemView.container.layoutParams.width = ORIGINALWIDTH + ((ADDITIONAL_WIDTH) * (progress)).toInt()
-            holder.itemView.foreground_view.alpha = progress
-//            Log.d("Expanding", "additionalHeight:" + additionalHeight.toString())
+            holder.itemView.container.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(
+                    recyclerView.resources.getColor(R.color.container_collapsed),
+                    recyclerView.resources.getColor(R.color.expanded_foreground_color),
+                    1 - progress
+            ))//            Log.d("Expanding", "additionalHeight:" + additionalHeight.toString())
 //            Log.d("Expanding", "originalHeight:" + originalHeight.toString())
             holder.itemView.container.requestLayout()
+
         }
+
         animator.doOnStart { holder.containerView.additionalViewContainer.isVisible = true }
         animator.start()
     }
@@ -127,7 +135,11 @@ class ExpandCollapseAnimationDelegate(context: Context) {
             holder.itemView.container.layoutParams.height = originalHeight + ((additionalHeight) * (1 - progress)).toInt()
             holder.itemView.chevron.rotation = 90 * (1 - progress)
             holder.itemView.container.layoutParams.width = ORIGINALWIDTH + ((ADDITIONAL_WIDTH) * (1 - progress)).toInt()
-            holder.itemView.foreground_view.alpha = 1 - progress
+            holder.itemView.container.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(
+                    recyclerView.resources.getColor(R.color.container_collapsed),
+                    recyclerView.resources.getColor(R.color.expanded_foreground_color),
+                    progress
+            ))
 
 
             Log.d("Collapsing", "progress: $progress")
@@ -146,7 +158,7 @@ class ExpandCollapseAnimationDelegate(context: Context) {
             for (visiblePosition in (recyclerView.layoutManager as LinearLayoutManager).visibleItensRange) {
                 val holder = recyclerView.findViewHolderForAdapterPosition(visiblePosition) as ExpandCollapseViewHolder
                 holder.itemView.container.scaleX = 1 - 0.1f*progress
-                holder.itemView.container.scaleY = 1 - 0.1f*progress
+                holder.itemView.container.scaleY = 1 - 0.05f*progress
             }
         }
     }
