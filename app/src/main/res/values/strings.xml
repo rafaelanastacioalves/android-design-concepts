@@ -5,11 +5,6 @@
 	<string name="title_orlando_example">Orlando</string>
 	<string name="entity_imageview_transition_name">entity_imageview_transition</string>
 
-	<!-- TODO: Remove or change this placeholder text -->
-	<string name="hello_blank_fragment">Hello blank fragment</string>
-	<string name="comprar">Comprar</string>
-	<string name="detail_entitiy_title_textview">Text</string>
-
 	<string name="title_activity_home">ScrollingActivity</string>
 	<string name="large_text">
         "Material is the metaphor.\n\n"

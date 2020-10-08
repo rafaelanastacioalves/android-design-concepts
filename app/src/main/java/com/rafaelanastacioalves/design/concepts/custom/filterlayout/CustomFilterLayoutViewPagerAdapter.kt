@@ -9,13 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.common.Utils
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
-import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseAnimationDelegate
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.custom_filterlayout_viewpager_item_holder_1.*
 
-class ViewPagerAdapter(private val customFilter: FilterLayout) : RecyclerView.Adapter<ViewPagerAdapter.ViewPagerViewHolder>() {
+@Suppress("DEPRECATION")
+class CustomFilterLayoutViewPagerAdapter(private val customFilter: ViewPagerFilterItemsContract) : RecyclerView.Adapter<CustomFilterLayoutViewPagerAdapter.ViewPagerViewHolder>() {
     private val itemsSelectionMap = mutableMapOf<Int, MutableList<Int>>()
     lateinit var adapterlist: List<CustomFilterLayoutTabItemElement>
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewPagerViewHolder {
         return if (viewType == 0) {
             ViewPagerViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.custom_filterlayout_viewpager_item_holder_3, parent, false))
@@ -47,13 +48,13 @@ class ViewPagerAdapter(private val customFilter: FilterLayout) : RecyclerView.Ad
                     holderItemIndexSelectionList.add(holderItemIndex)
                     animateItemSelection(view, true)
                 }
-                customFilter.onFilterItemClicked(holderPosition, itemsSelectionMap)
+                customFilter.onFilterItemClicked(holderPosition, itemsSelectionMap )
             }
         }
     }
 
     private fun animateItemSelection(view: View, isSelection: Boolean) {
-        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(isSelection, 100L, AccelerateInterpolator()) { progress ->
+        val valueAnimator = Utils.getValueAnimator(isSelection, 100L, AccelerateInterpolator()) { progress ->
             view.backgroundTintList = ColorStateList.valueOf(
                     Utils.mergeColors(view.resources.getColor(R.color.colorWhite), view.resources.getColor(R.color.lightGreen), progress)
             )
@@ -62,10 +63,7 @@ class ViewPagerAdapter(private val customFilter: FilterLayout) : RecyclerView.Ad
     }
 
     class ViewPagerViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
-        var listOfFilterItems: List<View>
+        var listOfFilterItems: List<View> = listOfNotNull(filterOne, filterTwo, filterThree, filterFour, filterFive, filterSix)
 
-        init {
-            listOfFilterItems = listOfNotNull(filterOne, filterTwo, filterThree, filterFour, filterFive, filterSix)
-        }
     }
 }

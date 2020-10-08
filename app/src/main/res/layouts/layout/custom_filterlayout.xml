@@ -17,12 +17,12 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="32dp"
                 android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@id/view_pager"
+                app:layout_constraintBottom_toTopOf="@id/viewPager"
                 tools:listitem="@layout/custom_filterlayout_viewpager_recyclerview_tab_viewholder"
                 tools:visibility="visible" />
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager"
+                android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 app:layout_constraintBottom_toTopOf="@id/button_background"

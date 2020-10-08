@@ -1,6 +1,7 @@
+@file:Suppress("DEPRECATION")
+
 package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
-import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.common.Utils
+import com.rafaelanastacioalves.design.concepts.common.Utils.Companion.getValueAnimator
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.*
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.view.*
 
@@ -24,7 +26,15 @@ val Context.screenHeight: Int
         return Point().also { display?.getSize(it) }.y
     }
 
+@Suppress("DEPRECATION")
 class ExpandCollapseAnimationDelegate(context: Context) {
+    private var originalHeight: Int = -1
+    private var additionalHeight: Int = -1
+    private var expandedPosition: Int = -1
+    private var toBeCollapsedPosition: Int = -1
+    private val originalWidth: Int = context.screenWidth - 48.dp
+    private val additionalWidth: Int = 32.dp
+
     private val Int.dp: Int
         get() {
             return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics).toInt()
@@ -34,12 +44,6 @@ class ExpandCollapseAnimationDelegate(context: Context) {
             return Point().also { display?.getSize(it) }.x
         }
     private lateinit var recyclerView: RecyclerView
-    private var originalHeight: Int = -1
-    private var additionalHeight: Int = -1
-    private var expandedPosition: Int = -1
-    private var toBeCollapsedPosition: Int = -1
-    private val ORIGINALWIDTH: Int = context.screenWidth - 48.dp
-    private val ADDITIONAL_WIDTH: Int = 32.dp
 
     fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         this.recyclerView = recyclerView
@@ -79,20 +83,18 @@ class ExpandCollapseAnimationDelegate(context: Context) {
 
     private fun resetHeight(holder: ExpandCollapseViewHolder) {
         holder.containerView.container.layoutParams.height = originalHeight
-        holder.containerView.container.layoutParams.width = ORIGINALWIDTH
+        holder.containerView.container.layoutParams.width = originalWidth
         holder.containerView.requestLayout()
     }
 
     fun calculateMeasures(holder: ExpandCollapseViewHolder) {
-        if (holder.adapterPosition.equals(expandedPosition)) {
-
-        } else {
-            holder.containerView.container.layoutParams.width = ORIGINALWIDTH
+        if ((holder.adapterPosition == expandedPosition).not()) {
+            holder.containerView.container.layoutParams.width = originalWidth
         }
         if (additionalHeight < 0) {
 
-            holder.containerView.doOnLayout { container ->
-                val container = container.container
+            holder.containerView.doOnLayout { containerView ->
+                val container = containerView.container
                 val additionalViewContainer = container.additionalViewContainer
                 additionalHeight = 0
                 originalHeight = container.height
@@ -112,16 +114,18 @@ class ExpandCollapseAnimationDelegate(context: Context) {
         val holder = recyclerView.findViewHolderForAdapterPosition(position) as ExpandCollapseViewHolder
 
         val animator = getValueAnimator(true, 600L, AccelerateDecelerateInterpolator()) { progress ->
-            holder.itemView.container.layoutParams.height = originalHeight + ((additionalHeight) * progress).toInt()
-            holder.itemView.chevron.rotation = 90 * progress
-            holder.itemView.container.layoutParams.width = ORIGINALWIDTH + ((ADDITIONAL_WIDTH) * (progress)).toInt()
-            holder.itemView.container.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(
-                    recyclerView.resources.getColor(R.color.container_collapsed),
-                    recyclerView.resources.getColor(R.color.expanded_foreground_color),
-                    1 - progress
-            ))//            Log.d("Expanding", "additionalHeight:" + additionalHeight.toString())
+            holder.itemView.apply {
+                container.layoutParams.height = originalHeight + ((additionalHeight) * progress).toInt()
+                chevron.rotation = 90 * progress
+                container.layoutParams.width = originalWidth + ((additionalWidth) * (progress)).toInt()
+                container.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(
+                        recyclerView.resources.getColor(R.color.container_collapsed),
+                        recyclerView.resources.getColor(R.color.expanded_foreground_color),
+                        1 - progress
+                ))//            Log.d("Expanding", "additionalHeight:" + additionalHeight.toString())
 //            Log.d("Expanding", "originalHeight:" + originalHeight.toString())
-            holder.itemView.container.requestLayout()
+                container.requestLayout()
+            }
 
         }
 
@@ -133,56 +137,40 @@ class ExpandCollapseAnimationDelegate(context: Context) {
         val holder = recyclerView.findViewHolderForAdapterPosition(position) as ExpandCollapseViewHolder
 
         val animator = getValueAnimator(true, 300L, AccelerateDecelerateInterpolator()) { progress ->
-            holder.itemView.container.layoutParams.height = originalHeight + ((additionalHeight) * (1 - progress)).toInt()
-            holder.itemView.chevron.rotation = 90 * (1 - progress)
-            holder.itemView.container.layoutParams.width = ORIGINALWIDTH + ((ADDITIONAL_WIDTH) * (1 - progress)).toInt()
-            holder.itemView.container.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(
-                    recyclerView.resources.getColor(R.color.container_collapsed),
-                    recyclerView.resources.getColor(R.color.expanded_foreground_color),
-                    progress
-            ))
+            holder.itemView.apply {
+                container.layoutParams.height = originalHeight + ((additionalHeight) * (1 - progress)).toInt()
+                chevron.rotation = 90 * (1 - progress)
+                container.layoutParams.width = originalWidth + ((additionalWidth) * (1 - progress)).toInt()
+                container.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(
+                        recyclerView.resources.getColor(R.color.container_collapsed),
+                        recyclerView.resources.getColor(R.color.expanded_foreground_color),
+                        progress
+                ))
 
-
-            Log.d("Collapsing", "progress: $progress")
-            holder.itemView.container.requestLayout()
+                Log.d("Collapsing", "progress: $progress")
+                holder.itemView.container.requestLayout()
+            }
         }
         animator.doOnEnd { holder.containerView.additionalViewContainer.isVisible = false }
         animator.start()
     }
 
-    val LinearLayoutManager.visibleItensRange
-    get() = findFirstVisibleItemPosition() .. findLastVisibleItemPosition()
+    private val LinearLayoutManager.visibleItensRange
+        get() = findFirstVisibleItemPosition()..findLastVisibleItemPosition()
 
     fun escaleDown(forward: Boolean): ValueAnimator {
-
-        return getValueAnimator(forward, 1000L, AccelerateDecelerateInterpolator()) {progress ->
+        return getValueAnimator(forward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
             for (visiblePosition in (recyclerView.layoutManager as LinearLayoutManager).visibleItensRange) {
                 val holder = recyclerView.findViewHolderForAdapterPosition(visiblePosition) as ExpandCollapseViewHolder
-                holder.itemView.container.scaleX = 1 - 0.1f*progress
-                holder.itemView.container.scaleY = 1 - 0.02f*progress
-                holder.itemView.foreground_view.alpha = 0.67f*progress
-                Log.d("foreground alpha", "lapha: ${holder.itemView.foreground_view.alpha}")
-                val defaultMargin = recyclerView.resources.getDimension(R.dimen.expand_collapse_holder_internal_horizontal_margin).toInt()
-                holder.internal_container.setPadding(defaultMargin,defaultMargin, defaultMargin +(64*progress).toInt(),defaultMargin)
+                holder.itemView.apply {
+                    container.scaleX = 1 - 0.1f * progress
+                    container.scaleY = 1 - 0.02f * progress
+                    foreground_view.alpha = 0.67f * progress
+                    Log.d("foreground alpha", "alpha: ${holder.itemView.foreground_view.alpha}")
+                    val defaultMargin = recyclerView.resources.getDimension(R.dimen.expand_collapse_holder_internal_horizontal_margin).toInt()
+                    holder.internal_container.setPadding(defaultMargin, defaultMargin, defaultMargin + (64 * progress).toInt(), defaultMargin)
+                }
             }
         }
     }
-
-    companion object {
-        inline fun getValueAnimator(
-                forward: Boolean = true,
-                duration: Long,
-                interpolator: TimeInterpolator,
-                crossinline updateListener: (progress: Float) -> Unit
-        ): ValueAnimator {
-            val a =
-                    if (forward) ValueAnimator.ofFloat(0f, 1f)
-                    else ValueAnimator.ofFloat(1f, 0f)
-            a.addUpdateListener { updateListener(it.animatedValue as Float) }
-            a.duration = duration
-            a.interpolator = interpolator
-            return a
-        }
-    }
-
 }

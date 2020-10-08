@@ -1,47 +1,34 @@
 package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
 
-import android.animation.AnimatorSet
-import android.animation.ValueAnimator
 import android.os.Bundle
-import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.animation.doOnEnd
-import androidx.core.animation.doOnStart
-import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutContract
 import com.rafaelanastacioalves.design.concepts.domain.entities.FakeData
 import com.rafaelanastacioalves.design.concepts.domain.entities.Resource
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
-import kotlin.math.roundToInt
 
 
 class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
 
-    private var expandCollapseAdapter: ExpandCollapseAdapter? = null
-    private var mRecyclerView: RecyclerView? = null
-    private var filterMaxWith: Int = 0
-    private var filterMaxHeight: Int = 0
-    var filterFinalPosition = 0f
 
-    private var fabMiddlePosition: Float = 0f
-
-
-    private val b = true
+    internal val expandCollapseAdapter: ExpandCollapseAdapter by lazy {
+        ExpandCollapseAdapter(this)
+    }
+    private val animationDelegate by lazy {
+        ExpandCollapseActivityDelegate(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupViews()
         setupExpandCollapseRecyclerView()
-        title = "Expand/Collapse Animation"
+        title = getString(R.string.expand_collapse_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         populateRecyclerView(generateFakeData())
-
         setupFab()
     }
 
@@ -51,104 +38,25 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     }
 
     private fun setupFilterLayout() {
-        filterLayout.init(this)
+        filterLayout.setFilterLayoutCallbacksListeners(this)
 //        filterLayout.calculateTabDimensions()
     }
 
     private fun setupFab() {
         fab.setOnClickListener {
-            animateFilterShowUp(true)
-
-
+            animationDelegate.animateFilterShowUp(true)
         }
     }
 
-    private fun animateFilterShowUp(isForward: Boolean) {
-        val animateFab = animateFab(isForward)
-        val animateShowFilter = animateShowFilter(isForward)
-        val animateFilterExpansion = filterLayout.animateExpansion(isForward)
-        val animateScaleDown = expandCollapseAdapter?.animateScaleDown(isForward)
-
-        val animatorSet = AnimatorSet()
-        animatorSet.play(animateFab).with(animateScaleDown)
-
-        if (isForward) {
-            animatorSet.play(animateFab).before(animateShowFilter)
-            animatorSet.play(animateShowFilter).before(animateFilterExpansion)
-        } else {
-            animatorSet.play(animateShowFilter).after(animateFilterExpansion)
-            animatorSet.play(animateFab).after(animateShowFilter)
-        }
-        animatorSet.start()
-    }
-
-    private fun animateFab(isForward: Boolean): ValueAnimator {
-        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
-            fab.translationX = -400f * progress
-            fab.translationY = -400f * progress
-        }
-
-        valueAnimator.doOnEnd {
-            calculateFabPosition()
-        }
-        return valueAnimator
-    }
-
-    private fun calculateFabPosition() {
-        fabMiddlePosition = fab.y
-    }
-
-    private fun animateShowFilter(isForward: Boolean): ValueAnimator {
-        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(isForward, 1500, AccelerateDecelerateInterpolator()) { progress ->
-
-            filterLayout.alpha = progress
-            filterLayout.layoutParams.width = (progress * filterMaxWith).roundToInt()
-//            println("Width: ${filterLayout.layoutParams.width}")
-
-            fab.alpha = 1 - progress
-            fab.y = fabMiddlePosition + (this.screenHeight - fabMiddlePosition - 400f) * (progress)
-            filterLayout.layoutParams.height = (progress * filterLayout.withoutTabsHeight.toFloat()).toInt()
-//            println("Height: ${filterLayout.layoutParams.height}")
-
-            filterLayout.requestLayout()
-        }
-        valueAnimator.doOnStart {
-            filterLayout.prepareToOpenAnimation()
-            filterLayout.doOnPreDraw {
-                if ((filterMaxWith + filterMaxHeight) == 0) {
-                    calculateFilterFinalDimensions(it)
-                    filterLayout.alpha = 0f
-
-                }
-            }
-            showFilter()
-            if (isForward.not()) {
-                showFab()
-            }
-        }
-        valueAnimator.doOnEnd {
-            if (isForward) hideFab() else {showFab()}
-        }
-        return valueAnimator
-    }
-
-    private fun calculateFilterFinalDimensions(view: View) {
-        if (filterMaxHeight == 0 || filterMaxWith == 0) {
-            filterFinalPosition = view.y
-            filterMaxWith = view.measuredWidth
-            filterMaxHeight = view.height
-        }
-    }
-
-    private fun hideFab() {
+    internal fun hideFab() {
         fab.isVisible = false
     }
 
-    private fun showFab() {
+    internal fun showFab() {
         fab.isVisible = true
     }
 
-    private fun showFilter() {
+    internal fun showFilter() {
         filterLayout.isVisible = true
     }
 
@@ -171,7 +79,7 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
                 FakeData(11),
                 FakeData(12),
                 FakeData(13)
-                ))
+        ))
     }
 
     private fun setupViews() {
@@ -179,31 +87,24 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     }
 
     private fun setupExpandCollapseRecyclerView() {
-        mRecyclerView = findViewById<View>(R.id.main_entity_list) as RecyclerView
         val layoutManager = LinearLayoutManager(applicationContext)
-        mRecyclerView!!.layoutManager = layoutManager
-        if (expandCollapseAdapter == null) {
-            expandCollapseAdapter = ExpandCollapseAdapter(this)
-        }
-        mRecyclerView!!.adapter = expandCollapseAdapter
+        mainEntityList!!.layoutManager = layoutManager
+        mainEntityList!!.adapter = expandCollapseAdapter
     }
 
     private fun populateRecyclerView(list: Resource<List<FakeData>>?) {
         if (list == null) {
-            expandCollapseAdapter!!.setItems(null)
-            //TODO add any error managing
-
-        } else if (list.data!=null) {
-            expandCollapseAdapter!!.setItems(list.data)
+            expandCollapseAdapter.setItems(null)
+        } else if (list.data != null) {
+            expandCollapseAdapter.setItems(list.data)
         }
-
     }
 
     override fun onFilterDismiss() {
-        animateFilterShowUp(false)
+        animationDelegate.animateFilterShowUp(false)
     }
 
     override fun onFilterConfirmed() {
-        animateFilterShowUp(false)
+        animationDelegate.animateFilterShowUp(false)
     }
 }

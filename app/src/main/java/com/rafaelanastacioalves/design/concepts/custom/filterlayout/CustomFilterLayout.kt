@@ -2,130 +2,48 @@ package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.content.res.ColorStateList
 import android.util.AttributeSet
-import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AccelerateInterpolator
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.animation.doOnEnd
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.rafaelanastacioalves.design.concepts.R
-import com.rafaelanastacioalves.design.concepts.common.Utils.Companion.mergeColors
-import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
-import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
-import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseAnimationDelegate
+import com.rafaelanastacioalves.design.concepts.common.Utils
 import kotlinx.android.synthetic.main.custom_filterlayout.view.*
 import kotlin.math.roundToInt
 
+@Suppress("DEPRECATION")
 class FilterLayout @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr), ViewPagerItemsContract {
+) : LinearLayout(context, attrs, defStyleAttr) {
 
     private val tabMaxHeight by lazy { resources.getDimension(R.dimen.customLayoutTabMaxHeight) }
     var withoutTabsHeight: Int = 0
     private lateinit var delegate: FilterLayoutContract
-    val list = generateTabItemViewHolderData()
-    lateinit var tabAdapterForViewPager: TabForViewPagerAdapter
-    private lateinit var viewPagerAdapter: ViewPagerAdapter
-    var totalDxTabScroll: Int = 0
+    private var customFilterLayoutHandler : CustomFilterLayoutHandler
 
     init {
         inflate(context, R.layout.custom_filterlayout, this)
-        setupViewPager()
-        setupTabForRecyclerView()
+        customFilterLayoutHandler = CustomFilterLayoutHandler(button_background, viewpagerTabRecyclerview, viewPager)
         calculateTabDimensions()
     }
 
-    fun init(delegate: FilterLayoutContract) {
+    fun setFilterLayoutCallbacksListeners(delegate: FilterLayoutContract) {
         this.delegate = delegate
         setupListeners()
     }
 
     private fun setupListeners() {
-        okButton.setOnClickListener{
+        okButton.setOnClickListener {
             delegate.onFilterDismiss()
         }
 
-        dismissButton.setOnClickListener{
+        dismissButton.setOnClickListener {
             delegate.onFilterDismiss()
         }
     }
 
-    private fun setupTabForRecyclerView() {
-        tabAdapterForViewPager = TabForViewPagerAdapter(object : RecyclerViewClickListener {
-            override fun onClick(view: View, position: Int) {
-                view_pager.setCurrentItem(position, true)
-            }
-        })
-        tabAdapterForViewPager.customFilterLayoutTabList = list
-        val linearLayoutManager = LinearLayoutManager(context)
-        linearLayoutManager.orientation = RecyclerView.HORIZONTAL
-        viewpagerTabRecyclerview.apply {
-            adapter = tabAdapterForViewPager
-            layoutManager = linearLayoutManager
-            suppressLayout(true)
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    totalDxTabScroll += dx
-                }
-            })
-        }
-    }
-
-    private fun setupViewPager() {
-        viewPagerAdapter = ViewPagerAdapter(this)
-        viewPagerAdapter.adapterlist = list
-        view_pager.adapter = viewPagerAdapter
-        view_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            var currentPosition = 0
-            var currentOffSet: Float = 0F
-
-            private fun calculateScrollBy(offsetPercent: Float, position: Int): Int {
-                val dx = (position + offsetPercent) * (tabAdapterForViewPager.viewHolderWidth) - totalDxTabScroll
-//                println("Calculate ScrollBy dx: $dx ")
-                return dx.toInt()
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-//                println("onPageScrolled: position: ${position}, positionOffSet: ${positionOffset}, positionOffSetPixels $positionOffsetPixels")
-                viewpagerTabRecyclerview.let {
-                    it.animateToPosition(calculateScrollBy(positionOffset, position))
-                    if (position > currentPosition || positionOffset == 0.0F) {
-                        currentPosition = position
-                        currentOffSet = 0F
-                        tabAdapterForViewPager.selectedItemIndex = position
-                        it.suppressLayout(false)
-
-                        tabAdapterForViewPager.notifyDataSetChanged()
-                        it.suppressLayout(true)
-                    }
-                }
-            }
-        })
-    }
-
-    private fun generateTabItemViewHolderData(): List<CustomFilterLayoutTabItemElement> {
-        val arrayList = ArrayList<CustomFilterLayoutTabItemElement>()
-        for (i in 1..6) {
-            arrayList.add(CustomFilterLayoutTabItemElement("Tab $i", "Visualization $i", false))
-        }
-        return arrayList
-    }
-
-    private fun RecyclerView.animateToPosition(dx: Int) {
-
-        suppressLayout(false)
-        scrollBy(dx, 0)
-        suppressLayout(true)
-    }
 
     fun prepareToOpenAnimation() {
         val constraintSet = ConstraintSet()
@@ -139,14 +57,13 @@ class FilterLayout @JvmOverloads constructor(
         constraintSet.clear(dismissButton.id, ConstraintSet.END)
         dismissButton.x = this.width / 2f
         constraintSet.applyTo(buttonsContainer)
-
     }
 
     private fun animateOpening(progress: Float) {
         okButton.isVisible = true
         okButton.alpha = progress
         dismissButton.isVisible = true
-        dismissButton.alpha= progress
+        dismissButton.alpha = progress
         okButton.x = width / 2 + (width / 4) * (progress)
         dismissButton.x = width / 2 - (width / 4) * (progress)
         viewpagerTabRecyclerview.layoutParams.height = (tabMaxHeight * progress).toInt()
@@ -164,66 +81,15 @@ class FilterLayout @JvmOverloads constructor(
         }
     }
 
-    fun animateExpansion(isForward: Boolean): ValueAnimator {
-        return ExpandCollapseAnimationDelegate.getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
+    fun expansonAnimator(isForward: Boolean): ValueAnimator {
+        return Utils.getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
             animateOpening(progress)
         }
-
     }
 
-    override fun onFilterItemClicked(pagePosition: Int, viewPagerItemsSelectionMap: Map<Int, List<Int>>) {
-        if (viewPagerItemsSelectionMap[pagePosition]?.isEmpty()!!) {
-            tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections = false
-            tabAdapterForViewPager.isToAnimateBadge = true
-            updateBottom(viewPagerItemsSelectionMap)
-
-            viewpagerTabRecyclerview.suppressLayout(false)
-            tabAdapterForViewPager.notifyItemChanged(pagePosition, tabAdapterForViewPager.UPDATEBADGE)
-            viewpagerTabRecyclerview.suppressLayout(true)
-        }else if (tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections.not()) {
-            tabAdapterForViewPager.customFilterLayoutTabList[pagePosition].hasSelections = true
-            tabAdapterForViewPager.isToAnimateBadge = true
-            updateBottom(viewPagerItemsSelectionMap)
-
-            viewpagerTabRecyclerview.suppressLayout(false)
-            tabAdapterForViewPager.notifyItemChanged(pagePosition, tabAdapterForViewPager.UPDATEBADGE)
-            viewpagerTabRecyclerview.suppressLayout(true)
-        }
-
-    }
-
-    private fun updateBottom(viewPagerItemsSelectionMap: Map<Int, List<Int>>) {
-        viewPagerItemsSelectionMap.forEach {
-            if (it.value.isNullOrEmpty().not()) {
-                if (button_background.isActivated) return else {
-                    animateBottom(hasSelections = true)
-                }
-            }
-        }
-        if (button_background.isActivated.not()) return else {
-            animateBottom(hasSelections = false)
-        }
-    }
-
-    private fun animateBottom(hasSelections: Boolean) {
-        val valueAnimator = ExpandCollapseAnimationDelegate.getValueAnimator(hasSelections, 100, AccelerateInterpolator()) { progress ->
-
-            button_background.backgroundTintList = ColorStateList.valueOf(
-                    mergeColors(
-                            resources.getColor(R.color.colorAccent),
-                            resources.getColor(R.color.lightGreen),
-                            progress
-                    )
-            )
-        }
-        valueAnimator.doOnEnd {
-            button_background.isActivated = hasSelections
-        }
-        valueAnimator.start()
-    }
 }
 
-interface ViewPagerItemsContract{
+interface ViewPagerFilterItemsContract {
     fun onFilterItemClicked(pagePosition: Int, viewPagerItemsSelectionMap: Map<Int, List<Int>>)
 }
 

@@ -10,10 +10,9 @@ import com.rafaelanastacioalves.design.concepts.domain.entities.FakeData
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.view.*
 
 
-class ExpandCollapseAdapter (context: Context ) : RecyclerView.Adapter<ExpandCollapseViewHolder>() {
+class ExpandCollapseAdapter (mContext: Context ) : RecyclerView.Adapter<ExpandCollapseViewHolder>() {
     private var items: List<FakeData>? = null
-    private val mContext: Context = context
-    private val animator: ExpandCollapseAnimationDelegate = ExpandCollapseAnimationDelegate(context)
+    private val animator: ExpandCollapseAnimationDelegate = ExpandCollapseAnimationDelegate(mContext)
 
     private fun getItems(): List<FakeData>? {
         return this.items
@@ -44,24 +43,18 @@ class ExpandCollapseAdapter (context: Context ) : RecyclerView.Adapter<ExpandCol
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         animator.onAttachedToRecyclerView(recyclerView)
-
     }
 
-    fun animateScaleDown(forward: Boolean): ValueAnimator {
+    fun holdersScaleDownAnimator(forward: Boolean): ValueAnimator {
         return animator.escaleDown(forward)
     }
 
     override fun onBindViewHolder(holder: ExpandCollapseViewHolder, position: Int ) {
-
-        val aRepoW = getItems()?.get(position) as FakeData
-        holder.bind(aRepoW, mContext)
-
+        getItems()?.get(position) as FakeData
         animator.calculateMeasures(holder)
         holder.containerView.container.setOnClickListener {
             animator.onClick(position)
         }
     }
-
-
 }
 
