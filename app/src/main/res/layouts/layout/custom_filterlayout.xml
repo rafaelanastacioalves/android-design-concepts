@@ -16,6 +16,7 @@
                 tools:layout_height="@dimen/customLayoutTabMaxHeight"
                 android:orientation="horizontal"
                 android:paddingHorizontal="32dp"
+                android:clipToPadding="false"
                 android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@id/viewPager"
                 tools:listitem="@layout/custom_filterlayout_viewpager_recyclerview_tab_viewholder"

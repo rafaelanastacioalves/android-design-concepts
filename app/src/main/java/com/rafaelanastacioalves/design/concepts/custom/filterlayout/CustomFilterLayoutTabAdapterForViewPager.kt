@@ -1,5 +1,6 @@
 package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 
+import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
+import com.rafaelanastacioalves.design.concepts.common.Utils
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.custom_filterlayout_viewpager_recyclerview_tab_viewholder.view.*
@@ -68,13 +70,14 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
 
     private fun markHasSelections(holder: TabViewHolder, isToMark: Boolean) {
         if (isToMark.xor(holder.isBadgeVisible())) {
-            holder.animate(isToMark)
+            holder.animateBadge(isToMark)
             Log.d(javaClass.name, "Marking TabView has selections in position ${holder.adapterPosition}: $isToMark")
         }
     }
 
     private fun markAsCurrent(holder: TabViewHolder, isCurrent: Boolean) {
         if (isCurrent) {
+            holder.setPercentActivated(if(isCurrent) 1f else {0f})
             Log.d(javaClass.name, "TabView of position ${holder.adapterPosition} is the current")
         }
     }
@@ -94,7 +97,9 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
 }
 
 class TabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    fun animate(isToMark: Boolean) {
+    val resources = itemView.resources
+
+    fun animateBadge(isToMark: Boolean) {
         itemView.tabBadge.animate()
                 .setDuration(100L)
                 .scaleX(if (isToMark) 1f else {
@@ -115,6 +120,13 @@ class TabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun isBadgeVisible(): Boolean {
         return itemView.tabBadge.let { it.scaleY > 0 && it.scaleX > 0 }
+    }
+
+    fun setPercentActivated(percent: Float) {
+        itemView.tab.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(resources.getColor(R.color.ciano),resources.getColor( R.color.colorWhite), percent))
+        //TODO: Refatorar - isso aqui poderia estar parametrizado junto com o valor inicial setado no layout....
+        itemView.scaleX = 0.9f + 0.15f*percent
+        itemView.scaleY = 0.9f + 0.15f*percent
     }
 
 }

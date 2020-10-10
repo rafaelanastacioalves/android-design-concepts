@@ -20,7 +20,6 @@
 		tools:layout_marginRight="20dp"
 		app:cardBackgroundColor="@color/container_collapsed">
 
-
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:id="@+id/internal_container"
 			android:layout_width="match_parent"

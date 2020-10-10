@@ -12,10 +12,11 @@ import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.common.Utils
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
+import kotlinx.android.synthetic.main.custom_filterlayout.view.*
 
 class CustomFilterLayoutHandler(private val button_background: View,
                                 private val viewpagerTabRecyclerview: RecyclerView,
-                                private val viewPager: ViewPager2) : ViewPagerFilterItemsContract {
+                                private val filterViewPager: ViewPager2) : ViewPagerFilterItemsContract {
 
     private val context: Context? = viewpagerTabRecyclerview.context
     private val resources = viewpagerTabRecyclerview.context.resources
@@ -28,10 +29,13 @@ class CustomFilterLayoutHandler(private val button_background: View,
 
     init {
         customFilterLayoutViewPagerAdapter.adapterlist = list
-        viewPager.adapter = customFilterLayoutViewPagerAdapter
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        filterViewPager.adapter = customFilterLayoutViewPagerAdapter
+        filterViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             var currentPosition = 0
             var currentOffSet: Float = 0F
+
+            lateinit var currentHolder: TabViewHolder
+            lateinit var nextHolder: TabViewHolder
 
             private fun calculateScrollBy(offsetPercent: Float, position: Int): Int {
                 val dx = (position + offsetPercent) * (tabAdapterForViewPager.viewHolderWidth) - totalDxTabScroll
@@ -42,16 +46,24 @@ class CustomFilterLayoutHandler(private val button_background: View,
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
 //                println("onPageScrolled: position: ${position}, positionOffSet: ${positionOffset}, positionOffSetPixels $positionOffsetPixels")
-                viewpagerTabRecyclerview.let {
-                    it.animateToPosition(calculateScrollBy(positionOffset, position))
-                    if (position > currentPosition || positionOffset == 0.0F) {
+                viewpagerTabRecyclerview.apply {
+                    animateToPosition(calculateScrollBy(positionOffset, position))
+                    //TODO: Refatorar essa parte ta muito pesado ...
+                    currentHolder = viewpagerTabRecyclerview
+                            .findViewHolderForAdapterPosition(position) as TabViewHolder
+                    nextHolder = viewpagerTabRecyclerview
+                            .findViewHolderForAdapterPosition(position + 1) as TabViewHolder
+                    suppressLayout(false)
+                    currentHolder.setPercentActivated(1-positionOffset)
+                    nextHolder.setPercentActivated(positionOffset)
+                    suppressLayout(true)
+                    if (position > currentPosition || positionOffset == 0F) {
                         currentPosition = position
                         currentOffSet = 0F
                         tabAdapterForViewPager.selectedItemIndex = position
-                        it.suppressLayout(false)
-
+                        suppressLayout(false)
                         tabAdapterForViewPager.notifyDataSetChanged()
-                        it.suppressLayout(true)
+                        suppressLayout(true)
                     }
                 }
             }
@@ -59,7 +71,7 @@ class CustomFilterLayoutHandler(private val button_background: View,
 
         tabAdapterForViewPager = TabForViewPagerAdapter(object : RecyclerViewClickListener {
             override fun onClick(view: View, position: Int) {
-                viewPager.setCurrentItem(position, true)
+                filterViewPager.setCurrentItem(position, true)
             }
         })
         tabAdapterForViewPager.customFilterLayoutTabList = list
@@ -118,8 +130,8 @@ class CustomFilterLayoutHandler(private val button_background: View,
 
             button_background.backgroundTintList = ColorStateList.valueOf(
                     Utils.mergeColors(
-                            resources.getColor(R.color.colorAccent),
                             resources.getColor(R.color.lightGreen),
+                            resources.getColor(R.color.colorAccent),
                             progress
                     )
             )
@@ -139,7 +151,6 @@ class CustomFilterLayoutHandler(private val button_background: View,
     }
 
     private fun RecyclerView.animateToPosition(dx: Int) {
-
         suppressLayout(false)
         scrollBy(dx, 0)
         suppressLayout(true)

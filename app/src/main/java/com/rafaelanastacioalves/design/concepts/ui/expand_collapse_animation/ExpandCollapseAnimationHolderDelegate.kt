@@ -119,8 +119,9 @@ class ExpandCollapseAnimationDelegate(context: Context) {
                 chevron.rotation = 90 * progress
                 container.layoutParams.width = originalWidth + ((additionalWidth) * (progress)).toInt()
                 container.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(
-                        recyclerView.resources.getColor(R.color.container_collapsed),
                         recyclerView.resources.getColor(R.color.expanded_foreground_color),
+                        recyclerView.resources.getColor(R.color.container_collapsed),
+
                         1 - progress
                 ))//            Log.d("Expanding", "additionalHeight:" + additionalHeight.toString())
 //            Log.d("Expanding", "originalHeight:" + originalHeight.toString())
@@ -142,8 +143,8 @@ class ExpandCollapseAnimationDelegate(context: Context) {
                 chevron.rotation = 90 * (1 - progress)
                 container.layoutParams.width = originalWidth + ((additionalWidth) * (1 - progress)).toInt()
                 container.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(
-                        recyclerView.resources.getColor(R.color.container_collapsed),
                         recyclerView.resources.getColor(R.color.expanded_foreground_color),
+                        recyclerView.resources.getColor(R.color.container_collapsed),
                         progress
                 ))
 

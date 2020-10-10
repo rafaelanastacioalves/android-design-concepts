@@ -56,7 +56,7 @@ class CustomFilterLayoutViewPagerAdapter(private val customFilter: ViewPagerFilt
     private fun animateItemSelection(view: View, isSelection: Boolean) {
         val valueAnimator = Utils.getValueAnimator(isSelection, 100L, AccelerateInterpolator()) { progress ->
             view.backgroundTintList = ColorStateList.valueOf(
-                    Utils.mergeColors(view.resources.getColor(R.color.colorWhite), view.resources.getColor(R.color.lightGreen), progress)
+                    Utils.mergeColors(view.resources.getColor(R.color.lightGreen),view.resources.getColor(R.color.windowBackground),  progress)
             )
         }
         valueAnimator.start()
