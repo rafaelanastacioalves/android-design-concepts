@@ -2,9 +2,14 @@ package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.provider.MediaStore.MediaColumns.ORIENTATION
 import android.util.AttributeSet
+import android.view.Gravity
+import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
@@ -24,6 +29,11 @@ class FilterLayout @JvmOverloads constructor(
     private var customFilterLayoutHandler : CustomFilterLayoutHandler
 
     init {
+
+        //TODO: Refactor - esses métodos poderiam estar encapsulados... no mínimo
+        gravity = Gravity.BOTTOM
+        orientation = VERTICAL
+        background = resources.getDrawable(R.color.DarkGreen)
         inflate(context, R.layout.custom_filterlayout, this)
         customFilterLayoutHandler = CustomFilterLayoutHandler(button_background, viewpagerTabRecyclerview, viewPager)
         calculateTabDimensions()
