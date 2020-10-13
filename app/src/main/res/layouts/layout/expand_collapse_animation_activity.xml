@@ -1,54 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-	android:id="@+id/constraint"
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context=".ui.expand_collapse_animation.ExpandCollapseActivity">
 
-	<com.google.android.material.floatingactionbutton.FloatingActionButton
-		android:id="@+id/fab"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="16dp"
-		android:layout_marginRight="16dp"
-		android:layout_marginBottom="16dp"
-		android:layout_weight="1"
-		android:clickable="true"
-		app:srcCompat="@drawable/ic_filter"
-		android:tint="@color/lightGrey"
-		android:backgroundTint="@color/colorPrimaryDark"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent" />
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-	<androidx.constraintlayout.widget.Guideline
-		android:id="@+id/horizonalGuidelineForButtons"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		app:layout_constraintGuide_percent="0.35"
-		android:orientation="horizontal" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mainEntityList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/expand_collapse_viewholder" />
 
-	<androidx.recyclerview.widget.RecyclerView
-		android:layout_marginTop="16dp"
-		android:id="@+id/mainEntityList"
-		android:clipToPadding="false"
-		android:layout_width="0dp"
-		android:layout_height="0dp"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		tools:listitem="@layout/expand_collapse_viewholder"
-		app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.expand_collapse_animation.ExpandCollapseActivity">
 
-	<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayout
-		android:id="@+id/filterLayout"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:clickable="true"
+            android:tint="@color/lightGrey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_filter" />
+
+        <com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayout
+            android:id="@+id/filterLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+	<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
 		android:visibility="gone"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		tools:visibility="visible"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+		android:id="@+id/constraintMotion"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".ui.expand_collapse_animation.ExpandCollapseActivity"
+		app:layoutDescription="@xml/expand_collapse_animation_activity_scene">
+
+		<com.google.android.material.floatingactionbutton.FloatingActionButton
+			android:id="@+id/fabMotion"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="16dp"
+			android:layout_marginRight="16dp"
+			android:layout_marginBottom="16dp"
+			android:layout_weight="1"
+			android:backgroundTint="@color/colorPrimaryDark"
+			android:clickable="true"
+			android:tint="@color/lightGrey"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:srcCompat="@drawable/ic_filter" />
+
+		<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayout
+			android:id="@+id/filterLayoutMotion"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:visibility="gone"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			tools:visibility="visible" />
+	</androidx.constraintlayout.motion.widget.MotionLayout>
+</FrameLayout>
