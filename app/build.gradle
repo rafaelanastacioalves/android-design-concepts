@@ -113,7 +113,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinVersionCore"
 
     //other
-    implementation 'androidx.constraintlayout:constraintlayout:' + androidxContraintLayout
+    implementation 'androidx.constraintlayout:constraintlayout:' + androidxMotionLayout
+    implementation 'androidx.constraintlayout:constraintlayout:' + androidxMotionLayout
     implementation "com.squareup.picasso:picasso:$picassoExt"
     implementation 'androidx.annotation:annotation:' + androidxBasics
     implementation 'androidx.recyclerview:recyclerview:' + androidxBasics

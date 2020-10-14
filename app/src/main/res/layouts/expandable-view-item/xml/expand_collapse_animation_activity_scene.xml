@@ -2,15 +2,122 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ConstraintSet android:id="@+id/start">
-        <Constraint android:id="@+id/fabMotion" />
+    <ConstraintSet android:id="@+id/fabOpeningStart">
+        <Constraint
+            android:id="@+id/fabMotion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <Constraint
+            android:id="@+id/filterLayoutMotion"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/end">
-        <Constraint android:id="@id/fabMotion" />
+    <ConstraintSet
+        android:id="@+id/fabOpeningEnd"
+        app:deriveConstraintsFrom="@+id/fabOpeningStart">
+        <Constraint
+            android:id="@id/fabMotion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    </ConstraintSet>
+
+    <ConstraintSet
+        android:id="@+id/filterExpansionStart"
+        app:deriveConstraintsFrom="@id/fabOpeningEnd">
+        >
+        <Constraint
+            android:id="@id/fabMotion"
+            android:alpha="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:id="@+id/filterLayoutMotion"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        />
+    </ConstraintSet>
+    <ConstraintSet
+        android:id="@+id/filterExpansionEnd"
+        app:deriveConstraintsFrom="@id/fabOpeningEnd">
+        >
+
+        <Constraint
+            android:id="@+id/filterLayoutMotion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="1"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <Constraint
+            android:id="@id/fabMotion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:visibility="invisible"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+           />
+
+            />
     </ConstraintSet>
 
     <Transition
-        app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start" />
+        app:constraintSetEnd="@id/fabOpeningEnd"
+        app:constraintSetStart="@id/fabOpeningStart"
+        app:duration="5000"
+        app:layoutDuringTransition="honorRequest">
+        <KeyFrameSet>
+            <KeyPosition
+                app:framePosition="50"
+                app:keyPositionType="deltaRelative"
+                app:motionTarget="@id/fabMotion"
+                app:percentX="0.85"
+                app:percentY="0.15" />
+        </KeyFrameSet>
+    </Transition>
+
+    <Transition
+        app:constraintSetEnd="@id/filterExpansionEnd"
+        app:constraintSetStart="@id/filterExpansionStart"
+        app:duration="5000"
+        app:layoutDuringTransition="honorRequest">
+
+    </Transition>
 </MotionScene>

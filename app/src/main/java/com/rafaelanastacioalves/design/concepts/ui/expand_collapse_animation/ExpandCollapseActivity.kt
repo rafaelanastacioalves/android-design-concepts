@@ -18,8 +18,8 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     internal val expandCollapseAdapter: ExpandCollapseAdapter by lazy {
         ExpandCollapseAdapter(this)
     }
-    private val animationDelegate by lazy {
-        ExpandCollapseActivityDelegate(this)
+    private val animationDelegateMotion by lazy {
+        ExpandCollapseActivityDelegateMotion(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,30 +38,30 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     }
 
     private fun setupFilterLayout() {
-        filterLayout.setFilterLayoutCallbacksListeners(this)
-//        filterLayout.calculateTabDimensions()
+        filterLayoutMotion.setFilterLayoutCallbacksListeners(this)
+//        filterLayoutMotion.calculateTabDimensions()
     }
 
     private fun setupFab() {
-        fab.setOnClickListener {
-            animationDelegate.animateFilterShowUp(true)
+        fabMotion.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(true)
         }
     }
 
     internal fun hideFab() {
-        fab.isVisible = false
+        fabMotion.isVisible = false
     }
 
     internal fun showFab() {
-        fab.isVisible = true
+        fabMotion.isVisible = true
     }
 
     internal fun showFilter() {
-        filterLayout.isVisible = true
+        filterLayoutMotion.isVisible = true
     }
 
     private fun hideFilter() {
-        filterLayout.isVisible = false
+        filterLayoutMotion.isVisible = false
     }
 
     private fun generateFakeData(): Resource<List<FakeData>>? {
@@ -101,10 +101,10 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     }
 
     override fun onFilterDismiss() {
-        animationDelegate.animateFilterShowUp(false)
+        animationDelegateMotion.animateFilterShowUp(false)
     }
 
     override fun onFilterConfirmed() {
-        animationDelegate.animateFilterShowUp(false)
+        animationDelegateMotion.animateFilterShowUp(false)
     }
 }
