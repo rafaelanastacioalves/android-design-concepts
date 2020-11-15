@@ -61,13 +61,26 @@
 		tools:context=".ui.expand_collapse_animation.ExpandCollapseActivity"
 		app:layoutDescription="@xml/expand_collapse_animation_activity_scene">
 
+		<com.rafaelanastacioalves.design.concepts.custom.circularcardview.CircularCardView
+			android:id="@+id/expansionBackground"
+			android:layout_width="72dp"
+			android:layout_height="72dp"
+			android:visibility="gone"
+			app:cardBackgroundColor="@color/colorPrimaryDark"
+			app:cardCornerRadius="36dp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:visibility="visible"
+			/>
+
 		<com.google.android.material.floatingactionbutton.FloatingActionButton
 			android:id="@+id/fabMotion"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_width="72dp"
+			android:layout_height="72dp"
 			android:layout_marginEnd="16dp"
 			android:layout_marginBottom="16dp"
-			android:layout_weight="1"
 			android:backgroundTint="@color/colorPrimaryDark"
 			android:clickable="true"
 			android:tint="@color/lightGrey"
@@ -83,6 +96,6 @@
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			tools:visibility="visible" />
+			tools:visibility="gone" />
 	</androidx.constraintlayout.motion.widget.MotionLayout>
 </FrameLayout>
