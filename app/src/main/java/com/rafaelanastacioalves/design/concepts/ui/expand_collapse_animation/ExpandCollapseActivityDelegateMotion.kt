@@ -1,6 +1,5 @@
 package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
-import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -9,7 +8,6 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.doOnPreDraw
-import androidx.core.view.isVisible
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.common.Utils
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
@@ -68,40 +66,11 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
     }
 
     internal fun animateFilterShowUp(isForward: Boolean) {
-        activity.constraintMotion.setTransition(R.id.fabOpeningStart, R.id.fabOpeningEnd)
-        activity.constraintMotion.setTransitionListener(object : MotionLayout.TransitionListener {
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-            }
-
-            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
-            }
-
-            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-                when (p1) {
-                    R.id.fabOpeningEnd -> {
-                        Toast.makeText(activity, "Deu certo!", Toast.LENGTH_SHORT).show()
-                        calculateFabPosition()
-
-//                        val animateShowFilter = showFilterAnimator(isForward)
-//                        animateShowFilter.start()
-                        activity.constraintMotion.setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
-                        activity.constraintMotion.transitionToState(R.id.filterExpansionEnd)
-
-                    }
-                    R.id.filterExpansionEnd -> {
-//                        val animatorSet = AnimatorSet()
-                        filterLayoutMotion.expansonAnimator(isForward).start()
-//                        animatorSet.start()
-                    }
-                }
-            }
-
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
-            }
-
-        })
-
-        activity.constraintMotion.transitionToState(R.id.fabOpeningEnd)
+        if (isForward) {
+            openFilterWithMotionAnimation()
+        }else{
+            closeFilterWithMotionAnimation()
+        }
         val animateScaleDown = expandCollapseAdapter.holdersScaleDownAnimator(isForward)
         animateScaleDown.start()
     }
@@ -124,6 +93,83 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
             calculateFabPosition()
         }
         return valueAnimator
+    }
+
+    private fun openFilterWithMotionAnimation() {
+        activity.constraintMotion.setTransition(R.id.fabOpeningStart, R.id.fabOpeningEnd)
+
+        //TODO: Refactor - Dá pra colocar isso daqui no início?
+        activity.constraintMotion.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+            }
+
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+            }
+
+            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+                when (p1) {
+                    R.id.fabOpeningEnd -> {
+                        Toast.makeText(activity, "Deu certo!", Toast.LENGTH_SHORT).show()
+                        calculateFabPosition()
+
+                        activity.constraintMotion.setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
+                        activity.constraintMotion.transitionToState(R.id.filterExpansionEnd)
+
+                    }
+                    R.id.filterExpansionEnd -> {
+                        filterLayoutMotion.expansonAnimator(isForward = true).start()
+                        activity.constraintMotion.removeTransitionListener(this)
+                    }
+                }
+            }
+
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+            }
+
+        })
+
+        activity.constraintMotion.transitionToState(R.id.fabOpeningEnd)
+    }
+
+    private fun closeFilterWithMotionAnimation() {
+
+        val expansonAnimator = filterLayoutMotion.expansonAnimator(isForward = false)
+        expansonAnimator.doOnEnd {
+            activity.constraintMotion.setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
+            activity.constraintMotion.progress = 1f
+            activity.constraintMotion.transitionToStart()
+        }
+
+
+        //TODO: Refactor - Dá pra colocar isso daqui no início?
+        activity.constraintMotion.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+
+            }
+
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+            }
+
+            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+
+                when (p1) {
+                    R.id.fabOpeningEnd -> {
+                        activity.constraintMotion.removeTransitionListener(this)
+                    }
+                    R.id.filterExpansionStart -> {
+                        activity.constraintMotion.setTransition(R.id.fabOpeningStart, R.id.fabOpeningEnd)
+                        activity.constraintMotion.progress = 1f
+                        activity.constraintMotion.transitionToStart()                    }
+                }
+            }
+
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+            }
+
+        })
+
+        expansonAnimator.start()
+
     }
 
 }
