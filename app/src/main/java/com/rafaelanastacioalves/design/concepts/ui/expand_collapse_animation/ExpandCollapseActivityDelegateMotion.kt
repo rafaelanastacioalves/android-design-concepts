@@ -1,5 +1,6 @@
 package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
+import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -8,6 +9,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.common.Utils
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
@@ -21,6 +23,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
     private var fabMiddlePosition: Float = 0f
 
     private val filterLayoutMotion = activity.filterLayoutMotion
+    private val expansionBackground = activity.expansionBackground
     private val fab = activity.fabMotion
 
     private val expandCollapseAdapter = activity.expandCollapseAdapter
@@ -47,6 +50,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                 }
             }
             activity.showFilter()
+            filterLayoutMotion.requestLayout()
             if (isForward.not()) {
                 activity.showFab()
             }
@@ -83,6 +87,11 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                         activity.constraintMotion.setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
                         activity.constraintMotion.transitionToState(R.id.filterExpansionEnd)
 
+                    }
+                    R.id.filterExpansionEnd -> {
+//                        val animatorSet = AnimatorSet()
+                        filterLayoutMotion.expansonAnimator(isForward).start()
+//                        animatorSet.start()
                     }
                 }
             }
