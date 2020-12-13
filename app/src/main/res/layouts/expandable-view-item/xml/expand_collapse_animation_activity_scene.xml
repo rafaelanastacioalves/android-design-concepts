@@ -91,6 +91,7 @@
             android:id="@+id/expansionBackground"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
             app:layout_constraintBottom_toBottomOf="@id/filterLayoutMotion"
             app:layout_constraintEnd_toEndOf="@id/filterLayoutMotion"
             app:layout_constraintStart_toStartOf="@id/filterLayoutMotion"

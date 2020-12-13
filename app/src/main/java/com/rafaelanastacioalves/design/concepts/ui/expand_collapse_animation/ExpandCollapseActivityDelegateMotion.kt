@@ -117,7 +117,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
                     }
                     R.id.filterExpansionEnd -> {
-                        filterLayoutMotion.expansonAnimator(isForward = true).start()
+                        filterLayoutMotion.animateOpening(true)
                         activity.constraintMotion.removeTransitionListener(this)
                     }
                 }
@@ -133,12 +133,12 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
     private fun closeFilterWithMotionAnimation() {
 
-        val expansonAnimator = filterLayoutMotion.expansonAnimator(isForward = false)
-        expansonAnimator.doOnEnd {
-            activity.constraintMotion.setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
-            activity.constraintMotion.progress = 1f
-            activity.constraintMotion.transitionToStart()
-        }
+        val expansonAnimator = filterLayoutMotion.animateOpening(isForward = false)
+//        expansonAnimator.doOnEnd {
+//            activity.constraintMotion.setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
+//            activity.constraintMotion.progress = 1f
+//            activity.constraintMotion.transitionToStart()
+//        }
 
 
         //TODO: Refactor - Dá pra colocar isso daqui no início?
@@ -159,7 +159,8 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                     R.id.filterExpansionStart -> {
                         activity.constraintMotion.setTransition(R.id.fabOpeningStart, R.id.fabOpeningEnd)
                         activity.constraintMotion.progress = 1f
-                        activity.constraintMotion.transitionToStart()                    }
+                        activity.constraintMotion.transitionToStart()
+                    }
                 }
             }
 
@@ -167,8 +168,6 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
             }
 
         })
-
-        expansonAnimator.start()
 
     }
 

@@ -88,7 +88,7 @@
 			app:layout_constraintEnd_toEndOf="parent"
 			app:srcCompat="@drawable/ic_filter" />
 
-		<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayout
+		<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutMotion
 			android:id="@+id/filterLayoutMotion"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

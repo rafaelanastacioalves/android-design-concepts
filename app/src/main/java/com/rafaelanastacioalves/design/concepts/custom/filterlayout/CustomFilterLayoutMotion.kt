@@ -1,37 +1,39 @@
 package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import com.rafaelanastacioalves.design.concepts.R
-import com.rafaelanastacioalves.design.concepts.common.Utils
-import kotlinx.android.synthetic.main.custom_filterlayout.view.*
-import kotlin.math.roundToInt
+import kotlinx.android.synthetic.main.custom_filterlayout.view.button_background
+import kotlinx.android.synthetic.main.custom_filterlayout.view.buttonsContainer
+import kotlinx.android.synthetic.main.custom_filterlayout.view.dismissButton
+import kotlinx.android.synthetic.main.custom_filterlayout.view.okButton
+import kotlinx.android.synthetic.main.custom_filterlayout.view.viewPager
+import kotlinx.android.synthetic.main.custom_filterlayout.view.viewpagerTabRecyclerview
+import kotlinx.android.synthetic.main.custom_filterlayout_motion.view.*
 
 @Suppress("DEPRECATION")
-class FilterLayout @JvmOverloads constructor(
+class FilterLayoutMotion @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    //TODO: O maxheight vai ser usado tanto aqui quanto em XML do motion layout... melhor unificar
+
+    //TODO: Refactor - cuidado com todo o código repetido... vamos colocar numa classe pai....
     private val tabMaxHeight by lazy { resources.getDimension(R.dimen.customLayoutTabMaxHeight) }
     var withoutTabsHeight: Int = 0
     private lateinit var delegate: FilterLayoutContract
-    private var customFilterLayoutHandler : CustomFilterLayoutHandler
+    private var customFilterLayoutHandler: CustomFilterLayoutHandler
 
     init {
-
-        //TODO: Refactor - esses métodos poderiam estar encapsulados... no mínimo
         gravity = Gravity.BOTTOM
         orientation = VERTICAL
+        //TODO: Refactor - esses métodos poderiam estar encapsulados... no mínimo
         background = resources.getDrawable(R.color.DarkGreen)
-        inflate(context, R.layout.custom_filterlayout, this)
+        inflate(context, R.layout.custom_filterlayout_motion, this)
         customFilterLayoutHandler = CustomFilterLayoutHandler(button_background, viewpagerTabRecyclerview, viewPager)
         calculateTabDimensions()
     }
@@ -66,18 +68,10 @@ class FilterLayout @JvmOverloads constructor(
         constraintSet.applyTo(buttonsContainer)
     }
 
-    private fun animateOpening(progress: Float) {
-        okButton.isVisible = true
-        okButton.alpha = progress
-        dismissButton.isVisible = true
-        dismissButton.alpha = progress
-        okButton.x = width / 2 + (width / 4) * (progress)
-        dismissButton.x = width / 2 - (width / 4) * (progress)
-        viewpagerTabRecyclerview.layoutParams.height = (tabMaxHeight * progress).toInt()
-        layoutParams.height = withoutTabsHeight + (tabMaxHeight * progress).roundToInt()
-//        println("With Tab Height: ${layoutParams.height}")
 
-        requestLayout()
+    fun animateOpening(isForward: Boolean) {
+        motionLayout.setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
+        motionLayout.transitionToState(R.id.filterExpansionEnd)
     }
 
     private fun calculateTabDimensions() {
@@ -87,21 +81,5 @@ class FilterLayout @JvmOverloads constructor(
             isVisible = false
         }
     }
-
-    fun expansonAnimator(isForward: Boolean): ValueAnimator {
-        return Utils.getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
-            animateOpening(progress)
-        }
-    }
-
-}
-
-interface ViewPagerFilterItemsContract {
-    fun onFilterItemClicked(pagePosition: Int, viewPagerItemsSelectionMap: Map<Int, List<Int>>)
-}
-
-interface FilterLayoutContract {
-    fun onFilterDismiss()
-    fun onFilterConfirmed()
 }
 
