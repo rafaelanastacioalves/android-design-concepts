@@ -11,7 +11,7 @@
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
             android:visibility="invisible"
-            app:layout_constraintTop_toTopOf="@id/viewPager">
+            app:layout_constraintBottom_toTopOf="@id/viewPager">
             <Transform android:translationY="@dimen/customLayoutTabMaxHeight" />
         </Constraint>
     </ConstraintSet>
@@ -28,7 +28,7 @@
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
             android:visibility="visible"
-            app:layout_constraintTop_toTopOf="@id/viewPager">
+            app:layout_constraintBottom_toTopOf="@id/viewPager">
             <Transform android:translationY="0dp" />
         </Constraint>
     </ConstraintSet>

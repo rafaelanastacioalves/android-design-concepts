@@ -70,8 +70,8 @@ class FilterLayoutMotion @JvmOverloads constructor(
 
 
     fun animateOpening(isForward: Boolean) {
-        motionLayout.setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
-        motionLayout.transitionToState(R.id.filterExpansionEnd)
+        motionLayout.setTransition(R.id.filterOpeningStart, R.id.filterOpeningEnd)
+        motionLayout.transitionToState(R.id.filterOpeningEnd)
     }
 
     private fun calculateTabDimensions() {

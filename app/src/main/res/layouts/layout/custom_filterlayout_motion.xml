@@ -7,7 +7,6 @@
     android:id="@+id/filterLayoutContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/DarkGreen"
     android:gravity="bottom"
     android:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
@@ -19,6 +18,7 @@
         app:layoutDescription="@xml/custom_filterlayout_motion_scene">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:background="@color/DarkGreen"
             android:id="@+id/viewpagerTabRecyclerview"
             android:layout_width="match_parent"
             android:layout_height="@dimen/customLayoutTabMaxHeight"
@@ -27,18 +27,19 @@
             android:paddingHorizontal="32dp"
             android:translationY="@dimen/customLayoutTabMaxHeight"
             android:visibility="visible"
-            app:layout_constraintTop_toTopOf="@id/viewPager"
+            app:layout_constraintBottom_toTopOf="@id/viewPager"
             tools:layout_height="@dimen/customLayoutTabMaxHeight"
             tools:listitem="@layout/custom_filterlayout_viewpager_recyclerview_tab_viewholder"
             tools:translationY="0dp"
             tools:visibility="visible" />
 
         <androidx.viewpager2.widget.ViewPager2
+            android:background="@color/DarkGreen"
+
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
-            android:elevation="32dp"
             app:layout_constraintBottom_toTopOf="@id/button_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +48,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/buttonsContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/viewPager">
 
             <View
                 android:id="@+id/button_background"

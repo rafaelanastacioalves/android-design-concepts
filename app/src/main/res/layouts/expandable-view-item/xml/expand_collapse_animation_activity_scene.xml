@@ -5,14 +5,13 @@
     <ConstraintSet android:id="@+id/fabOpeningStart">
         <Constraint
             android:id="@id/filterLayoutMotion"
-            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:alpha="0"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
         <Constraint
             android:id="@+id/fabMotion"
             android:layout_width="72dp"
@@ -29,13 +28,12 @@
         app:deriveConstraintsFrom="@+id/fabOpeningStart">
         <Constraint
             android:id="@id/filterLayoutMotion"
-            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Constraint
             android:id="@id/fabMotion"
@@ -46,8 +44,7 @@
             app:layout_constraintBottom_toBottomOf="@id/filterLayoutMotion"
             app:layout_constraintEnd_toEndOf="@id/filterLayoutMotion"
             app:layout_constraintStart_toStartOf="@id/filterLayoutMotion"
-            app:layout_constraintTop_toTopOf="@id/filterLayoutMotion"
-            />
+            app:layout_constraintTop_toTopOf="@id/filterLayoutMotion" />
     </ConstraintSet>
 
     <ConstraintSet
@@ -56,16 +53,15 @@
         >
         <Constraint
             android:id="@id/fabMotion"
-            android:alpha="1"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
+            android:alpha="1"
             app:layout_constraintBottom_toBottomOf="@id/filterLayoutMotion"
             app:layout_constraintEnd_toEndOf="@id/filterLayoutMotion"
             app:layout_constraintStart_toStartOf="@id/filterLayoutMotion"
-            app:layout_constraintTop_toTopOf="@id/filterLayoutMotion"
-            />
+            app:layout_constraintTop_toTopOf="@id/filterLayoutMotion" />
 
         <Constraint
             android:id="@+id/expansionBackground"
@@ -79,7 +75,7 @@
             app:layout_constraintTop_toTopOf="@id/filterLayoutMotion">
             <CustomAttribute
                 app:attributeName="radius"
-                app:customDimension="36dp"/>
+                app:customDimension="36dp" />
         </Constraint>
     </ConstraintSet>
     <ConstraintSet
@@ -95,42 +91,38 @@
             app:layout_constraintBottom_toBottomOf="@id/filterLayoutMotion"
             app:layout_constraintEnd_toEndOf="@id/filterLayoutMotion"
             app:layout_constraintStart_toStartOf="@id/filterLayoutMotion"
-            app:layout_constraintTop_toTopOf="@id/filterLayoutMotion"
-            >
+            app:layout_constraintTop_toTopOf="@id/filterLayoutMotion">
             <CustomAttribute
                 app:attributeName="radius"
-                app:customDimension="0dp"/>
+                app:customDimension="0dp" />
         </Constraint>
 
         <Constraint
             android:id="@id/fabMotion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha="0"
-            android:visibility="invisible"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
+            android:alpha="0"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-           />
+            app:layout_constraintStart_toStartOf="parent" />
         <Constraint
             android:id="@id/filterLayoutMotion"
-            android:visibility="visible"
-            android:alpha="1"
-            android:elevation="32dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:alpha="1"
+            android:elevation="32dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
     </ConstraintSet>
 
     <ConstraintSet
         android:id="@+id/filterLayoutSetle"
-        app:deriveConstraintsFrom="@id/filterExpansionEnd"
-        >
+        app:deriveConstraintsFrom="@id/filterExpansionEnd">
 
 
     </ConstraintSet>
@@ -153,8 +145,8 @@
     </Transition>
 
     <Transition
-        app:constraintSetStart="@id/filterExpansionStart"
         app:constraintSetEnd="@id/filterExpansionEnd"
+        app:constraintSetStart="@id/filterExpansionStart"
         app:duration="5000"
         app:layoutDuringTransition="honorRequest">
         <KeyFrameSet>
@@ -162,24 +154,19 @@
                 app:framePosition="80"
                 app:motionTarget="@id/expansionBackground"
                 app:percentHeight="1"
-                app:percentWidth="1"
-                />
+                app:percentWidth="1" />
             <KeyAttribute
-                app:motionTarget="@id/expansionBackground"
                 app:framePosition="80"
-                >
+                app:motionTarget="@id/expansionBackground">
                 <CustomAttribute
                     app:attributeName="radius"
-                    app:customDimension="160dp"
-                    />
+                    app:customDimension="160dp" />
             </KeyAttribute>
             <KeyAttribute
-                app:motionTarget="@id/filterLayoutMotion"
-                app:framePosition="99"
                 android:alpha="0"
                 android:elevation="0dp"
-                >
-            </KeyAttribute>
+                app:framePosition="99"
+                app:motionTarget="@id/filterLayoutMotion"></KeyAttribute>
         </KeyFrameSet>
     </Transition>
 </MotionScene>
