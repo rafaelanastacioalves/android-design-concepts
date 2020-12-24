@@ -11,9 +11,17 @@
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
             android:visibility="visible"
-            app:layout_constraintTop_toTopOf="@+id/viewPager">
-            />
-        </Constraint>
+            app:layout_constraintTop_toTopOf="@+id/viewPager" />
+
+        <Constraint
+            android:id="@+id/buttonsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:alpha="0"
+            android:background="@color/bottom_bar_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewPager" />
+
     </ConstraintSet>
 
     <ConstraintSet
@@ -28,8 +36,16 @@
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@id/viewPager">
-        </Constraint>
+            app:layout_constraintBottom_toTopOf="@id/viewPager"></Constraint>
+
+        <Constraint
+            android:id="@+id/buttonsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:alpha="1"
+            android:background="@color/bottom_bar_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewPager" />
     </ConstraintSet>
 
     <Transition

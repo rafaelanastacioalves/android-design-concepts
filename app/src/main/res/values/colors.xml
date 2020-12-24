@@ -15,11 +15,11 @@
 	<color name="ciano">#356E8C</color>
 	<color name="DarkGreen">#018097</color>
 
-
+	<color name="bottom_bar_color">#33779C</color>
 
 
 	<!--	Expand Collapse Animation  -->
-	<color name="title_color"> #84D6DE</color>
+	<color name="title_color">#84D6DE</color>
 	<color name="subtitle_color">#B0E7EF</color>
 	<color name="container_collapsed">#E2FAFF</color>
 
