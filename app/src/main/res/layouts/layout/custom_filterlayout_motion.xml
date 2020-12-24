@@ -13,8 +13,10 @@
 
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:id="@+id/motionLayout"
+        android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:motionDebug="SHOW_ALL"
         app:layoutDescription="@xml/custom_filterlayout_motion_scene">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -25,9 +27,8 @@
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
-            android:translationY="@dimen/customLayoutTabMaxHeight"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@id/viewPager"
+            app:layout_constraintTop_toTopOf="@id/viewPager"
             tools:layout_height="@dimen/customLayoutTabMaxHeight"
             tools:listitem="@layout/custom_filterlayout_viewpager_recyclerview_tab_viewholder"
             tools:translationY="0dp"
@@ -40,15 +41,16 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
-            app:layout_constraintBottom_toTopOf="@id/button_background"
+            app:layout_constraintBottom_toTopOf="@id/buttonsContainer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/custom_filterlayout_viewpager_item_holder_3" />
+            tools:listitem="@layout/custom_filterlayout_viewpager_item_holder_1" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/buttonsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/viewPager">
 
             <View

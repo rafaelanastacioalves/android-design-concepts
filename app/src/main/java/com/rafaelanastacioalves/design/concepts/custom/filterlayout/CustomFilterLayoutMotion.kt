@@ -32,7 +32,7 @@ class FilterLayoutMotion @JvmOverloads constructor(
         gravity = Gravity.BOTTOM
         orientation = VERTICAL
         //TODO: Refactor - esses métodos poderiam estar encapsulados... no mínimo
-        background = resources.getDrawable(R.color.DarkGreen)
+//        background = resources.getDrawable(R.color.DarkGreen)
         inflate(context, R.layout.custom_filterlayout_motion, this)
         customFilterLayoutHandler = CustomFilterLayoutHandler(button_background, viewpagerTabRecyclerview, viewPager)
         calculateTabDimensions()

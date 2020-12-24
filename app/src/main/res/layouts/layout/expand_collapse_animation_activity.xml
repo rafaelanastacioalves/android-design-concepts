@@ -54,6 +54,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 	<androidx.constraintlayout.motion.widget.MotionLayout
+		app:motionDebug="SHOW_ALL"
 		android:visibility="visible"
 		android:id="@+id/constraintMotion"
 		android:layout_width="match_parent"
