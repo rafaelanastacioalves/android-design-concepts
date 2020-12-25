@@ -41,53 +41,57 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
-            app:layout_constraintBottom_toTopOf="@id/buttonsContainer"
+            app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/custom_filterlayout_viewpager_item_holder_1" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/buttonsContainer"
+
+        <View
+            android:id="@+id/buttonsBarTopGuideline"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/button_background"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:background="@color/bottom_bar_color"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewPager"
+            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline" />
 
-            >
-
-            <View
-                android:id="@+id/button_background"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
-                android:id="@+id/dismissButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/button_background"
-                app:srcCompat="@drawable/ic_close"
-                app:tint="@color/colorWhite"
-                tools:visibility="visible" />
+        <ImageView
+            android:id="@+id/dismissButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline"
+            tools:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
+            tools:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_close"
+            app:tint="@color/colorWhite"
+            tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/okButton"
                 android:layout_width="wrap_content"
                 android:layout_height="56dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline"
                 app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
-                app:layout_constraintTop_toTopOf="@id/button_background"
+                tools:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/ic_filter"
                 app:tint="@color/colorWhite"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+
+                />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineVertical"
@@ -98,6 +102,5 @@
                 app:layout_constraintGuide_percent="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </merge>

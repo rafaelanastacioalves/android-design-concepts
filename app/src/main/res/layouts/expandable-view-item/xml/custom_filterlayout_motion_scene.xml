@@ -14,13 +14,38 @@
             app:layout_constraintTop_toTopOf="@+id/viewPager" />
 
         <Constraint
-            android:id="@+id/buttonsContainer"
+            android:id="@+id/button_background"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:alpha="0"
             android:background="@color/bottom_bar_color"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewPager" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline" />
+        <Constraint
+            android:id="@+id/dismissButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:foregroundGravity="left"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline"
+            app:srcCompat="@drawable/ic_close"
+            app:tint="@color/colorWhite" />
+
+        <Constraint
+            android:id="@+id/okButton"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:alpha="0"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
+            app:layout_constraintTop_toTopOf="@+id/buttonsBarTopGuideline"
+            app:srcCompat="@drawable/ic_filter"
+            app:tint="@color/colorWhite" />
 
     </ConstraintSet>
 
@@ -36,16 +61,45 @@
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@id/viewPager"></Constraint>
+            app:layout_constraintBottom_toTopOf="@id/viewPager" />
 
         <Constraint
-            android:id="@+id/buttonsContainer"
+            android:id="@+id/button_background"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:alpha="1"
             android:background="@color/bottom_bar_color"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewPager" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline"
+
+            />
+
+        <Constraint
+            android:id="@+id/dismissButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="1"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline"
+            app:srcCompat="@drawable/ic_close"
+            app:tint="@color/colorWhite" />
+
+        <Constraint
+            android:id="@+id/okButton"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:alpha="1"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
+            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline"
+            app:srcCompat="@drawable/ic_filter"
+            app:tint="@color/colorWhite" />
     </ConstraintSet>
 
     <Transition
