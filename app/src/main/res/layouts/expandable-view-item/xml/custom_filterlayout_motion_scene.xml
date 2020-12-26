@@ -14,6 +14,19 @@
             app:layout_constraintTop_toTopOf="@+id/viewPager" />
 
         <Constraint
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
+            android:background="@color/DarkGreen"
+            android:translationY="32dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Constraint
             android:id="@+id/button_background"
             android:layout_width="match_parent"
             android:layout_height="64dp"
@@ -62,6 +75,19 @@
             android:paddingHorizontal="32dp"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/viewPager" />
+
+        <Constraint
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
+            android:background="@color/DarkGreen"
+            android:translationY="0dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <Constraint
             android:id="@+id/button_background"

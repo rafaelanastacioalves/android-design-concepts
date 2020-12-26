@@ -41,10 +41,10 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
+            android:translationY="32dp"
             app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/custom_filterlayout_viewpager_item_holder_1" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <View

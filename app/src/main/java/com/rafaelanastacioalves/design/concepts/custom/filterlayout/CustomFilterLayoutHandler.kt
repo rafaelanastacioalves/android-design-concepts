@@ -130,7 +130,7 @@ class CustomFilterLayoutHandler(private val button_background: View,
 
             button_background.backgroundTintList = ColorStateList.valueOf(
                     Utils.mergeColors(
-                            resources.getColor(R.color.lightGreen),
+                            resources.getColor(R.color.bottom_bar_color),
                             resources.getColor(R.color.colorAccent),
                             progress
                     )
