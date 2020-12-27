@@ -10,6 +10,7 @@ import androidx.core.animation.doOnStart
 import androidx.core.view.doOnPreDraw
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.common.Utils
+import kotlinx.android.synthetic.main.custom_filterlayout_motion.view.*
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
 import kotlin.math.roundToInt
 
@@ -133,13 +134,30 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
     private fun closeFilterWithMotionAnimation() {
 
-        val expansonAnimator = filterLayoutMotion.animateOpening(isForward = false)
-//        expansonAnimator.doOnEnd {
-//            activity.constraintMotion.setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
-//            activity.constraintMotion.progress = 1f
-//            activity.constraintMotion.transitionToStart()
-//        }
+        filterLayoutMotion.motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+            }
 
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+            }
+
+            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+                when (p1) {
+                    R.id.filterOpeningStart -> {
+                        activity.constraintMotion.run {
+                            progress = 1f
+                            setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
+                            transitionToStart()
+                        }
+                    }
+                }
+            }
+
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+            }
+
+        })
+        filterLayoutMotion.animateOpening(isForward = false)
 
         //TODO: Refactor - Dá pra colocar isso daqui no início?
         activity.constraintMotion.setTransitionListener(object : MotionLayout.TransitionListener {
@@ -157,6 +175,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                         activity.constraintMotion.removeTransitionListener(this)
                     }
                     R.id.filterExpansionStart -> {
+                        // TODO: Refactor - repetição... (27/12/2020)
                         activity.constraintMotion.setTransition(R.id.fabOpeningStart, R.id.fabOpeningEnd)
                         activity.constraintMotion.progress = 1f
                         activity.constraintMotion.transitionToStart()

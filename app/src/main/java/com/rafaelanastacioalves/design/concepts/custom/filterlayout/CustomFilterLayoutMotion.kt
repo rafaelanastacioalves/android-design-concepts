@@ -8,8 +8,8 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import com.rafaelanastacioalves.design.concepts.R
+import kotlinx.android.synthetic.main.custom_filterlayout.view.*
 import kotlinx.android.synthetic.main.custom_filterlayout.view.button_background
-import kotlinx.android.synthetic.main.custom_filterlayout.view.buttonsContainer
 import kotlinx.android.synthetic.main.custom_filterlayout.view.dismissButton
 import kotlinx.android.synthetic.main.custom_filterlayout.view.okButton
 import kotlinx.android.synthetic.main.custom_filterlayout.view.viewPager
@@ -71,7 +71,16 @@ class FilterLayoutMotion @JvmOverloads constructor(
 
     fun animateOpening(isForward: Boolean) {
         motionLayout.setTransition(R.id.filterOpeningStart, R.id.filterOpeningEnd)
-        motionLayout.transitionToState(R.id.filterOpeningEnd)
+        if (isForward) {
+            motionLayout.transitionToState(R.id.filterOpeningEnd)
+        } else {
+            motionLayout.run {
+                progress = 1f
+                transitionToStart()
+            }
+
+
+        }
     }
 
     private fun calculateTabDimensions() {
