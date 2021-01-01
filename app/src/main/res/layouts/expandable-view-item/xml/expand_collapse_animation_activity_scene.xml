@@ -14,13 +14,26 @@
             app:layout_constraintStart_toStartOf="parent" />
         <Constraint
             android:id="@+id/fabMotion"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:elevation="32dp"
+            app:layout_constraintBottom_toBottomOf="@id/expansionBackground"
+            app:layout_constraintEnd_toEndOf="@id/expansionBackground"
+            app:layout_constraintStart_toStartOf="@id/expansionBackground"
+            app:layout_constraintTop_toTopOf="@id/expansionBackground"
+            app:srcCompat="@drawable/ic_filter"
+            app:tint="@color/colorWhite" />
+        <Constraint
+            android:id="@+id/expansionBackground"
             android:layout_width="72dp"
             android:layout_height="72dp"
+            android:foregroundGravity="center"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:cardCornerRadius="36dp"
             app:layout_constraintEnd_toEndOf="parent" />
-
     </ConstraintSet>
 
     <ConstraintSet
@@ -36,11 +49,25 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Constraint
-            android:id="@id/fabMotion"
+            android:id="@+id/expansionBackground"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/filterLayoutMotion"
+            app:layout_constraintEnd_toEndOf="@id/filterLayoutMotion"
+            app:layout_constraintStart_toStartOf="@id/filterLayoutMotion"
+            android:foregroundGravity="center"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            app:cardCornerRadius="36dp"
+            app:layout_constraintTop_toTopOf="@id/filterLayoutMotion" />
+        <Constraint
+            android:id="@id/fabMotion"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:elevation="32dp"
             app:layout_constraintBottom_toBottomOf="@id/filterLayoutMotion"
             app:layout_constraintEnd_toEndOf="@id/filterLayoutMotion"
             app:layout_constraintStart_toStartOf="@id/filterLayoutMotion"
@@ -61,10 +88,11 @@
             app:layout_constraintStart_toStartOf="parent" />
         <Constraint
             android:id="@id/fabMotion"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
+            android:elevation="32dp"
             android:alpha="1"
             app:layout_constraintBottom_toBottomOf="@id/filterLayoutMotion"
             app:layout_constraintEnd_toEndOf="@id/filterLayoutMotion"
@@ -108,11 +136,12 @@
         <Constraint
             android:id="@id/fabMotion"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginBottom="4dp"
+            android:elevation="32dp"
+            android:visibility="visible"
             android:alpha="0"
-            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -136,8 +165,8 @@
     </ConstraintSet>
 
     <Transition
-        app:constraintSetEnd="@id/fabOpeningEnd"
         app:constraintSetStart="@id/fabOpeningStart"
+        app:constraintSetEnd="@id/fabOpeningEnd"
         app:duration="5000"
         app:layoutDuringTransition="honorRequest">
         <KeyFrameSet>
@@ -145,6 +174,12 @@
                 app:framePosition="50"
                 app:keyPositionType="deltaRelative"
                 app:motionTarget="@id/fabMotion"
+                app:percentX="0.85"
+                app:percentY="0.15" />
+            <KeyPosition
+                app:framePosition="50"
+                app:keyPositionType="deltaRelative"
+                app:motionTarget="@id/expansionBackground"
                 app:percentX="0.85"
                 app:percentY="0.15" />
         </KeyFrameSet>
@@ -174,7 +209,11 @@
                 android:alpha="0"
                 android:elevation="0dp"
                 app:framePosition="99"
-                app:motionTarget="@id/filterLayoutMotion"></KeyAttribute>
+                app:motionTarget="@id/filterLayoutMotion" />
+            <KeyAttribute
+                android:alpha="1"
+                app:framePosition="99"
+                app:motionTarget="@id/fabMotion" />
         </KeyFrameSet>
     </Transition>
 </MotionScene>

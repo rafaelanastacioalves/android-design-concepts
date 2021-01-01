@@ -68,23 +68,22 @@
         <ImageView
             android:id="@+id/dismissButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:layout_height="56dp"
+            android:layout_marginBottom="4dp"
+            android:alpha="0"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline"
-            tools:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
-            tools:layout_constraintStart_toStartOf="parent"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/ic_close"
-            app:tint="@color/colorWhite"
-            tools:visibility="visible" />
+            app:tint="@color/colorWhite" />
 
             <ImageView
                 android:id="@+id/okButton"
                 android:layout_width="wrap_content"
                 android:layout_height="56dp"
                 android:visibility="visible"
+                android:layout_marginBottom="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline"
                 app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
                 tools:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/ic_filter"

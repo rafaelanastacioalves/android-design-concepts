@@ -118,6 +118,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
                     }
                     R.id.filterExpansionEnd -> {
+                        activity.hideFab()
                         filterLayoutMotion.animateOpening(true)
                         activity.constraintMotion.removeTransitionListener(this)
                     }
@@ -158,6 +159,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
         })
         filterLayoutMotion.animateOpening(isForward = false)
+        activity.showFab()
 
         //TODO: Refactor - Dá pra colocar isso daqui no início?
         activity.constraintMotion.setTransitionListener(object : MotionLayout.TransitionListener {

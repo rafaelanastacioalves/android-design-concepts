@@ -66,28 +66,26 @@
 			android:id="@+id/expansionBackground"
 			android:layout_width="72dp"
 			android:layout_height="72dp"
-			android:visibility="gone"
 			app:cardBackgroundColor="@color/colorPrimaryDark"
 			app:cardCornerRadius="36dp"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			tools:visibility="visible"
-			/>
 
-		<com.google.android.material.floatingactionbutton.FloatingActionButton
-			android:id="@+id/fabMotion"
-			android:layout_width="72dp"
-			android:layout_height="72dp"
 			android:layout_marginEnd="16dp"
 			android:layout_marginBottom="16dp"
-			android:backgroundTint="@color/colorPrimaryDark"
-			android:clickable="true"
-			android:tint="@color/lightGrey"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:srcCompat="@drawable/ic_filter" />
+			android:foregroundGravity="center" />
+
+		<ImageView
+			android:id="@+id/fabMotion"
+			android:layout_width="wrap_content"
+			android:layout_height="56dp"
+			android:elevation="32dp"
+			app:layout_constraintBottom_toBottomOf="@id/expansionBackground"
+			app:layout_constraintEnd_toEndOf="@id/expansionBackground"
+			app:layout_constraintStart_toStartOf="@id/expansionBackground"
+			app:layout_constraintTop_toTopOf="@id/expansionBackground"
+			app:srcCompat="@drawable/ic_filter"
+			app:tint="@color/colorWhite" />
 
 		<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutMotion
 			android:id="@+id/filterLayoutMotion"

@@ -38,13 +38,12 @@
         <Constraint
             android:id="@+id/dismissButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:alpha="0"
-            android:foregroundGravity="left"
-            android:visibility="visible"
+            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline"
             app:srcCompat="@drawable/ic_close"
             app:tint="@color/colorWhite" />
 
@@ -52,11 +51,11 @@
             android:id="@+id/okButton"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
-            android:alpha="0"
             android:visibility="visible"
+            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
-            app:layout_constraintTop_toTopOf="@+id/buttonsBarTopGuideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/ic_filter"
             app:tint="@color/colorWhite" />
 
@@ -104,32 +103,32 @@
         <Constraint
             android:id="@+id/dismissButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:alpha="1"
             android:visibility="visible"
+            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline"
             app:srcCompat="@drawable/ic_close"
             app:tint="@color/colorWhite" />
 
+        // TODO: Refactor - marginbottom repetido.... (31/12/2020)
         <Constraint
             android:id="@+id/okButton"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
-            android:alpha="1"
             android:visibility="visible"
+            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
-            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline"
             app:srcCompat="@drawable/ic_filter"
             app:tint="@color/colorWhite" />
     </ConstraintSet>
 
     <Transition
-        app:constraintSetEnd="@id/filterOpeningEnd"
         app:constraintSetStart="@+id/filterOpeningStart"
+        app:constraintSetEnd="@id/filterOpeningEnd"
         app:duration="2000" />
 </MotionScene>
