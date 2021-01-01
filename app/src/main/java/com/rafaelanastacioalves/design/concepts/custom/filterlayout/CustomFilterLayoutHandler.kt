@@ -50,11 +50,11 @@ class CustomFilterLayoutHandler(private val button_background: View,
                     animateToPosition(calculateScrollBy(positionOffset, position))
                     //TODO: Refatorar essa parte ta muito pesado ...
                     currentHolder = viewpagerTabRecyclerview
-                            .findViewHolderForAdapterPosition(position) as TabViewHolder
+                            .findViewHolderForAdapterPosition(position) as TabViewHolder? ?: return
                     nextHolder = viewpagerTabRecyclerview
                             .findViewHolderForAdapterPosition(position + 1) as TabViewHolder
                     suppressLayout(false)
-                    currentHolder.setPercentActivated(1-positionOffset)
+                    currentHolder.setPercentActivated(1 - positionOffset)
                     nextHolder.setPercentActivated(positionOffset)
                     suppressLayout(true)
                     if (position > currentPosition || positionOffset == 0F) {

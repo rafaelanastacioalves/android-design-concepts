@@ -19,6 +19,18 @@
         app:motionDebug="SHOW_ALL"
         app:layoutDescription="@xml/custom_filterlayout_motion_scene">
 
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
+            android:background="@color/DarkGreen"
+            android:elevation="33dp"
+            android:translationY="32dp"
+            app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:background="@color/DarkGreen"
             android:id="@+id/viewpagerTabRecyclerview"
@@ -34,17 +46,7 @@
             tools:translationY="0dp"
             tools:visibility="visible" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:background="@color/DarkGreen"
 
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
-            android:translationY="32dp"
-            app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
         <View

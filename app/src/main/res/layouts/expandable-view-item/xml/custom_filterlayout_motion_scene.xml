@@ -3,15 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/filterOpeningStart">
-        <Constraint
-            android:id="@+id/viewpagerTabRecyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/customLayoutTabMaxHeight"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:paddingHorizontal="32dp"
-            android:visibility="visible"
-            app:layout_constraintTop_toTopOf="@+id/viewPager" />
 
         <Constraint
             android:id="@+id/viewPager"
@@ -19,11 +10,23 @@
             android:layout_height="300dp"
             android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
             android:background="@color/DarkGreen"
+            android:elevation="33dp"
             android:translationY="32dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Constraint
+            android:id="@+id/viewpagerTabRecyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/customLayoutTabMaxHeight"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="32dp"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="@+id/viewPager" />
 
 
         <Constraint
@@ -64,6 +67,20 @@
     <ConstraintSet
         android:id="@+id/filterOpeningEnd"
         app:deriveConstraintsFrom="@+id/filterOpeningStart">
+
+        <Constraint
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
+            android:background="@color/DarkGreen"
+            android:elevation="33dp"
+            android:translationY="0dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         //TODO: Refactor - o height pode ser extraido para ser usado no em outros lugares ...
         <Constraint
             android:id="@+id/viewpagerTabRecyclerview"
@@ -75,17 +92,6 @@
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/viewPager" />
 
-        <Constraint
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
-            android:background="@color/DarkGreen"
-            android:translationY="0dp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
         <Constraint

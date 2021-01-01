@@ -35,7 +35,7 @@ class FilterLayoutMotion @JvmOverloads constructor(
 //        background = resources.getDrawable(R.color.DarkGreen)
         inflate(context, R.layout.custom_filterlayout_motion, this)
         customFilterLayoutHandler = CustomFilterLayoutHandler(button_background, viewpagerTabRecyclerview, viewPager)
-        calculateTabDimensions()
+//        calculateTabDimensions()
     }
 
     fun setFilterLayoutCallbacksListeners(delegate: FilterLayoutContract) {
