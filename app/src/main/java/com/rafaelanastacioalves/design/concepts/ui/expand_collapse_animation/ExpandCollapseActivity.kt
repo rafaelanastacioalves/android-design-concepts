@@ -9,6 +9,7 @@ import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutContract
 import com.rafaelanastacioalves.design.concepts.domain.entities.FakeData
 import com.rafaelanastacioalves.design.concepts.domain.entities.Resource
+import kotlinx.android.synthetic.main.custom_filterlayout_motion.view.*
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
 
 
@@ -43,17 +44,19 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     }
 
     private fun setupFab() {
-        fabMotion.setOnClickListener {
+
+        // TODO: Refactor - esses metodozihos deviam ser atribuição da claasse filterLayoutMotion... (02/01/2021)
+        filterLayoutMotion.fabMotion.setOnClickListener {
             animationDelegateMotion.animateFilterShowUp(true)
         }
     }
 
     internal fun hideFab() {
-        fabMotion.isVisible = false
+        filterLayoutMotion.fabMotion.isVisible = false
     }
 
     internal fun showFab() {
-        fabMotion.isVisible = true
+        filterLayoutMotion.fabMotion.isVisible = true
     }
 
     internal fun showFilter() {

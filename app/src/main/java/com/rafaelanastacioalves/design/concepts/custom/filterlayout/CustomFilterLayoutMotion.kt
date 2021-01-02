@@ -11,7 +11,6 @@ import com.rafaelanastacioalves.design.concepts.R
 import kotlinx.android.synthetic.main.custom_filterlayout.view.*
 import kotlinx.android.synthetic.main.custom_filterlayout.view.button_background
 import kotlinx.android.synthetic.main.custom_filterlayout.view.dismissButton
-import kotlinx.android.synthetic.main.custom_filterlayout.view.okButton
 import kotlinx.android.synthetic.main.custom_filterlayout.view.viewPager
 import kotlinx.android.synthetic.main.custom_filterlayout.view.viewpagerTabRecyclerview
 import kotlinx.android.synthetic.main.custom_filterlayout_motion.view.*
@@ -44,13 +43,13 @@ class FilterLayoutMotion @JvmOverloads constructor(
     }
 
     private fun setupListeners() {
-        okButton.setOnClickListener {
-            delegate.onFilterDismiss()
-        }
-
-        dismissButton.setOnClickListener {
-            delegate.onFilterDismiss()
-        }
+//        okButton.setOnClickListener {
+//            delegate.onFilterDismiss()
+//        }
+//
+//        dismissButton.setOnClickListener {
+//            delegate.onFilterDismiss()
+//        }
     }
 
 
@@ -70,9 +69,9 @@ class FilterLayoutMotion @JvmOverloads constructor(
 
 
     fun animateOpening(isForward: Boolean) {
-        motionLayout.setTransition(R.id.filterOpeningStart, R.id.filterOpeningEnd)
+        motionLayout.setTransition(R.id.filterSettleStart, R.id.filterSettleEnd)
         if (isForward) {
-            motionLayout.transitionToState(R.id.filterOpeningEnd)
+            motionLayout.transitionToState(R.id.filterSettleEnd)
         } else {
             motionLayout.run {
                 progress = 1f

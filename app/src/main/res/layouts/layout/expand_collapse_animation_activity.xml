@@ -53,48 +53,15 @@
             tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-	<androidx.constraintlayout.motion.widget.MotionLayout
-		app:motionDebug="SHOW_ALL"
-		android:visibility="visible"
-		android:id="@+id/constraintMotion"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		tools:context=".ui.expand_collapse_animation.ExpandCollapseActivity"
-		app:layoutDescription="@xml/expand_collapse_animation_activity_scene">
 
-		<com.rafaelanastacioalves.design.concepts.custom.circularcardview.CircularCardView
-			android:id="@+id/expansionBackground"
-			android:layout_width="72dp"
-			android:layout_height="72dp"
-			app:cardBackgroundColor="@color/colorPrimaryDark"
-			app:cardCornerRadius="36dp"
-
-			android:layout_marginEnd="16dp"
-			android:layout_marginBottom="16dp"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			android:foregroundGravity="center" />
-
-		<ImageView
-			android:id="@+id/fabMotion"
-			android:layout_width="wrap_content"
-			android:layout_height="56dp"
-			android:elevation="32dp"
-			app:layout_constraintBottom_toBottomOf="@id/expansionBackground"
-			app:layout_constraintEnd_toEndOf="@id/expansionBackground"
-			app:layout_constraintStart_toStartOf="@id/expansionBackground"
-			app:layout_constraintTop_toTopOf="@id/expansionBackground"
-			app:srcCompat="@drawable/ic_filter"
-			app:tint="@color/colorWhite" />
 
 		<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutMotion
 			android:id="@+id/filterLayoutMotion"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:visibility="gone"
+			android:layout_height="match_parent"
+			android:visibility="visible"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			tools:visibility="gone" />
-	</androidx.constraintlayout.motion.widget.MotionLayout>
+			tools:visibility="visible" />
 </FrameLayout>

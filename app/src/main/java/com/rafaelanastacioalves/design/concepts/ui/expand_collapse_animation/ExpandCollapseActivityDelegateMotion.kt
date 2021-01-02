@@ -22,8 +22,8 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
     private var fabMiddlePosition: Float = 0f
 
     private val filterLayoutMotion = activity.filterLayoutMotion
-    private val expansionBackground = activity.expansionBackground
-    private val fab = activity.fabMotion
+    private val expansionBackground = activity.filterLayoutMotion.expansionBackground
+    private val fab = activity.filterLayoutMotion.fabMotion
 
     private val expandCollapseAdapter = activity.expandCollapseAdapter
 
@@ -37,7 +37,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                 fab.y = fabMiddlePosition + (activity.screenHeight - 600f - 400f) * (progress)
                 it.layoutParams.height = (progress * it.withoutTabsHeight.toFloat()).toInt()
 //            println("Height: ${filterLayout.layoutParams.height}")
-                activity.constraintMotion.requestLayout()
+                activity.filterLayoutMotion.requestLayout()
             }
         }
         valueAnimator.doOnStart {
@@ -97,10 +97,11 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
     }
 
     private fun openFilterWithMotionAnimation() {
-        activity.constraintMotion.setTransition(R.id.fabOpeningStart, R.id.fabOpeningEnd)
+        // TODO: Refactor - olha quantas vezes "filterLayoutMotion.motionLayout" é chamado... (02/01/2021)
+        activity.filterLayoutMotion.motionLayout.setTransition(R.id.fabOpeningStart, R.id.fabOpeningEnd)
 
         //TODO: Refactor - Dá pra colocar isso daqui no início?
-        activity.constraintMotion.setTransitionListener(object : MotionLayout.TransitionListener {
+        activity.filterLayoutMotion.motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
             }
 
@@ -113,14 +114,14 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                         Toast.makeText(activity, "Deu certo!", Toast.LENGTH_SHORT).show()
                         calculateFabPosition()
 
-                        activity.constraintMotion.setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
-                        activity.constraintMotion.transitionToState(R.id.filterExpansionEnd)
+                        activity.filterLayoutMotion.motionLayout.setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
+                        activity.filterLayoutMotion.motionLayout.transitionToState(R.id.filterExpansionEnd)
 
                     }
                     R.id.filterExpansionEnd -> {
                         activity.hideFab()
                         filterLayoutMotion.animateOpening(true)
-                        activity.constraintMotion.removeTransitionListener(this)
+                        activity.filterLayoutMotion.motionLayout.removeTransitionListener(this)
                     }
                 }
             }
@@ -130,7 +131,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
         })
 
-        activity.constraintMotion.transitionToState(R.id.fabOpeningEnd)
+        activity.filterLayoutMotion.motionLayout.transitionToState(R.id.fabOpeningEnd)
     }
 
     private fun closeFilterWithMotionAnimation() {
@@ -144,8 +145,8 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
             override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
                 when (p1) {
-                    R.id.filterOpeningStart -> {
-                        activity.constraintMotion.run {
+                    R.id.filterSettleStart -> {
+                        activity.filterLayoutMotion.motionLayout.run {
                             progress = 1f
                             setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
                             transitionToStart()
@@ -162,7 +163,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
         activity.showFab()
 
         //TODO: Refactor - Dá pra colocar isso daqui no início?
-        activity.constraintMotion.setTransitionListener(object : MotionLayout.TransitionListener {
+        activity.filterLayoutMotion.motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
 
             }
@@ -174,13 +175,13 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
                 when (p1) {
                     R.id.fabOpeningEnd -> {
-                        activity.constraintMotion.removeTransitionListener(this)
+                        activity.filterLayoutMotion.motionLayout.removeTransitionListener(this)
                     }
                     R.id.filterExpansionStart -> {
                         // TODO: Refactor - repetição... (27/12/2020)
-                        activity.constraintMotion.setTransition(R.id.fabOpeningStart, R.id.fabOpeningEnd)
-                        activity.constraintMotion.progress = 1f
-                        activity.constraintMotion.transitionToStart()
+                        activity.filterLayoutMotion.motionLayout.setTransition(R.id.fabOpeningStart, R.id.fabOpeningEnd)
+                        activity.filterLayoutMotion.motionLayout.progress = 1f
+                        activity.filterLayoutMotion.motionLayout.transitionToStart()
                     }
                 }
             }

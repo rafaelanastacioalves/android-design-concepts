@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/filterLayoutContainer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:gravity="bottom"
     android:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:motionDebug="SHOW_ALL"
+        app:currentState="@id/fabOpeningStart"
         app:layoutDescription="@xml/custom_filterlayout_motion_scene">
 
         <androidx.viewpager2.widget.ViewPager2
@@ -27,9 +28,9 @@
             android:background="@color/DarkGreen"
             android:elevation="33dp"
             android:translationY="32dp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:background="@color/DarkGreen"
@@ -39,7 +40,7 @@
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintTop_toTopOf="@id/viewPager"
             tools:layout_height="@dimen/customLayoutTabMaxHeight"
             tools:listitem="@layout/custom_filterlayout_viewpager_recyclerview_tab_viewholder"
@@ -74,35 +75,47 @@
             android:layout_height="56dp"
             android:layout_marginBottom="4dp"
             android:alpha="0"
+            android:elevation="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/ic_close"
             app:tint="@color/colorWhite" />
 
-            <ImageView
-                android:id="@+id/okButton"
-                android:layout_width="wrap_content"
-                android:layout_height="56dp"
-                android:visibility="visible"
-                android:layout_marginBottom="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
-                tools:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/ic_filter"
-                app:tint="@color/colorWhite"
-                tools:visibility="visible"
 
-                />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineVertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintGuide_percent="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.rafaelanastacioalves.design.concepts.custom.circularcardview.CircularCardView
+            android:id="@+id/expansionBackground"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+
+            android:foregroundGravity="center"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            app:cardCornerRadius="36dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/fabMotion"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:elevation="32dp"
+            app:layout_constraintBottom_toBottomOf="@id/expansionBackground"
+            app:layout_constraintEnd_toEndOf="@id/expansionBackground"
+            app:layout_constraintStart_toStartOf="@id/expansionBackground"
+            app:layout_constraintTop_toTopOf="@id/expansionBackground"
+            app:srcCompat="@drawable/ic_filter"
+            app:tint="@color/colorWhite" />
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </merge>
