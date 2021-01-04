@@ -27,7 +27,7 @@
             android:id="@+id/viewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/DarkGreen"
+            android:background="@color/colorPrimaryDark"
             android:elevation="32dp"
             android:paddingBottom="64dp"
             android:translationY="32dp"
@@ -39,7 +39,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tabRecyclerview"
-            android:background="@color/DarkGreen"
+            android:background="@color/tab_bg_color"
             android:layout_width="match_parent"
             android:layout_height="@dimen/customLayoutTabMaxHeight"
             android:clipToPadding="false"
@@ -65,14 +65,15 @@
             />
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/buttonsBarBackground"
             android:layout_width="0dp"
             android:layout_height="64dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:visibility="invisible"
-            android:elevation="33dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="33dp"
             app:layout_constraintStart_toStartOf="parent" />
 
 
@@ -105,7 +106,7 @@
             android:layout_height="72dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:elevation="30dp"
+            app:cardElevation="30dp"
             android:foregroundGravity="center"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:cardCornerRadius="36dp"
