@@ -32,7 +32,7 @@ class FilterLayout @JvmOverloads constructor(
         orientation = VERTICAL
         background = resources.getDrawable(R.color.DarkGreen)
         inflate(context, R.layout.custom_filterlayout, this)
-        customFilterLayoutHandler = CustomFilterLayoutHandler(button_background, viewpagerTabRecyclerview, viewPager)
+        customFilterLayoutHandler = CustomFilterLayoutHandler(button_background, tabRecyclerview, viewPager)
         calculateTabDimensions()
     }
 
@@ -73,7 +73,7 @@ class FilterLayout @JvmOverloads constructor(
         dismissButton.alpha = progress
         okButton.x = width / 2 + (width / 4) * (progress)
         dismissButton.x = width / 2 - (width / 4) * (progress)
-        viewpagerTabRecyclerview.layoutParams.height = (tabMaxHeight * progress).toInt()
+        tabRecyclerview.layoutParams.height = (tabMaxHeight * progress).toInt()
         layoutParams.height = withoutTabsHeight + (tabMaxHeight * progress).roundToInt()
 //        println("With Tab Height: ${layoutParams.height}")
 

@@ -20,25 +20,31 @@
         app:currentState="@id/fabOpeningStart"
         app:layoutDescription="@xml/custom_filterlayout_motion_scene">
 
+        // TODO: Refactor - esse padding bottom pode ser extraido... refereciar o tamanho da barra
+        de botoes do filtro... (03/01/2021)
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@color/DarkGreen"
-            android:elevation="33dp"
+            android:elevation="32dp"
+            android:paddingBottom="64dp"
             android:translationY="32dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
+            app:layout_constraintEnd_toEndOf="@id/filterPlaceHolder"
+            app:layout_constraintStart_toStartOf="@id/filterPlaceHolder"
+            app:layout_constraintTop_toTopOf="@id/filterPlaceHolder" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tabRecyclerview"
             android:background="@color/DarkGreen"
-            android:id="@+id/viewpagerTabRecyclerview"
             android:layout_width="match_parent"
             android:layout_height="@dimen/customLayoutTabMaxHeight"
             android:clipToPadding="false"
             android:orientation="horizontal"
+            android:elevation="28dp"
             android:paddingHorizontal="32dp"
             android:visibility="invisible"
             app:layout_constraintTop_toTopOf="@id/viewPager"
@@ -47,27 +53,28 @@
             tools:translationY="0dp"
             tools:visibility="visible" />
 
-
-
-
         <View
-            android:id="@+id/buttonsBarTopGuideline"
+            android:id="@+id/filterPlaceHolder"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/buttonsBarBackground"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="invisible"
+            android:elevation="33dp"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <View
-            android:id="@+id/button_background"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="@android:color/transparent"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buttonsBarTopGuideline" />
 
         <ImageView
             android:id="@+id/dismissButton"
@@ -75,10 +82,9 @@
             android:layout_height="56dp"
             android:layout_marginBottom="4dp"
             android:alpha="0"
-            android:elevation="32dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/buttonsBarBackground"
             android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/buttonsBarBackground"
             app:srcCompat="@drawable/ic_close"
             app:tint="@color/colorWhite" />
 
@@ -99,7 +105,7 @@
             android:layout_height="72dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-
+            android:elevation="30dp"
             android:foregroundGravity="center"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:cardCornerRadius="36dp"
@@ -110,7 +116,7 @@
             android:id="@+id/fabMotion"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
-            android:elevation="32dp"
+            android:elevation="33dp"
             app:layout_constraintBottom_toBottomOf="@id/expansionBackground"
             app:layout_constraintEnd_toEndOf="@id/expansionBackground"
             app:layout_constraintStart_toStartOf="@id/expansionBackground"

@@ -5,21 +5,25 @@
     <ConstraintSet android:id="@+id/fabOpeningStart">
         <Constraint
             android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
             android:background="@color/DarkGreen"
-            android:elevation="33dp"
+            android:elevation="32dp"
             android:translationY="32dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
+            app:layout_constraintEnd_toEndOf="@id/filterPlaceHolder"
+            app:layout_constraintStart_toStartOf="@id/filterPlaceHolder"
+            app:layout_constraintTop_toTopOf="@id/filterPlaceHolder" />
         <Constraint
-            android:id="@+id/viewpagerTabRecyclerview"
+            android:id="@+id/tabRecyclerview"
             android:layout_width="match_parent"
             android:layout_height="@dimen/customLayoutTabMaxHeight"
             android:background="@color/DarkGreen"
             android:clipToPadding="false"
+            android:elevation="28dp"
+
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
             android:visibility="invisible"
@@ -27,14 +31,19 @@
 
             />
 
-        <View
-            android:id="@+id/buttonsBarTopGuideline"
+        // TODO: Refactor - experimentar remover isso, já que esta citado no layout inicial...
+        (04/01/2021)
+        <Constraint
+            android:id="@+id/buttonsBarBackground"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="64dp"
+            android:layout_height="64dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+
+            />
+
         <Constraint
             android:id="@+id/fabMotion"
             android:layout_width="wrap_content"
@@ -55,20 +64,23 @@
             android:foregroundGravity="center"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:cardCornerRadius="36dp"
+            android:elevation="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-        <ImageView
+
+        <Constraint
             android:id="@+id/dismissButton"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_marginBottom="4dp"
             android:alpha="0"
-            android:elevation="32dp"
+            android:elevation="33dp"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/buttonsBarBackground"
+            app:layout_constraintStart_toStartOf="@id/buttonsBarBackground"
             app:srcCompat="@drawable/ic_close"
             app:tint="@color/colorWhite" />
+
     </ConstraintSet>
 
     <ConstraintSet
@@ -85,6 +97,7 @@
             android:foregroundGravity="center"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:cardCornerRadius="36dp"
+            android:elevation="30dp"
             app:layout_constraintBottom_toBottomOf="@id/viewPager"
             app:layout_constraintEnd_toEndOf="@id/viewPager"
             app:layout_constraintStart_toStartOf="@id/viewPager"
@@ -95,7 +108,7 @@
             android:layout_height="56dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
-            android:elevation="32dp"
+            android:elevation="33dp"
             app:layout_constraintBottom_toBottomOf="@id/viewPager"
             app:layout_constraintEnd_toEndOf="@id/viewPager"
             app:layout_constraintStart_toStartOf="@id/viewPager"
@@ -106,6 +119,8 @@
         android:id="@+id/filterExpansionStart"
         app:deriveConstraintsFrom="@id/fabOpeningEnd">
         >
+
+
         <Constraint
             android:id="@id/fabMotion"
             android:layout_width="wrap_content"
@@ -113,7 +128,6 @@
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
             android:alpha="1"
-            android:elevation="32dp"
             app:layout_constraintBottom_toBottomOf="@id/viewPager"
             app:layout_constraintEnd_toEndOf="@id/viewPager"
             app:layout_constraintStart_toStartOf="@id/viewPager"
@@ -124,6 +138,8 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:visibility="visible"
+            android:elevation="30dp"
+
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="@id/viewPager"
             app:layout_constraintEnd_toEndOf="@id/viewPager"
@@ -134,6 +150,7 @@
                 app:customDimension="36dp" />
         </Constraint>
     </ConstraintSet>
+
     <ConstraintSet
         android:id="@+id/filterExpansionEnd"
         app:deriveConstraintsFrom="@id/filterExpansionStart">
@@ -143,8 +160,9 @@
             android:id="@+id/expansionBackground"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:elevation="30dp"
+
+            app:layout_constraintBottom_toBottomOf="@id/viewPager"
             app:layout_constraintEnd_toEndOf="@id/viewPager"
             app:layout_constraintStart_toStartOf="@id/viewPager"
             app:layout_constraintTop_toTopOf="@id/viewPager">
@@ -159,7 +177,6 @@
             android:layout_height="56dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="4dp"
-            android:elevation="32dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -171,28 +188,18 @@
     <ConstraintSet
         android:id="@+id/filterSettleStart"
         app:deriveConstraintsFrom="@id/filterExpansionEnd">
-
-
         <Constraint
-            android:id="@+id/viewpagerTabRecyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/customLayoutTabMaxHeight"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:paddingHorizontal="32dp"
-            android:visibility="invisible"
-            app:layout_constraintTop_toTopOf="@+id/viewPager" />
-
-
-        <Constraint
-            android:id="@+id/button_background"
-            android:layout_width="match_parent"
+            android:id="@+id/buttonsBarBackground"
+            android:layout_width="0dp"
             android:layout_height="64dp"
-            android:background="@android:color/transparent"
-            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+
+            />
+
+
         <Constraint
             android:id="@+id/dismissButton"
             android:layout_width="wrap_content"
@@ -200,8 +207,8 @@
             android:layout_marginBottom="4dp"
             android:alpha="0"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/buttonsBarBackground"
+            app:layout_constraintStart_toStartOf="@id/buttonsBarBackground"
             app:srcCompat="@drawable/ic_close"
             app:tint="@color/colorWhite" />
 
@@ -225,24 +232,41 @@
 
         <Constraint
             android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="@dimen/customLayoutTabMaxHeight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@color/DarkGreen"
-            android:elevation="33dp"
+            android:elevation="32dp"
             android:translationY="0dp"
+            android:paddingBottom="64dp"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@id/buttonsBarTopGuideline"
+            app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
+            app:layout_constraintEnd_toEndOf="@id/filterPlaceHolder"
+            app:layout_constraintStart_toStartOf="@id/filterPlaceHolder"
+            app:layout_constraintTop_toTopOf="@id/filterPlaceHolder"
+
+            />
+        <Constraint
+            android:id="@+id/buttonsBarBackground"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:background="@color/bottom_bar_color"
+            android:elevation="33dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+
+            />
 
         //TODO: Refactor - o height pode ser extraido para ser usado no em outros lugares ...
         <Constraint
-            android:id="@+id/viewpagerTabRecyclerview"
+            android:id="@+id/tabRecyclerview"
             android:layout_width="match_parent"
             android:layout_height="@dimen/customLayoutTabMaxHeight"
             android:clipToPadding="false"
             android:orientation="horizontal"
+            android:elevation="28dp"
+
             android:paddingHorizontal="32dp"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/viewPager" />
@@ -255,9 +279,9 @@
             android:layout_marginBottom="4dp"
             android:alpha="1"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/buttonsBarBackground"
             app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/buttonsBarBackground"
             app:srcCompat="@drawable/ic_close"
             app:tint="@color/colorWhite" />
 
@@ -273,6 +297,8 @@
             app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
             app:srcCompat="@drawable/ic_filter"
             app:tint="@color/colorWhite" />
+
+
     </ConstraintSet>
 
 
@@ -319,7 +345,6 @@
             </KeyAttribute>
             <KeyAttribute
                 android:alpha="0"
-                android:elevation="0dp"
                 app:framePosition="99"
                 app:motionTarget="@id/viewPager" />
             <KeyAttribute

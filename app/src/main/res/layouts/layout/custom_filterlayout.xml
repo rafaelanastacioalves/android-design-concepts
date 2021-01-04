@@ -11,7 +11,7 @@
     tools:parentTag="android.widget.LinearLayout">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/viewpagerTabRecyclerview"
+        android:id="@+id/tabRecyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"

@@ -9,10 +9,9 @@ import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import com.rafaelanastacioalves.design.concepts.R
 import kotlinx.android.synthetic.main.custom_filterlayout.view.*
-import kotlinx.android.synthetic.main.custom_filterlayout.view.button_background
 import kotlinx.android.synthetic.main.custom_filterlayout.view.dismissButton
+import kotlinx.android.synthetic.main.custom_filterlayout.view.tabRecyclerview
 import kotlinx.android.synthetic.main.custom_filterlayout.view.viewPager
-import kotlinx.android.synthetic.main.custom_filterlayout.view.viewpagerTabRecyclerview
 import kotlinx.android.synthetic.main.custom_filterlayout_motion.view.*
 
 @Suppress("DEPRECATION")
@@ -33,7 +32,7 @@ class FilterLayoutMotion @JvmOverloads constructor(
         //TODO: Refactor - esses métodos poderiam estar encapsulados... no mínimo
 //        background = resources.getDrawable(R.color.DarkGreen)
         inflate(context, R.layout.custom_filterlayout_motion, this)
-        customFilterLayoutHandler = CustomFilterLayoutHandler(button_background, viewpagerTabRecyclerview, viewPager)
+        customFilterLayoutHandler = CustomFilterLayoutHandler(buttonsBarBackground, tabRecyclerview, viewPager)
 //        calculateTabDimensions()
     }
 
