@@ -25,7 +25,7 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        goTo(Intent(baseContext, ScrollWithMotion::class.java))
+//        goTo(Intent(baseContext, ScrollWithMotion::class.java))
         setContentView(R.layout.home_activity)
         setupToolbar()
         setupRecyclerView()
@@ -80,6 +80,7 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
         val list = ArrayList<HomeItemData>()
         list.add(HomeItemData("Parallax Demonstration", "A simple scroll with parallax effect", Intent(this, ArticleDetailActivity::class.java)))
         list.add(HomeItemData("Expand/Collapse Item Demonstration", "Item expansion/collapse animation effect", Intent(this, ExpandCollapseActivity::class.java)))
+        list.add(HomeItemData("Scroll With MotionLayot", "Animated effects while scrolling", Intent(this, ScrollWithMotion::class.java)))
         return list
     }
     private class Adapter : RecyclerView.Adapter<ArticleItemViewHolder?> {
