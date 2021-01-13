@@ -39,6 +39,7 @@
         android:text="California"
         android:textColor="#FFF"
         android:textSize="24sp"
+        app:fontFamily="cursive"
 
         />
 

@@ -39,11 +39,9 @@
             android:id="@+id/sublabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="California"
-            android:textColor="#FFF"
-            android:textSize="24sp"
-            android:visibility="gone"
-            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            motion:layout_constraintBaseline_toBaselineOf="@id/label"
+            motion:layout_constraintStart_toEndOf="parent"
 
             />
     </ConstraintSet>
@@ -73,13 +71,13 @@
 
         <Constraint
             android:id="@+id/sublabel"
-            android:visibility="visible"
-            motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="California"
-            android:textColor="#FFF"
-            android:textSize="24sp"
+            android:layout_marginEnd="8dp"
+            android:visibility="visible"
+            motion:layout_constraintBaseline_toBaselineOf="@id/label"
+            motion:layout_constraintEnd_toEndOf="parent"
+
 
             />
     </ConstraintSet>
