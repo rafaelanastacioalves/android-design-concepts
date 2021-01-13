@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.rafaelanastacioalves.design.concepts.ui.motion_layout_scroll.CollapsibleToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1e376b"
+    android:minHeight="50dp"
+    app:layoutDescription="@xml/scroll_with_motion_scene"
+    app:layout_scrollFlags="scroll|enterAlways|snap|exitUntilCollapsed"
+    tools:showIn="@layout/scroll_with_motion_activity">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorAccent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/monterey" />
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monterey"
+        android:textColor="#FFF"
+        android:textSize="32dp"
+        android:transformPivotX="0dp"
+        android:transformPivotY="0dp" />
+
+    <TextView
+        android:id="@+id/sublabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="California"
+        android:textColor="#FFF"
+        android:textSize="24sp"
+        app:fontFamily="cursive" />
+
+</com.rafaelanastacioalves.design.concepts.ui.motion_layout_scroll.CollapsibleToolbar>

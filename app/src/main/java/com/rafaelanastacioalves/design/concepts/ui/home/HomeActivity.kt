@@ -16,6 +16,7 @@ import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
 import com.rafaelanastacioalves.design.concepts.ui.articledetail.ArticleDetailActivity
 import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseActivity
+import com.rafaelanastacioalves.design.concepts.ui.motion_layout_scroll.ScrollWithMotion
 
 class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
     private val recyclerView : RecyclerView by lazy {
@@ -24,11 +25,16 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        goTo(Intent(baseContext, ScrollWithMotion::class.java))
         setContentView(R.layout.home_activity)
         setupToolbar()
         setupRecyclerView()
         animateIntro()
 
+    }
+
+    private fun goTo(intent: Intent) {
+        startActivity(intent)
     }
 
     override fun onResume() {

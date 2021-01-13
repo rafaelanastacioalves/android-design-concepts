@@ -2,4 +2,5 @@
 <resources>
     <color name="color_list_item_foreground">#aa7CDDE7</color>
     <color name="expanded_foreground_color">@android:color/white</color>
+    <color name="contentBackground">#FFF</color>
 </resources>
