@@ -30,7 +30,7 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
         title = getString(R.string.expand_collapse_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         populateRecyclerView(generateFakeData())
-        setupFab()
+        setupFabMotionCollapsed()
     }
 
     override fun onAttachedToWindow() {
@@ -43,11 +43,33 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
 //        filterLayoutMotion.calculateTabDimensions()
     }
 
-    private fun setupFab() {
+    internal fun setupFabMotionCollapsed() {
+
+        // TODO: Refactor - olha esse tanto de codigo repetido meu deus (19/01/2021)
+        filterLayoutMotion.expansionBackground.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(isForward = true)
+            disableListeners()
+
+        }
 
         // TODO: Refactor - esses metodozihos deviam ser atribuição da claasse filterLayoutMotion... (02/01/2021)
         filterLayoutMotion.fabMotion.setOnClickListener {
             animationDelegateMotion.animateFilterShowUp(true)
+            disableListeners()
+        }
+
+    }
+
+    internal fun setupFabMotionExpanded() {
+
+        // TODO: Refactor - aqui tambem tem muito codigo repetido (19/01/2021)
+        filterLayoutMotion.fabMotion.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(isForward = false)
+            it.setOnClickListener(null)
+        }
+        filterLayoutMotion.dismissButton.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(isForward = false)
+            it.setOnClickListener(null)
         }
     }
 
@@ -109,5 +131,10 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
 
     override fun onFilterConfirmed() {
         animationDelegateMotion.animateFilterShowUp(false)
+    }
+
+    private fun disableListeners() {
+        filterLayoutMotion.expansionBackground.setOnClickListener(null)
+        filterLayoutMotion.fabMotion.setOnClickListener(null)
     }
 }

@@ -68,7 +68,6 @@ class FilterLayoutMotion @JvmOverloads constructor(
 
 
     fun animateOpening(isForward: Boolean) {
-        motionLayout.setTransition(R.id.filterSettleStart, R.id.filterSettleEnd)
         if (isForward) {
             motionLayout.transitionToState(R.id.filterSettleEnd)
         } else {

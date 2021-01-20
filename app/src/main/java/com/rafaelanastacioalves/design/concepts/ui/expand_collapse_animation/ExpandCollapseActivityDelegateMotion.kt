@@ -120,8 +120,10 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                     }
                     R.id.filterExpansionEnd -> {
                         activity.hideFab()
+                        filterLayoutMotion.motionLayout.setTransition(R.id.filterSettleStart, R.id.filterSettleEnd)
                         filterLayoutMotion.animateOpening(true)
-                        activity.filterLayoutMotion.motionLayout.removeTransitionListener(this)
+                        filterLayoutMotion.motionLayout.removeTransitionListener(this)
+                        activity.setupFabMotionExpanded()
                     }
                 }
             }
@@ -135,6 +137,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
     }
 
     private fun closeFilterWithMotionAnimation() {
+        filterLayoutMotion.motionLayout.setTransition(R.id.filterSettleStart, R.id.filterSettleEnd)
 
         filterLayoutMotion.motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
@@ -152,6 +155,16 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                             transitionToStart()
                         }
                     }
+                    R.id.filterExpansionStart -> {
+                        activity.filterLayoutMotion.motionLayout.run {
+                            progress = 1f
+                            setTransition(R.id.fabOpeningStart, R.id.fabOpeningEnd)
+                            transitionToStart()
+                        }
+                        filterLayoutMotion.motionLayout.removeTransitionListener(this)
+                        activity.setupFabMotionCollapsed()
+                    }
+
                 }
             }
 
@@ -160,37 +173,6 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
         })
         filterLayoutMotion.animateOpening(isForward = false)
-        activity.showFab()
-
-        //TODO: Refactor - Dá pra colocar isso daqui no início?
-        activity.filterLayoutMotion.motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-
-            }
-
-            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
-            }
-
-            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-
-                when (p1) {
-                    R.id.fabOpeningEnd -> {
-                        activity.filterLayoutMotion.motionLayout.removeTransitionListener(this)
-                    }
-                    R.id.filterExpansionStart -> {
-                        // TODO: Refactor - repetição... (27/12/2020)
-                        activity.filterLayoutMotion.motionLayout.setTransition(R.id.fabOpeningStart, R.id.fabOpeningEnd)
-                        activity.filterLayoutMotion.motionLayout.progress = 1f
-                        activity.filterLayoutMotion.motionLayout.transitionToStart()
-                    }
-                }
-            }
-
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
-            }
-
-        })
-
     }
 
 }
