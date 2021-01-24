@@ -44,7 +44,7 @@
             android:layout_height="@dimen/customLayoutTabMaxHeight"
             android:clipToPadding="false"
             android:orientation="horizontal"
-            android:elevation="28dp"
+            android:elevation="30dp"
             android:paddingHorizontal="32dp"
             android:visibility="invisible"
             app:layout_constraintTop_toTopOf="@id/viewPager"
@@ -100,18 +100,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.rafaelanastacioalves.design.concepts.custom.circularcardview.CircularCardView
-            android:id="@+id/expansionBackground"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            app:cardElevation="30dp"
-            android:foregroundGravity="center"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
-            app:cardCornerRadius="36dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+
 
         <ImageView
             android:id="@+id/fabMotion"
@@ -124,5 +113,18 @@
             app:layout_constraintTop_toTopOf="@id/expansionBackground"
             app:srcCompat="@drawable/ic_filter"
             app:tint="@color/colorWhite" />
+
+        <com.rafaelanastacioalves.design.concepts.custom.circularcardview.CircularCardView
+            android:id="@+id/expansionBackground"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:foregroundGravity="center"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            app:cardCornerRadius="36dp"
+            app:cardElevation="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </merge>

@@ -13,7 +13,6 @@
             android:layout_height="@dimen/customLayoutTabMaxHeight"
             android:background="@color/tab_bg_color"
             android:clipToPadding="false"
-            android:elevation="28dp"
 
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
@@ -22,21 +21,7 @@
 
             />
 
-        // TODO: Refactor - experimentar remover isso, já que esta citado no layout inicial...
-        (04/01/2021)
-        <Constraint
-            android:id="@+id/buttonsBarBackground"
-            android:layout_width="0dp"
-            android:layout_height="64dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent">
-            <CustomAttribute
-                app:attributeName="cardBackgroundColor"
-                app:customColorValue="@android:color/transparent" />
-            <PropertySet android:visibility="invisible" />
-        </Constraint>
+
 
         <Constraint
             android:id="@+id/fabMotion"
@@ -134,7 +119,6 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:visibility="visible"
-            app:cardElevation="30dp"
 
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="@id/viewPager"
@@ -156,7 +140,6 @@
             android:id="@+id/expansionBackground"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:cardElevation="30dp"
 
             app:layout_constraintBottom_toBottomOf="@id/viewPager"
             app:layout_constraintEnd_toEndOf="@id/viewPager"
@@ -184,7 +167,22 @@
     <ConstraintSet
         android:id="@+id/filterSettleStart"
         app:deriveConstraintsFrom="@id/filterExpansionEnd">
+        // TODO: Refactor - experimentar remover isso, já que esta citado no layout inicial...
+        (04/01/2021)
 
+
+        <Constraint
+            android:id="@+id/buttonsBarBackground"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <CustomAttribute
+                app:attributeName="cardBackgroundColor"
+                app:customColorValue="@android:color/transparent" />
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
 
         <Constraint
             android:id="@+id/dismissButton"
@@ -221,7 +219,10 @@
             <PropertySet android:visibility="visible" />
         </Constraint>
 
-        <Constraint android:id="@id/buttonsBarBackground">
+        <Constraint android:id="@id/buttonsBarBackground"
+
+
+            >
             <CustomAttribute
                 app:attributeName="cardBackgroundColor"
                 app:customColorValue="@color/bottom_bar_color" />
@@ -235,7 +236,6 @@
             android:layout_height="@dimen/customLayoutTabMaxHeight"
             android:clipToPadding="false"
             android:orientation="horizontal"
-            android:elevation="28dp"
             android:background="@color/tab_bg_color"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingHorizontal="32dp"
