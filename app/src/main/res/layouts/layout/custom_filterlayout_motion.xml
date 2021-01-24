@@ -83,8 +83,9 @@
             android:layout_height="56dp"
             android:layout_marginBottom="4dp"
             android:alpha="0"
+            android:elevation="33dp"
             app:layout_constraintBottom_toBottomOf="@id/buttonsBarBackground"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="@id/buttonsBarBackground"
             app:srcCompat="@drawable/ic_close"
             app:tint="@color/colorWhite" />

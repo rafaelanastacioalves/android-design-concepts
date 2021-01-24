@@ -120,7 +120,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                     }
                     R.id.filterExpansionEnd -> {
                         activity.hideFab()
-                        filterLayoutMotion.motionLayout.setTransition(R.id.filterSettleStart, R.id.filterSettleEnd)
+                        filterLayoutMotion.motionLayout.setTransition(R.id.filterExpansionEnd, R.id.filterSettleEnd)
                         filterLayoutMotion.animateOpening(true)
                         filterLayoutMotion.motionLayout.removeTransitionListener(this)
                         activity.setupFabMotionExpanded()
@@ -137,7 +137,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
     }
 
     private fun closeFilterWithMotionAnimation() {
-        filterLayoutMotion.motionLayout.setTransition(R.id.filterSettleStart, R.id.filterSettleEnd)
+        filterLayoutMotion.motionLayout.setTransition(R.id.filterExpansionEnd, R.id.filterSettleEnd)
 
         filterLayoutMotion.motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
@@ -148,7 +148,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
             override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
                 when (p1) {
-                    R.id.filterSettleStart -> {
+                    R.id.filterExpansionEnd -> {
                         activity.filterLayoutMotion.motionLayout.run {
                             progress = 1f
                             setTransition(R.id.filterExpansionStart, R.id.filterExpansionEnd)
