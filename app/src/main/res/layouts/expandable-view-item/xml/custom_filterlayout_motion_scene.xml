@@ -118,16 +118,24 @@
         app:deriveConstraintsFrom="@id/fabPath">
         >
 
-        <Constraint
-            android:id="@id/expansionBackground"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="visible"
-            app:cardElevation="33dp"
-            app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
-            app:layout_constraintEnd_toEndOf="@id/filterPlaceHolder"
-            app:layout_constraintStart_toStartOf="@id/filterPlaceHolder"
-            app:layout_constraintTop_toTopOf="@id/filterPlaceHolder">
+        <Constraint android:id="@id/expansionBackground">
+            <Layout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:outlineProvider="none"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
+                app:layout_constraintEnd_toEndOf="@id/filterPlaceHolder"
+                app:layout_constraintStart_toStartOf="@id/filterPlaceHolder"
+                app:layout_constraintTop_toTopOf="@id/filterPlaceHolder" />
+
+            <CustomAttribute
+                app:attributeName="outlineProvider"
+                app:customStringValue="none" />
+
+            <CustomAttribute
+                app:attributeName="cardElevation"
+                app:customDimension="32dp" />
             <CustomAttribute
                 app:attributeName="radius"
                 app:customDimension="0dp" />
