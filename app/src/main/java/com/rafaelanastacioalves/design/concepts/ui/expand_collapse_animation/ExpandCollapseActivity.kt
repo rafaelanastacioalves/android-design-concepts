@@ -53,7 +53,7 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
         }
 
         // TODO: Refactor - esses metodozihos deviam ser atribuição da claasse filterLayoutMotion... (02/01/2021)
-        filterLayoutMotion.fabMotion.setOnClickListener {
+        filterLayoutMotion.fabMotionIcon.setOnClickListener {
             animationDelegateMotion.animateFilterShowUp(true)
             disableListeners()
         }
@@ -63,7 +63,7 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     internal fun setupFabMotionExpanded() {
 
         // TODO: Refactor - aqui tambem tem muito codigo repetido (19/01/2021)
-        filterLayoutMotion.fabMotion.setOnClickListener {
+        filterLayoutMotion.fabMotionIcon.setOnClickListener {
             animationDelegateMotion.animateFilterShowUp(isForward = false)
             it.setOnClickListener(null)
         }
@@ -74,11 +74,11 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     }
 
     internal fun hideFab() {
-        filterLayoutMotion.fabMotion.isVisible = false
+        filterLayoutMotion.fabMotionIcon.isVisible = false
     }
 
     internal fun showFab() {
-        filterLayoutMotion.fabMotion.isVisible = true
+        filterLayoutMotion.fabMotionIcon.isVisible = true
     }
 
     internal fun showFilter() {
@@ -135,6 +135,6 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
 
     private fun disableListeners() {
         filterLayoutMotion.expansionBackground.setOnClickListener(null)
-        filterLayoutMotion.fabMotion.setOnClickListener(null)
+        filterLayoutMotion.fabMotionIcon.setOnClickListener(null)
     }
 }

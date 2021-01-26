@@ -2,8 +2,7 @@ package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.Gravity
-import android.widget.LinearLayout
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
@@ -17,7 +16,7 @@ import kotlinx.android.synthetic.main.custom_filterlayout_motion.view.*
 @Suppress("DEPRECATION")
 class FilterLayoutMotion @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : MotionLayout(context, attrs, defStyleAttr) {
 
 
     //TODO: Refactor - cuidado com todo o código repetido... vamos colocar numa classe pai....
@@ -27,8 +26,6 @@ class FilterLayoutMotion @JvmOverloads constructor(
     private var customFilterLayoutHandler: CustomFilterLayoutHandler
 
     init {
-        gravity = Gravity.BOTTOM
-        orientation = VERTICAL
         //TODO: Refactor - esses métodos poderiam estar encapsulados... no mínimo
 //        background = resources.getDrawable(R.color.DarkGreen)
         inflate(context, R.layout.custom_filterlayout_motion, this)
@@ -67,16 +64,12 @@ class FilterLayoutMotion @JvmOverloads constructor(
     }
 
 
-    fun animateOpening(isForward: Boolean) {
+    fun animateSettle(isForward: Boolean) {
         if (isForward) {
-            motionLayout.transitionToState(R.id.filterSettleEnd)
+            transitionToState(R.id.filterSettle)
         } else {
-            motionLayout.run {
-                progress = 1f
-                transitionToStart()
-            }
-
-
+            progress = 1f
+            transitionToStart()
         }
     }
 

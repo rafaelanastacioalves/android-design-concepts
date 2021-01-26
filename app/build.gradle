@@ -114,9 +114,9 @@ dependencies {
 
     //other
     implementation 'androidx.constraintlayout:constraintlayout:' + androidxMotionLayout
-    implementation 'androidx.constraintlayout:constraintlayout:' + androidxMotionLayout
     implementation "com.squareup.picasso:picasso:$picassoExt"
     implementation 'androidx.annotation:annotation:' + androidxBasics
+    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:' + androidxBasics
     implementation 'com.google.android.material:material:' + materialLibrary
     implementation 'androidx.appcompat:appcompat:' + androidxBasics

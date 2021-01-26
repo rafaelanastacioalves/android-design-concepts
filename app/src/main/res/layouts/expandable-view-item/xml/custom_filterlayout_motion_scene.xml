@@ -2,167 +2,220 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ConstraintSet android:id="@+id/fabOpeningStart">
-        <Constraint android:id="@id/viewPager">
+    <!-- /////
+/////////////////////
+////////// SETS //////////
+/////////////////////
+///// -->
+
+
+    <!-- /////
+    ////////// BASE //////////
+     ///// -->
+    <ConstraintSet android:id="@+id/base">
+        <Constraint
+            android:id="@id/viewPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
+            app:layout_constraintEnd_toEndOf="@id/filterPlaceHolder"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@id/filterPlaceHolder"
+            app:layout_constraintTop_toTopOf="@id/filterPlaceHolder"
+            app:layout_constraintVertical_bias="1.0">
             <Transform android:translationY="32dp" />
             <PropertySet android:visibility="invisible" />
         </Constraint>
-        <Constraint
-            android:id="@+id/tabRecyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/customLayoutTabMaxHeight"
-            android:background="@color/tab_bg_color"
-            android:clipToPadding="false"
+        <Constraint android:id="@+id/tabRecyclerview">
+            <Layout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/customLayoutTabMaxHeight"
+                android:paddingHorizontal="32dp"
+                app:layout_constraintTop_toTopOf="@id/viewPager" />
+            <PropertySet android:visibility="invisible" />
 
-            android:orientation="horizontal"
-            android:paddingHorizontal="32dp"
-            android:visibility="invisible"
-            app:layout_constraintTop_toTopOf="@id/viewPager"
 
-            />
+        </Constraint>
 
         <Constraint
-            android:id="@+id/fabMotion"
+            android:id="@+id/fabMotionIcon"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
-            android:elevation="32dp"
+            android:elevation="34dp"
             app:layout_constraintBottom_toBottomOf="@id/expansionBackground"
             app:layout_constraintEnd_toEndOf="@id/expansionBackground"
             app:layout_constraintStart_toStartOf="@id/expansionBackground"
             app:layout_constraintTop_toTopOf="@id/expansionBackground"
             app:srcCompat="@drawable/ic_filter"
             app:tint="@color/colorWhite" />
-        <Constraint
-            android:id="@+id/expansionBackground"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:foregroundGravity="center"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
-            app:cardCornerRadius="36dp"
-            app:cardElevation="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
-    </ConstraintSet>
+        <Constraint android:id="@id/expansionBackground">
+            <Layout
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-    <ConstraintSet
-        android:id="@+id/fabOpeningEnd"
-        app:deriveConstraintsFrom="@+id/fabOpeningStart">
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="36dp" />
 
-
-        <Constraint
-            android:id="@+id/expansionBackground"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            android:foregroundGravity="center"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
-            app:cardCornerRadius="36dp"
-            app:cardElevation="30dp"
-            app:layout_constraintBottom_toBottomOf="@id/viewPager"
-            app:layout_constraintEnd_toEndOf="@id/viewPager"
-            app:layout_constraintStart_toStartOf="@id/viewPager"
-            app:layout_constraintTop_toTopOf="@id/viewPager" />
-        <Constraint
-            android:id="@id/fabMotion"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            android:elevation="33dp"
-            app:layout_constraintBottom_toBottomOf="@id/viewPager"
-            app:layout_constraintEnd_toEndOf="@id/viewPager"
-            app:layout_constraintStart_toStartOf="@id/viewPager"
-            app:layout_constraintTop_toTopOf="@id/viewPager" />
-    </ConstraintSet>
-
-    <ConstraintSet
-        android:id="@+id/filterExpansionStart"
-        app:deriveConstraintsFrom="@id/fabOpeningEnd">
-        >
-        <Constraint android:id="@id/viewPager">
-            <Transform android:translationY="32dp" />
+            <CustomAttribute
+                app:attributeName="cardElevation"
+                app:customDimension="32dp" />
         </Constraint>
 
-        <Constraint
-            android:id="@id/fabMotion"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            android:alpha="1"
-            app:layout_constraintBottom_toBottomOf="@id/viewPager"
-            app:layout_constraintEnd_toEndOf="@id/viewPager"
-            app:layout_constraintStart_toStartOf="@id/viewPager"
-            app:layout_constraintTop_toTopOf="@id/viewPager" />
+        <Constraint android:id="@id/buttonsBarBackground">
+            <Layout
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="0dp" />
+            <CustomAttribute
+                app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/colorPrimaryDark" />
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
+
+    </ConstraintSet>
+
+    <!-- /////
+////////// PATH //////////
+ ///// -->
+
+    <ConstraintSet
+        android:id="@+id/fabPath"
+        app:deriveConstraintsFrom="@id/base">
+
 
         <Constraint
             android:id="@+id/expansionBackground"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:visibility="visible"
-
-            app:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
             app:layout_constraintBottom_toBottomOf="@id/viewPager"
             app:layout_constraintEnd_toEndOf="@id/viewPager"
             app:layout_constraintStart_toStartOf="@id/viewPager"
-            app:layout_constraintTop_toTopOf="@id/viewPager">
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toTopOf="@id/viewPager"
+
+            >
+
             <CustomAttribute
                 app:attributeName="radius"
                 app:customDimension="36dp" />
+
+
         </Constraint>
-    </ConstraintSet>
-
-    <ConstraintSet
-        android:id="@+id/filterExpansionEnd"
-        app:deriveConstraintsFrom="@id/filterExpansionStart">
-        >
-
         <Constraint
-            android:id="@+id/expansionBackground"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-
+            android:id="@id/fabMotionIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:alpha="1"
+            android:elevation="34dp"
             app:layout_constraintBottom_toBottomOf="@id/viewPager"
             app:layout_constraintEnd_toEndOf="@id/viewPager"
             app:layout_constraintStart_toStartOf="@id/viewPager"
-            app:layout_constraintTop_toTopOf="@id/viewPager">
+            app:layout_constraintTop_toTopOf="@id/viewPager" />
+
+        <Constraint android:id="@id/viewPager">
+            <Transform android:translationY="32dp" />
+        </Constraint>
+
+
+    </ConstraintSet>
+
+    <!-- /////
+////////// EXPANSION //////////
+ ///// -->
+
+    <ConstraintSet
+        android:id="@+id/filterExpansion"
+        app:deriveConstraintsFrom="@id/fabPath">
+        >
+
+        <Constraint
+            android:id="@id/expansionBackground"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:cardElevation="33dp"
+            app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
+            app:layout_constraintEnd_toEndOf="@id/filterPlaceHolder"
+            app:layout_constraintStart_toStartOf="@id/filterPlaceHolder"
+            app:layout_constraintTop_toTopOf="@id/filterPlaceHolder">
             <CustomAttribute
                 app:attributeName="radius"
                 app:customDimension="0dp" />
         </Constraint>
 
         <Constraint
-            android:id="@id/fabMotion"
+            android:id="@id/fabMotionIcon"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="4dp"
-            android:visibility="visible"
+            android:alpha="1"
+            android:elevation="34dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <Constraint android:id="@id/viewPager">
+            <Transform android:translationY="32dp" />
+
+        </Constraint>
+
+
+        <Constraint android:id="@id/buttonsBarBackground">
+            <CustomAttribute
+                app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/colorPrimaryDark" />
+
+        </Constraint>
+
     </ConstraintSet>
 
-
+    <!-- /////
+////////// SETTLE //////////
+ ///// -->
 
     <ConstraintSet
-        android:id="@+id/filterSettleEnd"
-        app:deriveConstraintsFrom="@+id/filterExpansionEnd">
+        android:id="@+id/filterSettle"
+        app:deriveConstraintsFrom="@+id/filterExpansion">
+        <Constraint
+            android:id="@id/expansionBackground"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:cardElevation="33dp"
+            app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
+            app:layout_constraintEnd_toEndOf="@id/filterPlaceHolder"
+            app:layout_constraintStart_toStartOf="@id/filterPlaceHolder"
+            app:layout_constraintTop_toTopOf="@id/filterPlaceHolder">
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="0dp" />
+        </Constraint>
 
         <Constraint android:id="@id/viewPager">
             <Transform android:translationY="0dp" />
             <PropertySet android:visibility="visible" />
         </Constraint>
 
-        <Constraint android:id="@id/buttonsBarBackground"
+        <Constraint android:id="@id/buttonsBarBackground">
 
-
-            >
             <CustomAttribute
                 app:attributeName="cardBackgroundColor"
                 app:customColorValue="@color/bottom_bar_color" />
@@ -170,19 +223,23 @@
         </Constraint>
 
         //TODO: Refactor - o height pode ser extraido para ser usado no em outros lugares ...
-        <Constraint
-            android:id="@+id/tabRecyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/customLayoutTabMaxHeight"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:background="@color/tab_bg_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingHorizontal="32dp"
-            android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
+        <Constraint android:id="@+id/tabRecyclerview">
 
-            app:layout_constraintBottom_toTopOf="@id/viewPager" />
+            <Layout
+
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/customLayoutTabMaxHeight"
+                android:background="@color/tab_bg_color"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingHorizontal="32dp"
+                app:layout_constraintBottom_toTopOf="@id/viewPager"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent" />
+            <PropertySet android:visibility="visible" />
+
+        </Constraint>
 
 
         <Constraint
@@ -200,11 +257,13 @@
 
         // TODO: Refactor - marginbottom repetido.... (31/12/2020)
         <Constraint
-            android:id="@+id/fabMotion"
+            android:id="@+id/fabMotionIcon"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_marginBottom="4dp"
             android:visibility="visible"
+            android:alpha="1"
+            android:elevation="34dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
@@ -214,16 +273,22 @@
     </ConstraintSet>
 
 
+    <!-- /////
+    /////////////////////
+////////// TRANSITIONS //////////
+    /////////////////////
+ ///// -->
+
+
     <Transition
-        app:constraintSetEnd="@id/fabOpeningEnd"
-        app:constraintSetStart="@id/fabOpeningStart"
-        app:duration="5000"
-        app:layoutDuringTransition="honorRequest">
+        app:constraintSetEnd="@id/fabPath"
+        app:constraintSetStart="@id/base"
+        app:duration="300">
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="50"
                 app:keyPositionType="deltaRelative"
-                app:motionTarget="@id/fabMotion"
+                app:motionTarget="@id/fabMotionIcon"
                 app:percentX="0.85"
                 app:percentY="0.15" />
             <KeyPosition
@@ -238,10 +303,9 @@
     </Transition>
 
     <Transition
-        app:constraintSetEnd="@id/filterExpansionEnd"
-        app:constraintSetStart="@id/filterExpansionStart"
-        app:duration="5000"
-        app:layoutDuringTransition="honorRequest">
+        app:constraintSetEnd="@id/filterExpansion"
+        app:constraintSetStart="@id/fabPath"
+        app:duration="3000">
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="80"
@@ -255,19 +319,13 @@
                     app:attributeName="radius"
                     app:customDimension="160dp" />
             </KeyAttribute>
-            <KeyAttribute
-                android:alpha="0"
-                app:framePosition="99"
-                app:motionTarget="@id/viewPager" />
-            <KeyAttribute
-                android:alpha="1"
-                app:framePosition="99"
-                app:motionTarget="@id/fabMotion" />
+
+
         </KeyFrameSet>
     </Transition>
 
     <Transition
-        app:constraintSetEnd="@id/filterSettleEnd"
-        app:constraintSetStart="@+id/filterExpansionEnd"
-        app:duration="2000" />
+        app:constraintSetEnd="@id/filterSettle"
+        app:constraintSetStart="@id/filterExpansion"
+        app:duration="3000" />
 </MotionScene>
