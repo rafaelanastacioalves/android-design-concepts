@@ -1,14 +1,15 @@
-@file:Suppress("DEPRECATION")
 
 package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Point
 import android.util.Log
 import android.util.TypedValue
+import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
@@ -26,23 +27,24 @@ val Context.screenHeight: Int
         return Point().also { display?.getSize(it) }.y
     }
 
-@Suppress("DEPRECATION")
-class ExpandCollapseAnimationDelegate(context: Context) {
+class ExpandCollapseAnimationDelegate(activity: Activity) {
     private var originalHeight: Int = -1
     private var additionalHeight: Int = -1
     private var expandedPosition: Int = -1
     private var toBeCollapsedPosition: Int = -1
-    private val originalWidth: Int = context.screenWidth - 48.dp
+    private val originalWidth: Int = activity.screenWidth - 48.dp
     private val additionalWidth: Int = 32.dp
 
     private val Int.dp: Int
         get() {
             return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics).toInt()
         }
-    private val Context.screenWidth: Int
-        get() {
-            return Point().also { display?.getSize(it) }.x
-        }
+
+    @Suppress("DEPRECATION")
+    private val Activity.screenWidth: Int
+        get() = Point().also { (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(it) }.x
+
+    //            return Point().also { display?.getSize(it) }.x
     private lateinit var recyclerView: RecyclerView
 
     fun onAttachedToRecyclerView(recyclerView: RecyclerView) {

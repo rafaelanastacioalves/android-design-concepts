@@ -1,7 +1,7 @@
 package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
 import android.animation.ValueAnimator
-import android.content.Context
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,13 +10,14 @@ import com.rafaelanastacioalves.design.concepts.domain.entities.FakeData
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.view.*
 
 
-class ExpandCollapseAdapter (mContext: Context ) : RecyclerView.Adapter<ExpandCollapseViewHolder>() {
+class ExpandCollapseAdapter(activity: Activity) : RecyclerView.Adapter<ExpandCollapseViewHolder>() {
     private var items: List<FakeData>? = null
-    private val animator: ExpandCollapseAnimationDelegate = ExpandCollapseAnimationDelegate(mContext)
+    private val animator: ExpandCollapseAnimationDelegate = ExpandCollapseAnimationDelegate(activity)
 
     private fun getItems(): List<FakeData>? {
         return this.items
     }
+
     fun setItems(items: List<FakeData>?) {
         this.items = items as ArrayList<FakeData>
         notifyDataSetChanged()
