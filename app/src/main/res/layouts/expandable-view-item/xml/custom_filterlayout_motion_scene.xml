@@ -19,13 +19,11 @@
             android:id="@+id/fabMotionIcon"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
-            android:elevation="34dp"
             app:layout_constraintBottom_toBottomOf="@id/expansionBackground"
             app:layout_constraintEnd_toEndOf="@id/expansionBackground"
             app:layout_constraintStart_toStartOf="@id/expansionBackground"
             app:layout_constraintTop_toTopOf="@id/expansionBackground"
-            app:srcCompat="@drawable/ic_filter"
-            app:tint="@color/colorWhite" />
+            />
 
         <Constraint android:id="@id/expansionBackground">
             <Layout
@@ -45,23 +43,6 @@
                 app:customDimension="32dp" />
         </Constraint>
 
-        <Constraint android:id="@id/buttonsBarBackground">
-            <Layout
-                android:layout_width="0dp"
-                android:layout_height="64dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <CustomAttribute
-                app:attributeName="radius"
-                app:customDimension="0dp" />
-            <CustomAttribute
-                app:attributeName="cardBackgroundColor"
-                app:customColorValue="@color/colorPrimaryDark" />
-            <PropertySet android:visibility="invisible" />
-        </Constraint>
-
     </ConstraintSet>
 
     <!-- /////
@@ -72,12 +53,10 @@
         android:id="@+id/fabPath"
         app:deriveConstraintsFrom="@id/base">
 
-
         <Constraint
             android:id="@+id/expansionBackground"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:visibility="visible"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
             app:layout_constraintBottom_toBottomOf="@id/viewPager"
@@ -85,9 +64,7 @@
             app:layout_constraintStart_toStartOf="@id/viewPager"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="@id/viewPager"
-
             >
-
             <CustomAttribute
                 app:attributeName="cardElevation"
                 app:customDimension="32dp" />
@@ -100,8 +77,6 @@
             android:layout_height="56dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
-            android:alpha="1"
-            android:elevation="34dp"
             app:layout_constraintBottom_toBottomOf="@id/viewPager"
             app:layout_constraintEnd_toEndOf="@id/viewPager"
             app:layout_constraintStart_toStartOf="@id/viewPager"
@@ -122,8 +97,6 @@
             <Layout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:outlineProvider="none"
-                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
                 app:layout_constraintEnd_toEndOf="@id/filterPlaceHolder"
                 app:layout_constraintStart_toStartOf="@id/filterPlaceHolder"
@@ -132,7 +105,6 @@
             <CustomAttribute
                 app:attributeName="outlineProvider"
                 app:customStringValue="none" />
-
             <CustomAttribute
                 app:attributeName="cardElevation"
                 app:customDimension="32dp" />
@@ -147,8 +119,6 @@
             android:layout_height="56dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="4dp"
-            android:alpha="1"
-            android:elevation="34dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -157,7 +127,6 @@
             <Transform android:translationY="32dp" />
 
         </Constraint>
-
 
         <Constraint android:id="@id/buttonsBarBackground">
             <CustomAttribute
@@ -175,20 +144,6 @@
     <ConstraintSet
         android:id="@+id/filterSettle"
         app:deriveConstraintsFrom="@+id/filterExpansion">
-        <Constraint
-            android:id="@id/expansionBackground"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="visible"
-            app:cardElevation="33dp"
-            app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
-            app:layout_constraintEnd_toEndOf="@id/filterPlaceHolder"
-            app:layout_constraintStart_toStartOf="@id/filterPlaceHolder"
-            app:layout_constraintTop_toTopOf="@id/filterPlaceHolder">
-            <CustomAttribute
-                app:attributeName="radius"
-                app:customDimension="0dp" />
-        </Constraint>
 
         <Constraint android:id="@id/viewPager">
             <Transform android:translationY="0dp" />

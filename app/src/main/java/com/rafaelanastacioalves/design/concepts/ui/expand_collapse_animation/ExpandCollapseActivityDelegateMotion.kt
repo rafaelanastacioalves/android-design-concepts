@@ -48,7 +48,6 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
                     }
                     R.id.filterExpansion -> {
-                        activity.filterLayoutMotion.setTransition(R.id.filterExpansion, R.id.filterSettle)
 
                         filterLayoutMotion.animateSettle(true)
                     }

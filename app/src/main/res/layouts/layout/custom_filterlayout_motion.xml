@@ -117,6 +117,7 @@
             android:layout_height="72dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:outlineProvider="none"
             android:foregroundGravity="center"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:cardCornerRadius="36dp"
