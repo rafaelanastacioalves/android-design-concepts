@@ -58,14 +58,14 @@
 				app:layout_constraintTop_toBottomOf="@id/title" />
 			<View
 				android:id="@+id/subtitle_2"
-				android:layout_width="88dp"
+				android:layout_width="0dp"
 				android:layout_height="10dp"
 				android:layout_marginHorizontal="8dp"
 				android:background="@drawable/pill_background_form_drawable"
 				android:backgroundTint="@color/subtitle_color"
 				app:layout_constraintStart_toEndOf="@id/subtitle_1"
 				app:layout_constraintTop_toTopOf="@id/subtitle_1"
-				/>
+				app:layout_constraintEnd_toEndOf="parent" />
 
 			<LinearLayout
 				android:id="@+id/additionalViewContainer"
@@ -84,9 +84,6 @@
 				<include layout="@layout/description_line_2" />
 				<include layout="@layout/description_line_1" />
 				<include layout="@layout/description_line_2" />
-
-
-
 
 			</LinearLayout>
 
