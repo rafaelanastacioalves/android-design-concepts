@@ -13,18 +13,14 @@
     app:showPaths="true"
     tools:parentTag="androidx.constraintlayout.motion.widget.MotionLayout">
 
-
-        // TODO: Refactor - esse padding bottom pode ser extraido... refereciar o tamanho da barra
-        de botoes do filtro... (03/01/2021)
-
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/colorPrimaryDark"
             android:outlineProvider="none"
-            android:elevation="33dp"
-            android:paddingBottom="64dp"
+            android:elevation="@dimen/view_pager_elevation"
+            android:paddingBottom="@dimen/bottom_buttons_bar"
             android:translationY="32dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
@@ -38,7 +34,7 @@
             android:layout_height="@dimen/customLayoutTabMaxHeight"
             android:background="@color/tab_bg_color"
             android:clipToPadding="false"
-            android:elevation="32dp"
+            android:elevation="@dimen/tab_view_elevation"
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
             android:visibility="invisible"
@@ -63,11 +59,11 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/buttonsBarBackground"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/bottom_buttons_bar"
             android:visibility="invisible"
             android:outlineProvider="none"
             app:cardBackgroundColor="@android:color/transparent"
-            app:cardElevation="33dp"
+            app:cardElevation="@dimen/bottom_buttons_bar_elevation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -79,7 +75,7 @@
             android:layout_height="56dp"
             android:layout_marginBottom="4dp"
             android:alpha="0"
-            android:elevation="34dp"
+            android:elevation="@dimen/dismissButtonElevation"
             android:visibility="invisible"
 
             app:layout_constraintBottom_toBottomOf="@id/buttonsBarBackground"
@@ -103,7 +99,8 @@
             android:id="@+id/fabMotionIcon"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
-            android:elevation="34dp"
+            android:elevation="@dimen/fabMotionIconElevation"
+            android:outlineProvider="none"
             app:layout_constraintBottom_toBottomOf="@id/expansionBackground"
             app:layout_constraintEnd_toEndOf="@id/expansionBackground"
             app:layout_constraintStart_toStartOf="@id/expansionBackground"
@@ -121,7 +118,7 @@
             android:foregroundGravity="center"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:cardCornerRadius="36dp"
-            app:cardElevation="32dp"
+            app:cardElevation="@dimen/expansionBackGroundStartElevation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 </merge>

@@ -40,7 +40,7 @@
 
             <CustomAttribute
                 app:attributeName="cardElevation"
-                app:customDimension="32dp" />
+                app:customDimension="@dimen/expansionBackGroundFinalElevation" />
         </Constraint>
 
     </ConstraintSet>
@@ -193,14 +193,9 @@
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_marginBottom="4dp"
-            android:visibility="visible"
-            android:alpha="1"
-            android:elevation="34dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
-            app:srcCompat="@drawable/ic_filter"
-            app:tint="@color/colorWhite" />
+            app:layout_constraintStart_toStartOf="@+id/guidelineVertical" />
 
     </ConstraintSet>
 

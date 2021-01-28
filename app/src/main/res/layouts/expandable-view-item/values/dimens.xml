@@ -5,4 +5,12 @@
     <dimen name="custom_filter_main_height">300dp</dimen>
     <dimen name="customLayoutTabMaxHeight">64dp</dimen>
     <dimen name="expand_collapse_holder_internal_horizontal_margin">32dp</dimen>
+    <dimen name="bottom_buttons_bar">64dp</dimen>
+    <dimen name="view_pager_elevation">33dp</dimen>
+    <dimen name="tab_view_elevation">32dp</dimen>
+    <dimen name="bottom_buttons_bar_elevation">33dp</dimen>
+    <dimen name="dismissButtonElevation">34dp</dimen>
+    <dimen name="fabMotionIconElevation">34dp</dimen>
+    <dimen name="expansionBackGroundStartElevation">32dp</dimen>
+    <dimen name="expansionBackGroundFinalElevation">16dp</dimen>
 </resources>
