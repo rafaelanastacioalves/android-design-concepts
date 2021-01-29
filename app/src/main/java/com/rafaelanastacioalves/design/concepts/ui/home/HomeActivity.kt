@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.rafaelanastacioalves.design.concepts.R
@@ -37,15 +36,15 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
         startActivity(intent)
     }
 
-    override fun onResume() {
-        super.onResume()
+
+    override fun onPostResume() {
+        super.onPostResume()
+
         val handler = Handler()
         handler.postDelayed({
             (recyclerView.adapter as Adapter).setLIst(generateData())
-        }, 1000)
+        }, 300)
 
-
-        recyclerView.isVisible = true
 
     }
 
@@ -78,10 +77,10 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     private fun generateData(): List<HomeItemData> {
         val list = ArrayList<HomeItemData>()
-        list.add(HomeItemData("Advanced Animation Demonstration (Motion Layout)", "A Filter with animated interactions", Intent(this, ArticleDetailActivity::class.java)))
+        list.add(HomeItemData("Advanced Animation Demonstration", "* A Filter with animated interactions (motion layout)\n" +
+                "* Expansion/collapse animation effect ", Intent(this, ExpandCollapseActivity::class.java)))
+        list.add(HomeItemData("Scroll With MotionLayot", "Multiple Animated effect while scrolling", Intent(this, ScrollWithMotion::class.java)))
         list.add(HomeItemData("Parallax Demonstration", "A simple scroll with parallax effect", Intent(this, ArticleDetailActivity::class.java)))
-        list.add(HomeItemData("Expand/Collapse Item Demonstration", "Item expansion/collapse animation effect", Intent(this, ExpandCollapseActivity::class.java)))
-        list.add(HomeItemData("Scroll With MotionLayot", "Animated effects while scrolling", Intent(this, ScrollWithMotion::class.java)))
         return list
     }
 
@@ -95,7 +94,7 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
         fun setLIst(list : List<HomeItemData>) {
             this.mArraylist = list
-            notifyItemRangeChanged(0,2)
+            notifyDataSetChanged()
         }
 
        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleItemViewHolder {

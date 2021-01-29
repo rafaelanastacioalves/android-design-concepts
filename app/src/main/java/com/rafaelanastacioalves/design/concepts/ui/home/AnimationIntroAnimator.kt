@@ -36,7 +36,7 @@ class AnimationIntroAnimator : DefaultItemAnimator() {
 //        Log.i(TAG,"Animation: counting " + count + " elements");
         val context: Context = holder.itemView.getContext()
         var offset = context.resources.getDimensionPixelSize(R.dimen.offset_y).toFloat()
-        val interpolator = AnimationUtils.loadInterpolator(holder.itemView.getContext(), android.R.interpolator.linear_out_slow_in)
+        val interpolator = AnimationUtils.loadInterpolator(holder.itemView.getContext(), android.R.interpolator.fast_out_extra_slow_in)
         //
 //        // loop over the children setting an increasing translation y but the same animation
 //        // duration + interpolation
@@ -53,7 +53,7 @@ class AnimationIntroAnimator : DefaultItemAnimator() {
                 .translationY(0f)
                 .alpha(1f)
                 .setInterpolator(interpolator)
-                .setDuration(2000L)
+                .setDuration(1000L)
                 .start()
     }
 
@@ -77,7 +77,7 @@ class AnimationIntroAnimator : DefaultItemAnimator() {
                 .translationY(offset)
                 .alpha(0f)
                 .setInterpolator(interpolator)
-                .setDuration(2000L) //                .setListener(new Animator.AnimatorListener() {
+                .setDuration(1000L) //                .setListener(new Animator.AnimatorListener() {
                 //                    @Override
                 //                    public void onAnimationStart(Animator animator) {
                 //                        view.setVisibility(View.INVISIBLE);
