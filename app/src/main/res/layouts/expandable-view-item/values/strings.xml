@@ -2,4 +2,7 @@
 <resources>
     <string name="parallax_scroll_demonstration">Parallax scroll demonstration</string>
     <string name="article_detail_parallax_subtitle"><![CDATA[31 dez de 1969 by <b>Jack London</b>]]></string>
+    <string name="ok_button">OK</string>
+    <string name="dimiss">dimiss</string>
+    <string name="expand_collapse_title">Expand/Collapse Animation</string>
 </resources>

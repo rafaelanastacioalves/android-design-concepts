@@ -49,12 +49,12 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     }
 
-
     private fun setupToolbar() {
         title = "Design Demonstrations"
         setSupportActionBar(findViewById(R.id.toolbar))
         actionBar?.setDisplayShowTitleEnabled(true)
     }
+
 
     private fun setupRecyclerView() {
         val adapter = Adapter(this)
@@ -78,16 +78,17 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     private fun generateData(): List<HomeItemData> {
         val list = ArrayList<HomeItemData>()
+        list.add(HomeItemData("Advanced Animation Demonstration (Motion Layout)", "A Filter with animated interactions", Intent(this, ArticleDetailActivity::class.java)))
         list.add(HomeItemData("Parallax Demonstration", "A simple scroll with parallax effect", Intent(this, ArticleDetailActivity::class.java)))
         list.add(HomeItemData("Expand/Collapse Item Demonstration", "Item expansion/collapse animation effect", Intent(this, ExpandCollapseActivity::class.java)))
         list.add(HomeItemData("Scroll With MotionLayot", "Animated effects while scrolling", Intent(this, ScrollWithMotion::class.java)))
         return list
     }
+
     private class Adapter : RecyclerView.Adapter<ArticleItemViewHolder?> {
-
         private lateinit var clickListener: RecyclerViewClickListener
-        var mArraylist: List<HomeItemData>? = null
 
+        var mArraylist: List<HomeItemData>? = null
         constructor( clickListener: RecyclerViewClickListener) {
             this.clickListener = clickListener
         }
@@ -97,13 +98,13 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
             notifyItemRangeChanged(0,2)
         }
 
-
        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleItemViewHolder {
             Log.i("adapter", "onCreateViewHolder")
             val view: View = LayoutInflater.from(parent.context).inflate(R.layout.home_artcile_viewholder, parent, false)
             val vh = ArticleItemViewHolder(view)
             return vh
         }
+
 
         override fun getItemId(position: Int): Long {
             return position.toLong()
@@ -115,6 +116,7 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
             holder.subtitleView.text = data.subtitle
             holder.itemView.setOnClickListener { clickListener.onClick(view = it, position = position ) }
         }
+
         override fun getItemCount(): Int {
             return if (mArraylist != null) {
                 mArraylist!!.size
@@ -122,8 +124,9 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
                 0
             }
         }
-
     }
+
+
 
 
     class ArticleItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {

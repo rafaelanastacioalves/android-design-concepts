@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="@dimen/customLayoutTabMaxHeight"
+    android:layout_width="@dimen/viewpageging_tab_item_margin_horizonal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="@layout/custom_filterlayout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:scaleX="0.9"
+    android:scaleY="0.9">
+
+    <View
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/pill_background_form_drawable"
+        android:backgroundTint="@color/ciano"
+
+        android:layout_marginEnd="16dp"
+        />
+    <View
+        android:id="@+id/tabBadge"
+        android:layout_width="16dp"
+        android:background="@drawable/tab_badge"
+        android:layout_alignTop="@id/tab"
+        android:layout_alignEnd="@id/tab"
+        android:layout_marginTop="-6dp"
+        android:layout_marginEnd="-8dp"
+        android:scaleX="0"
+        android:scaleY="0"
+        tools:scaleX="1"
+        tools:scaleY="1"
+        android:layout_height="16dp"/>
+</RelativeLayout>

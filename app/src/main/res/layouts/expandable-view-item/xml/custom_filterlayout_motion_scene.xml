@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- /////
+/////////////////////
+////////// SETS //////////
+/////////////////////
+///// -->
+
+
+    <!-- /////
+    ////////// BASE //////////
+     ///// -->
+    <ConstraintSet android:id="@+id/base">
+
+
+        <Constraint
+            android:id="@+id/fabMotionIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            app:layout_constraintBottom_toBottomOf="@id/expansionBackground"
+            app:layout_constraintEnd_toEndOf="@id/expansionBackground"
+            app:layout_constraintStart_toStartOf="@id/expansionBackground"
+            app:layout_constraintTop_toTopOf="@id/expansionBackground"
+            />
+
+        <Constraint android:id="@id/expansionBackground">
+            <Layout
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="36dp" />
+
+            <CustomAttribute
+                app:attributeName="cardElevation"
+                app:customDimension="@dimen/expansionBackGroundStartElevation" />
+        </Constraint>
+
+    </ConstraintSet>
+
+    <!-- /////
+////////// PATH //////////
+ ///// -->
+
+    <ConstraintSet
+        android:id="@+id/fabPath"
+        app:deriveConstraintsFrom="@id/base">
+
+        <Constraint android:id="@+id/expansionBackground">
+            <Layout
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/viewPager"
+                app:layout_constraintEnd_toEndOf="@id/viewPager"
+                app:layout_constraintStart_toStartOf="@id/viewPager"
+                app:layout_constraintTop_toTopOf="@id/viewPager" />
+
+            <CustomAttribute
+                app:attributeName="cardElevation"
+                app:customDimension="@dimen/expansionBackGroundFinalElevation" />
+
+        </Constraint>
+        <Constraint
+            android:id="@id/fabMotionIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/viewPager"
+            app:layout_constraintEnd_toEndOf="@id/viewPager"
+            app:layout_constraintStart_toStartOf="@id/viewPager"
+            app:layout_constraintTop_toTopOf="@id/viewPager" />
+
+    </ConstraintSet>
+
+    <!-- /////
+////////// EXPANSION //////////
+ ///// -->
+
+    <ConstraintSet
+        android:id="@+id/filterExpansion"
+        app:deriveConstraintsFrom="@id/fabPath">
+        >
+
+        <Constraint android:id="@id/expansionBackground">
+            <Layout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/filterPlaceHolder"
+                app:layout_constraintEnd_toEndOf="@id/filterPlaceHolder"
+                app:layout_constraintStart_toStartOf="@id/filterPlaceHolder"
+                app:layout_constraintTop_toTopOf="@id/filterPlaceHolder" />
+
+            <CustomAttribute
+                app:attributeName="outlineProvider"
+                app:customStringValue="none" />
+            <CustomAttribute
+                app:attributeName="cardElevation"
+                app:customDimension="32dp" />
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="0dp" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/fabMotionIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint android:id="@id/viewPager">
+            <Transform android:translationY="32dp" />
+
+        </Constraint>
+
+        <Constraint android:id="@id/buttonsBarBackground">
+            <CustomAttribute
+                app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/colorPrimaryDark" />
+
+        </Constraint>
+
+    </ConstraintSet>
+
+    <!-- /////
+////////// SETTLE //////////
+ ///// -->
+
+    <ConstraintSet
+        android:id="@+id/filterSettle"
+        app:deriveConstraintsFrom="@+id/filterExpansion">
+
+        <Constraint android:id="@id/viewPager">
+            <Transform android:translationY="0dp" />
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint android:id="@id/buttonsBarBackground">
+
+            <CustomAttribute
+                app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/bottom_bar_color" />
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        //TODO: Refactor - o height pode ser extraido para ser usado no em outros lugares ...
+        <Constraint android:id="@+id/tabRecyclerview">
+
+            <Layout
+
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/customLayoutTabMaxHeight"
+                android:background="@color/tab_bg_color"
+                app:layout_constraintBottom_toTopOf="@id/viewPager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+            <PropertySet android:visibility="visible" />
+
+        </Constraint>
+
+
+        <Constraint
+            android:id="@+id/dismissButton"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginBottom="4dp"
+            android:alpha="1"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/buttonsBarBackground"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
+            app:layout_constraintStart_toStartOf="@id/buttonsBarBackground"
+            app:srcCompat="@drawable/ic_close"
+            app:tint="@color/colorWhite" />
+
+        // TODO: Refactor - marginbottom repetido.... (31/12/2020)
+        <Constraint
+            android:id="@+id/fabMotionIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineVertical" />
+
+    </ConstraintSet>
+
+
+    <!-- /////
+    /////////////////////
+////////// TRANSITIONS //////////
+    /////////////////////
+ ///// -->
+
+
+    <Transition
+        app:constraintSetEnd="@id/fabPath"
+        app:constraintSetStart="@id/base"
+        app:duration="@integer/path_duration">
+        <KeyFrameSet>
+            <KeyPosition
+                app:framePosition="50"
+                app:keyPositionType="deltaRelative"
+                app:motionTarget="@id/fabMotionIcon"
+                app:percentX="0.85"
+                app:percentY="0.15" />
+            <KeyPosition
+                app:framePosition="50"
+                app:keyPositionType="deltaRelative"
+                app:motionTarget="@id/expansionBackground"
+                app:percentX="0.85"
+                app:percentY="0.15" />
+        </KeyFrameSet>
+
+
+    </Transition>
+
+    <Transition
+        app:constraintSetEnd="@id/filterExpansion"
+        app:constraintSetStart="@id/fabPath"
+        app:duration="@integer/expansion_duraiton">
+        <KeyFrameSet>
+            <KeyPosition
+                app:framePosition="80"
+                app:motionTarget="@id/expansionBackground"
+                app:percentHeight="1"
+                app:percentWidth="1" />
+            <KeyAttribute
+                app:framePosition="80"
+                app:motionTarget="@id/expansionBackground">
+                <CustomAttribute
+                    app:attributeName="radius"
+                    app:customDimension="160dp" />
+            </KeyAttribute>
+
+
+        </KeyFrameSet>
+    </Transition>
+
+    <Transition
+        app:constraintSetEnd="@id/filterSettle"
+        app:constraintSetStart="@id/filterExpansion"
+        app:duration="@integer/settle_duration" />
+</MotionScene>

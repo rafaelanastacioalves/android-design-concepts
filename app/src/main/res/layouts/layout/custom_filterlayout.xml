@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/filterLayoutContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:background="@color/DarkGreen"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tabRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:paddingHorizontal="32dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/viewPager"
+        tools:layout_height="@dimen/customLayoutTabMaxHeight"
+        tools:listitem="@layout/custom_filterlayout_viewpager_recyclerview_tab_viewholder"
+        tools:visibility="visible" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toTopOf="@id/button_background"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/custom_filterlayout_viewpager_item_holder_3" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/buttonsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/button_background"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/lightGreen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/dismissButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/button_background"
+            app:srcCompat="@drawable/ic_close"
+            app:tint="@color/colorWhite"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/okButton"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
+            app:layout_constraintTop_toTopOf="@id/button_background"
+            app:srcCompat="@drawable/ic_filter"
+            app:tint="@color/colorWhite"
+            tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>
+

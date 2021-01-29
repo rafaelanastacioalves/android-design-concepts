@@ -1,21 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context="com.example.rafaelanastacioalves.moby.com.rafaelanastacioalves.design.concepts.ui.entitymainlisting.MainActivity">
+	android:layout_height="match_parent">
 
 	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/mainEntityList"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
 		android:layout_marginTop="16dp"
-		android:id="@+id/main_entity_list"
 		android:clipToPadding="false"
-		android:layout_width="0dp"
-		android:layout_height="0dp"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		tools:listitem="@layout/expand_collapse_viewholder"
-		app:layout_constraintTop_toTopOf="parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+		app:layout_constraintTop_toTopOf="parent"
+		tools:listitem="@layout/expand_collapse_viewholder" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+		android:visibility="gone"
+        android:id="@+id/constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.expand_collapse_animation.ExpandCollapseActivity">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:clickable="true"
+            android:tint="@color/lightGrey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_filter" />
+
+        <com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayout
+            android:id="@+id/filterLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+	<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutMotion
+		android:id="@+id/filterLayoutMotion"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="visible"
+		app:layoutDescription="@xml/custom_filterlayout_motion_scene"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		tools:visibility="visible" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

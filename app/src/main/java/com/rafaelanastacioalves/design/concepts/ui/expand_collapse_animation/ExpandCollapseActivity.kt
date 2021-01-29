@@ -2,34 +2,91 @@ package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
 
 import android.os.Bundle
-
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
+import com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutContract
 import com.rafaelanastacioalves.design.concepts.domain.entities.FakeData
 import com.rafaelanastacioalves.design.concepts.domain.entities.Resource
+import kotlinx.android.synthetic.main.custom_filterlayout_motion.view.*
+import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
 
 
-class ExpandCollapseActivity : AppCompatActivity(){
+class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
 
-    private val mClickListener = this
-    private var expandCollapseAdapter: ExpandCollapseAdapter? = null
-    private var mRecyclerView: RecyclerView? = null
-    private val mLiveDataMainEntityListViewModel: ExpandCollapseViewModel by lazy {
-        ViewModelProvider(this).get(ExpandCollapseViewModel::class.java)
+
+    internal val expandCollapseAdapter: ExpandCollapseAdapter by lazy {
+        ExpandCollapseAdapter(this)
+    }
+    private val animationDelegateMotion by lazy {
+        ExpandCollapseActivityDelegateMotion(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupViews()
-        setupRecyclerView()
-        title = "Expand/Collapse Animation"
+        setupExpandCollapseRecyclerView()
+        title = getString(R.string.expand_collapse_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         populateRecyclerView(generateFakeData())
+        setupFabMotionCollapsed()
+    }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        setupFilterLayout()
+    }
+
+    private fun setupFilterLayout() {
+        filterLayoutMotion.setFilterLayoutCallbacksListeners(this)
+//        filterLayoutMotion.calculateTabDimensions()
+    }
+
+    internal fun setupFabMotionCollapsed() {
+
+        // TODO: Refactor - olha esse tanto de codigo repetido meu deus (19/01/2021)
+        filterLayoutMotion.expansionBackground.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(isForward = true)
+            disableListeners()
+
+        }
+
+        // TODO: Refactor - esses metodozihos deviam ser atribuição da claasse filterLayoutMotion... (02/01/2021)
+        filterLayoutMotion.fabMotionIcon.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(true)
+            disableListeners()
+        }
+
+    }
+
+    internal fun setupFabMotionExpanded() {
+
+        // TODO: Refactor - aqui tambem tem muito codigo repetido (19/01/2021)
+        filterLayoutMotion.fabMotionIcon.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(isForward = false)
+            it.setOnClickListener(null)
+        }
+        filterLayoutMotion.dismissButton.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(isForward = false)
+            it.setOnClickListener(null)
+        }
+    }
+
+    internal fun hideFab() {
+        filterLayoutMotion.fabMotionIcon.isVisible = false
+    }
+
+    internal fun showFab() {
+        filterLayoutMotion.fabMotionIcon.isVisible = true
+    }
+
+    internal fun showFilter() {
+        filterLayoutMotion.isVisible = true
+    }
+
+    private fun hideFilter() {
+        filterLayoutMotion.isVisible = false
     }
 
     private fun generateFakeData(): Resource<List<FakeData>>? {
@@ -47,49 +104,37 @@ class ExpandCollapseActivity : AppCompatActivity(){
                 FakeData(11),
                 FakeData(12),
                 FakeData(13)
-                ))
+        ))
     }
 
     private fun setupViews() {
         setContentView(R.layout.expand_collapse_animation_activity)
     }
 
-    private fun setupRecyclerView() {
-        mRecyclerView = findViewById<View>(R.id.main_entity_list) as RecyclerView
+    private fun setupExpandCollapseRecyclerView() {
         val layoutManager = LinearLayoutManager(applicationContext)
-        mRecyclerView!!.layoutManager = layoutManager
-        if (expandCollapseAdapter == null) {
-            expandCollapseAdapter = ExpandCollapseAdapter(this)
-        }
-        mRecyclerView!!.adapter = expandCollapseAdapter
+        mainEntityList!!.layoutManager = layoutManager
+        mainEntityList!!.adapter = expandCollapseAdapter
     }
-
 
     private fun populateRecyclerView(list: Resource<List<FakeData>>?) {
         if (list == null) {
-            expandCollapseAdapter!!.setItems(null)
-            //TODO add any error managing
-
-        } else if (list.data!=null) {
-            expandCollapseAdapter!!.setItems(list.data)
+            expandCollapseAdapter.setItems(null)
+        } else if (list.data != null) {
+            expandCollapseAdapter.setItems(list.data)
         }
-
     }
 
+    override fun onFilterDismiss() {
+        animationDelegateMotion.animateFilterShowUp(false)
+    }
 
+    override fun onFilterConfirmed() {
+        animationDelegateMotion.animateFilterShowUp(false)
+    }
 
-//    private fun startActivityByVersion(mainEntity: MainEntity, transitionImageView: AppCompatImageView) {
-//        val i = Intent(this, EntityDetailActivity::class.java)
-//        i.putExtra(EntityDetailsFragment.ARG_ENTITY_ID, mainEntity.id)
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            var bundle: Bundle? = null
-//            bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity,
-//                    transitionImageView, transitionImageView.transitionName).toBundle()
-//            startActivity(i, bundle)
-//
-//        } else {
-//            startActivity(i)
-//        }
-//    }
+    private fun disableListeners() {
+        filterLayoutMotion.expansionBackground.setOnClickListener(null)
+        filterLayoutMotion.fabMotionIcon.setOnClickListener(null)
+    }
 }
