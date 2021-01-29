@@ -210,7 +210,7 @@
     <Transition
         app:constraintSetEnd="@id/fabPath"
         app:constraintSetStart="@id/base"
-        app:duration="300">
+        app:duration="@integer/path_duration">
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="50"
@@ -232,7 +232,7 @@
     <Transition
         app:constraintSetEnd="@id/filterExpansion"
         app:constraintSetStart="@id/fabPath"
-        app:duration="3000">
+        app:duration="@integer/expansion_duraiton">
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="80"
@@ -254,5 +254,5 @@
     <Transition
         app:constraintSetEnd="@id/filterSettle"
         app:constraintSetStart="@id/filterExpansion"
-        app:duration="3000" />
+        app:duration="@integer/settle_duration" />
 </MotionScene>

@@ -19,7 +19,7 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
     var viewHolderWidth: Float = 0F
     var selectedItemIndex: Int = 0
 
-    enum class ViewHolderType {NORMAL, FOOTER_VIEW}
+    enum class ViewHolderType { NORMAL, FOOTER_VIEW }
 
     lateinit var customFilterLayoutTabList: List<CustomFilterLayoutTabItemElement>
     var isToAnimateBadge = false
@@ -76,8 +76,10 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
     }
 
     private fun markAsCurrent(holder: TabViewHolder, isCurrent: Boolean) {
+        holder.setPercentActivated(if (isCurrent) 1f else {
+            0f
+        })
         if (isCurrent) {
-            holder.setPercentActivated(if(isCurrent) 1f else {0f})
             Log.d(javaClass.name, "TabView of position ${holder.adapterPosition} is the current")
         }
     }
@@ -89,7 +91,7 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
 
     override fun onViewAttachedToWindow(holder: TabViewHolder) {
         super.onViewAttachedToWindow(holder)
-        if(holder.itemViewType == ViewHolderType.FOOTER_VIEW.ordinal){
+        if (holder.itemViewType == ViewHolderType.FOOTER_VIEW.ordinal) {
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.minimumWidth = 200
         }
@@ -98,7 +100,6 @@ class TabForViewPagerAdapter(val recyclerViewClickListener: RecyclerViewClickLis
 
 class TabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val resources = itemView.resources
-
     fun animateBadge(isToMark: Boolean) {
         itemView.tabBadge.animate()
                 .setDuration(100L)
@@ -123,10 +124,10 @@ class TabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun setPercentActivated(percent: Float) {
-        itemView.tab.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(resources.getColor(R.color.ciano),resources.getColor( R.color.colorWhite), percent))
+        itemView.tab.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(resources.getColor(R.color.ciano), resources.getColor(R.color.colorWhite), percent))
         //TODO: Refatorar - isso aqui poderia estar parametrizado junto com o valor inicial setado no layout....
-        itemView.scaleX = 0.9f + 0.15f*percent
-        itemView.scaleY = 0.9f + 0.15f*percent
+        itemView.scaleX = 0.9f + 0.15f * percent
+        itemView.scaleY = 0.9f + 0.15f * percent
     }
 
 }

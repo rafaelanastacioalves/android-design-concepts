@@ -27,7 +27,7 @@ val Context.screenHeight: Int
         return Point().also { display?.getSize(it) }.y
     }
 
-class ExpandCollapseAnimationDelegate(activity: Activity) {
+class ExpandCollapseAnimationDelegate(val activity: Activity) {
     private var originalHeight: Int = -1
     private var additionalHeight: Int = -1
     private var expandedPosition: Int = -1
@@ -162,7 +162,7 @@ class ExpandCollapseAnimationDelegate(activity: Activity) {
         get() = findFirstVisibleItemPosition()..findLastVisibleItemPosition()
 
     fun escaleDown(forward: Boolean): ValueAnimator {
-        return getValueAnimator(forward, 1000, AccelerateDecelerateInterpolator()) { progress ->
+        return getValueAnimator(forward, activity.resources.getInteger(R.integer.escale_down_duration).toLong(), AccelerateDecelerateInterpolator()) { progress ->
             for (visiblePosition in (recyclerView.layoutManager as LinearLayoutManager).visibleItensRange) {
                 val holder = recyclerView.findViewHolderForAdapterPosition(visiblePosition) as ExpandCollapseViewHolder
                 holder.itemView.apply {

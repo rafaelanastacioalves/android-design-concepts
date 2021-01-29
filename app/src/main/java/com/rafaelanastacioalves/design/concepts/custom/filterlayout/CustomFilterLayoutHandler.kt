@@ -45,7 +45,7 @@ class CustomFilterLayoutHandler(private val button_background: View,
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-//                println("onPageScrolled: position: ${position}, positionOffSet: ${positionOffset}, positionOffSetPixels $positionOffsetPixels")
+                println("onPageScrolled: position: ${position}, positionOffSet: ${positionOffset}, positionOffSetPixels $positionOffsetPixels")
                 viewpagerTabRecyclerview.apply {
                     animateToPosition(calculateScrollBy(positionOffset, position))
                     //TODO: Refatorar essa parte ta muito pesado ...
@@ -60,7 +60,7 @@ class CustomFilterLayoutHandler(private val button_background: View,
                     if (position > currentPosition || positionOffset == 0F) {
                         currentPosition = position
                         currentOffSet = 0F
-                        tabAdapterForViewPager.selectedItemIndex = position
+                        tabAdapterForViewPager.selectedItemIndex = currentPosition
                         suppressLayout(false)
                         tabAdapterForViewPager.notifyDataSetChanged()
                         suppressLayout(true)

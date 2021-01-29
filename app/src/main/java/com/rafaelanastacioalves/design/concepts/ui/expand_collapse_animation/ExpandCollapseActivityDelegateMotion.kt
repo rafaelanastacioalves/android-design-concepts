@@ -21,8 +21,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
         }else{
             closeFilterWithMotionAnimation()
         }
-        val animateScaleDown = expandCollapseAdapter.holdersScaleDownAnimator(isForward)
-        animateScaleDown.start()
+
     }
 
 
@@ -65,6 +64,8 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
         })
 
         activity.filterLayoutMotion.transitionToState(R.id.fabPath)
+        val animateScaleDown = expandCollapseAdapter.holdersScaleDownAnimator(true)
+        animateScaleDown.start()
     }
 
     private fun closeFilterWithMotionAnimation() {
@@ -92,6 +93,11 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                             setTransition(R.id.base, R.id.fabPath)
                             transitionToStart()
                         }
+                        val animateScaleDown = expandCollapseAdapter.holdersScaleDownAnimator(false)
+                        animateScaleDown.start()
+
+                    }
+                    R.id.base -> {
                         filterLayoutMotion.removeTransitionListener(this)
                         activity.setupFabMotionCollapsed()
                     }
