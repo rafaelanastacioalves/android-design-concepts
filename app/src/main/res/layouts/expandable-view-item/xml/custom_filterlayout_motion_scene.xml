@@ -40,7 +40,7 @@
 
             <CustomAttribute
                 app:attributeName="cardElevation"
-                app:customDimension="@dimen/expansionBackGroundFinalElevation" />
+                app:customDimension="@dimen/expansionBackGroundStartElevation" />
         </Constraint>
 
     </ConstraintSet>
@@ -53,22 +53,20 @@
         android:id="@+id/fabPath"
         app:deriveConstraintsFrom="@id/base">
 
-        <Constraint
-            android:id="@+id/expansionBackground"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/viewPager"
-            app:layout_constraintEnd_toEndOf="@id/viewPager"
-            app:layout_constraintStart_toStartOf="@id/viewPager"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_toTopOf="@id/viewPager"
-            >
+        <Constraint android:id="@+id/expansionBackground">
+            <Layout
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/viewPager"
+                app:layout_constraintEnd_toEndOf="@id/viewPager"
+                app:layout_constraintStart_toStartOf="@id/viewPager"
+                app:layout_constraintTop_toTopOf="@id/viewPager" />
+
             <CustomAttribute
                 app:attributeName="cardElevation"
-                app:customDimension="32dp" />
-
+                app:customDimension="@dimen/expansionBackGroundFinalElevation" />
 
         </Constraint>
         <Constraint

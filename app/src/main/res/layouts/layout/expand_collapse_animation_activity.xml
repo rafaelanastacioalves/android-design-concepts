@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mainEntityList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/expand_collapse_viewholder" />
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/mainEntityList"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginTop="16dp"
+		android:clipToPadding="false"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:listitem="@layout/expand_collapse_viewholder" />
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -54,15 +55,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-		<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutMotion
-			android:id="@+id/filterLayoutMotion"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:visibility="visible"
-			app:layoutDescription="@xml/custom_filterlayout_motion_scene"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			tools:visibility="visible" />
-</FrameLayout>
+	<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutMotion
+		android:id="@+id/filterLayoutMotion"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="visible"
+		app:layoutDescription="@xml/custom_filterlayout_motion_scene"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		tools:visibility="visible" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
