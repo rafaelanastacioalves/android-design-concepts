@@ -162,7 +162,9 @@ class ExpandCollapseAnimationDelegate(val activity: Activity) {
         get() = findFirstVisibleItemPosition()..findLastVisibleItemPosition()
 
     fun escaleDown(forward: Boolean): ValueAnimator {
-        return getValueAnimator(forward, activity.resources.getInteger(R.integer.escale_down_duration).toLong(), AccelerateDecelerateInterpolator()) { progress ->
+        return getValueAnimator(forward,
+                activity.resources.getInteger(R.integer.escale_down_duration).toLong(),
+                AccelerateDecelerateInterpolator()) { progress ->
             for (visiblePosition in (recyclerView.layoutManager as LinearLayoutManager).visibleItensRange) {
                 val holder = recyclerView.findViewHolderForAdapterPosition(visiblePosition) as ExpandCollapseViewHolder
                 holder.itemView.apply {
