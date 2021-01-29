@@ -24,7 +24,6 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        goTo(Intent(baseContext,ExpandCollapseActivity::class.java))
         setContentView(R.layout.home_activity)
         setupToolbar()
         setupRecyclerView()
@@ -77,6 +76,7 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     private fun generateData(): List<HomeItemData> {
         val list = ArrayList<HomeItemData>()
+        list.add(HomeItemData("Advanced Animation Demonstration (Motion Layout)", "A Filter with animated interactions", Intent(this, ArticleDetailActivity::class.java)))
         list.add(HomeItemData("Parallax Demonstration", "A simple scroll with parallax effect", Intent(this, ArticleDetailActivity::class.java)))
         list.add(HomeItemData("Expand/Collapse Item Demonstration", "Item expansion/collapse animation effect", Intent(this, ExpandCollapseActivity::class.java)))
         return list
