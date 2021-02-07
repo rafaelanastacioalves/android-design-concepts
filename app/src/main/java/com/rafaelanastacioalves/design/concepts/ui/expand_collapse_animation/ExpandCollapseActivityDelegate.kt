@@ -89,9 +89,11 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     }
 
     private fun fabOpeningAnimator(isForward: Boolean): ValueAnimator {
+        val startX = fab.x
+        val finalX = activity.screenWidth / 2
         //TODO - Refactor: depois abstrair esse 1000L para poder ser usado pelo motion também
         val valueAnimator = Utils.getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
-            fab.translationX = -400f * progress
+            fab.x = startX + progress * (finalX - startX)
             fab.translationY = -400f * progress
         }
         valueAnimator.doOnEnd {

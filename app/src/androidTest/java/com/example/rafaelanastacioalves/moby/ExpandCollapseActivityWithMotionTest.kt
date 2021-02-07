@@ -1,24 +1,8 @@
 package com.example.rafaelanastacioalves.moby
 
+
 import android.content.Intent
 import android.os.Bundle
-
-
-import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseActivity
-import com.example.rafaelanastacioalves.moby.util.RestServiceTestHelper
-
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.runner.RunWith
-
-import java.io.IOException
-
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-
-
 import android.view.View
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -28,14 +12,24 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.example.rafaelanastacioalves.moby.util.HelperMethods.withHolderContainingId
+import com.example.rafaelanastacioalves.moby.util.RestServiceTestHelper
+import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseActivityWithMotion
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.core.AllOf.allOf
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import java.io.IOException
 
 
 @RunWith(AndroidJUnit4::class)
-class ExpandCollapseActivityTest {
+class ExpandCollapseActivityWithMotionTest {
 
     @get:Rule
-    var mainActivityActivityTestRule = ActivityTestRule(ExpandCollapseActivity::class.java, true, false)
+    var mainActivityActivityTestRule = ActivityTestRule(ExpandCollapseActivityWithMotion::class.java, true, false)
     private val fileNameMainEntityListOKResponse = "main_entity_ok_response.json"
     private var server: MockWebServer? = null
 

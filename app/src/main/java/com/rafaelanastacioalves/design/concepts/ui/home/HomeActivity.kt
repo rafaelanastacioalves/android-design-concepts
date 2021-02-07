@@ -15,6 +15,7 @@ import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
 import com.rafaelanastacioalves.design.concepts.ui.articledetail.ArticleDetailActivity
 import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseActivity
+import com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation.ExpandCollapseActivityWithMotion
 import com.rafaelanastacioalves.design.concepts.ui.motion_layout_scroll.ScrollWithMotion
 
 class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
@@ -24,7 +25,7 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        goTo(Intent(baseContext, ScrollWithMotion::class.java))
+        goTo(Intent(baseContext, ExpandCollapseActivity::class.java))
         setContentView(R.layout.home_activity)
         setupToolbar()
         setupRecyclerView()
@@ -78,7 +79,7 @@ class HomeActivity : AppCompatActivity(), RecyclerViewClickListener {
     private fun generateData(): List<HomeItemData> {
         val list = ArrayList<HomeItemData>()
         list.add(HomeItemData("Advanced Animation Demonstration", "* A Filter with animated interactions (motion layout)\n" +
-                "* Expansion/collapse animation effect ", Intent(this, ExpandCollapseActivity::class.java)))
+                "* Expansion/collapse animation effect ", Intent(this, ExpandCollapseActivityWithMotion::class.java)))
         list.add(HomeItemData("Scroll With MotionLayot", "Multiple Animated effect while scrolling", Intent(this, ScrollWithMotion::class.java)))
         list.add(HomeItemData("Parallax Demonstration", "A simple scroll with parallax effect", Intent(this, ArticleDetailActivity::class.java)))
         return list

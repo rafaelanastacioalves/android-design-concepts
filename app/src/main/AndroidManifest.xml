@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:label">
+        <activity android:name=".ui.expand_collapse_animation.ExpandCollapseActivity"></activity>
         <activity
             android:name=".ui.home.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -20,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.expand_collapse_animation.ExpandCollapseActivity"
+            android:name=".ui.expand_collapse_animation.ExpandCollapseActivityWithMotion"
             android:parentActivityName=".ui.home.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -39,7 +40,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rafaelanastacioalves.design.concepts.ui.home.HomeActivity" />
         </activity>
-
         <activity
             android:name=".ui.motion_layout_scroll.ScrollWithMotion"
             android:parentActivityName=".ui.home.HomeActivity">

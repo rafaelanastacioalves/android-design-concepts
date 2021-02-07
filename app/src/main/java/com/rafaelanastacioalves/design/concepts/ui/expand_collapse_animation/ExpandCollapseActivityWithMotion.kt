@@ -9,31 +9,28 @@ import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutContract
 import com.rafaelanastacioalves.design.concepts.domain.entities.FakeData
 import com.rafaelanastacioalves.design.concepts.domain.entities.Resource
+import kotlinx.android.synthetic.main.custom_filterlayout_motion.view.*
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
 
 
-class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
+class ExpandCollapseActivityWithMotion : AppCompatActivity(), FilterLayoutContract {
 
 
     internal val expandCollapseAdapter: ExpandCollapseAdapter by lazy {
         ExpandCollapseAdapter(this)
     }
-    private val animationDelegate by lazy {
-        ExpandCollapseActivityDelegate(this)
+    private val animationDelegateMotion by lazy {
+        ExpandCollapseActivityDelegateMotion(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupViews()
-        // TODO: Refactor - deixar mais explicita a mudança de tela motion e não motion (07/02/2021)
-        filterLayoutMotion.isVisible = false
-        normalFilterAndFab.isVisible = true
-
         setupExpandCollapseRecyclerView()
         title = getString(R.string.expand_collapse_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         populateRecyclerView(generateFakeData())
-        setupFab()
+        setupFabMotionCollapsed()
     }
 
     override fun onAttachedToWindow() {
@@ -42,30 +39,54 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     }
 
     private fun setupFilterLayout() {
-        filterLayout.setFilterLayoutCallbacksListeners(this)
-//        filterLayout.calculateTabDimensions()
+        filterLayoutMotion.setFilterLayoutCallbacksListeners(this)
+//        filterLayoutMotion.calculateTabDimensions()
     }
 
-    private fun setupFab() {
-        fab.setOnClickListener {
-            animationDelegate.animateFilterShowUp(true)
+    internal fun setupFabMotionCollapsed() {
+
+        // TODO: Refactor - olha esse tanto de codigo repetido meu deus (19/01/2021)
+        filterLayoutMotion.expansionBackground.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(isForward = true)
+            disableListeners()
+
+        }
+
+        // TODO: Refactor - esses metodozihos deviam ser atribuição da claasse filterLayoutMotion... (02/01/2021)
+        filterLayoutMotion.fabMotionIcon.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(true)
+            disableListeners()
+        }
+
+    }
+
+    internal fun setupFabMotionExpanded() {
+
+        // TODO: Refactor - aqui tambem tem muito codigo repetido (19/01/2021)
+        filterLayoutMotion.fabMotionIcon.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(isForward = false)
+            it.setOnClickListener(null)
+        }
+        filterLayoutMotion.dismissButton.setOnClickListener {
+            animationDelegateMotion.animateFilterShowUp(isForward = false)
+            it.setOnClickListener(null)
         }
     }
 
     internal fun hideFab() {
-        fab.isVisible = false
+        filterLayoutMotion.fabMotionIcon.isVisible = false
     }
 
     internal fun showFab() {
-        fab.isVisible = true
+        filterLayoutMotion.fabMotionIcon.isVisible = true
     }
 
     internal fun showFilter() {
-        filterLayout.isVisible = true
+        filterLayoutMotion.isVisible = true
     }
 
     private fun hideFilter() {
-        filterLayout.isVisible = false
+        filterLayoutMotion.isVisible = false
     }
 
     private fun generateFakeData(): Resource<List<FakeData>>? {
@@ -105,10 +126,15 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
     }
 
     override fun onFilterDismiss() {
-        animationDelegate.animateFilterShowUp(false)
+        animationDelegateMotion.animateFilterShowUp(false)
     }
 
     override fun onFilterConfirmed() {
-        animationDelegate.animateFilterShowUp(false)
+        animationDelegateMotion.animateFilterShowUp(false)
+    }
+
+    private fun disableListeners() {
+        filterLayoutMotion.expansionBackground.setOnClickListener(null)
+        filterLayoutMotion.fabMotionIcon.setOnClickListener(null)
     }
 }

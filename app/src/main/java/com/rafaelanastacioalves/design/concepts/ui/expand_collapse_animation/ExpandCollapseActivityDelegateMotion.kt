@@ -4,14 +4,14 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import com.rafaelanastacioalves.design.concepts.R
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
 
-class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseActivity) {
+class ExpandCollapseActivityDelegateMotion(private val activityWithMotion: ExpandCollapseActivityWithMotion) {
 
 
     private var fabMiddlePosition: Float = 0f
 
-    private val filterLayoutMotion = activity.filterLayoutMotion
+    private val filterLayoutMotion = activityWithMotion.filterLayoutMotion
 
-    private val expandCollapseAdapter = activity.expandCollapseAdapter
+    private val expandCollapseAdapter = activityWithMotion.expandCollapseAdapter
 
 
     internal fun animateFilterShowUp(isForward: Boolean) {
@@ -31,10 +31,10 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
         val animateScaleDown = expandCollapseAdapter.holdersScaleDownAnimator(true)
         animateScaleDown.start()
         // TODO: Refactor - olha quantas vezes "filterLayoutMotion.motionLayout" é chamado... (02/01/2021)
-        activity.filterLayoutMotion.setTransition(R.id.base, R.id.fabPath)
+        activityWithMotion.filterLayoutMotion.setTransition(R.id.base, R.id.fabPath)
 
         //TODO: Refactor - Dá pra colocar isso daqui no início?
-        activity.filterLayoutMotion.setTransitionListener(object : MotionLayout.TransitionListener {
+        activityWithMotion.filterLayoutMotion.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
             }
 
@@ -45,7 +45,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                 when (p1) {
                     R.id.fabPath -> {
 
-                        activity.filterLayoutMotion.transitionToState(R.id.filterExpansion)
+                        activityWithMotion.filterLayoutMotion.transitionToState(R.id.filterExpansion)
 
                     }
                     R.id.filterExpansion -> {
@@ -55,7 +55,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
                     R.id.filterSettle -> {
                         filterLayoutMotion.removeTransitionListener(this)
-                        activity.setupFabMotionExpanded()
+                        activityWithMotion.setupFabMotionExpanded()
                     }
                 }
             }
@@ -65,7 +65,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
 
         })
 
-        activity.filterLayoutMotion.transitionToState(R.id.fabPath)
+        activityWithMotion.filterLayoutMotion.transitionToState(R.id.fabPath)
 
     }
 
@@ -82,7 +82,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
             override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
                 when (p1) {
                     R.id.filterExpansion -> {
-                        activity.filterLayoutMotion.run {
+                        activityWithMotion.filterLayoutMotion.run {
                             progress = 1f
                             setTransition(R.id.fabPath, R.id.filterExpansion)
                             transitionToStart()
@@ -92,7 +92,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                         val animateScaleDown = expandCollapseAdapter.holdersScaleDownAnimator(false)
                         animateScaleDown.start()
 
-                        activity.filterLayoutMotion.run {
+                        activityWithMotion.filterLayoutMotion.run {
                             progress = 1f
                             setTransition(R.id.base, R.id.fabPath)
                             transitionToStart()
@@ -101,7 +101,7 @@ class ExpandCollapseActivityDelegateMotion(private val activity: ExpandCollapseA
                     }
                     R.id.base -> {
                         filterLayoutMotion.removeTransitionListener(this)
-                        activity.setupFabMotionCollapsed()
+                        activityWithMotion.setupFabMotionCollapsed()
                     }
 
                 }

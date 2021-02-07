@@ -22,10 +22,14 @@ import com.rafaelanastacioalves.design.concepts.common.Utils.Companion.getValueA
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.*
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.view.*
 
+@Suppress("DEPRECATION")
 val Context.screenHeight: Int
-    get() {
-        return Point().also { display?.getSize(it) }.y
-    }
+    get() = Point().also { (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(it) }.y
+
+@Suppress("DEPRECATION")
+public val Context.screenWidth: Int
+    get() = Point().also { (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(it) }.x
+
 
 class ExpandCollapseAnimationDelegate(val activity: Activity) {
     private var originalHeight: Int = -1
@@ -40,9 +44,6 @@ class ExpandCollapseAnimationDelegate(val activity: Activity) {
             return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics).toInt()
         }
 
-    @Suppress("DEPRECATION")
-    private val Activity.screenWidth: Int
-        get() = Point().also { (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(it) }.x
 
     //            return Point().also { display?.getSize(it) }.x
     private lateinit var recyclerView: RecyclerView
