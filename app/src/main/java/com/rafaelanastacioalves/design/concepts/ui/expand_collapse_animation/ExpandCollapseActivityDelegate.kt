@@ -2,6 +2,7 @@ package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.doOnEnd
@@ -9,6 +10,7 @@ import androidx.core.animation.doOnStart
 import androidx.core.view.doOnPreDraw
 import com.rafaelanastacioalves.design.concepts.common.Utils
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
+import kotlin.math.pow
 import kotlin.math.roundToInt
 
 class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivity) {
@@ -88,13 +90,24 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         }
     }
 
+    var fabOriginX = 0f
     private fun fabOpeningAnimator(isForward: Boolean): ValueAnimator {
-        val startX = fab.x
-        val finalX = activity.screenWidth / 2
+        // setup [fabOriginX]
+        if (isForward && fabOriginX == 0f) {
+            fabOriginX = fab.x
+        }
+
+        val startY = fab.y
+        val finalX: Float = (activity.screenWidth / 2).toFloat()
         //TODO - Refactor: depois abstrair esse 1000L para poder ser usado pelo motion também
         val valueAnimator = Utils.getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
-            fab.x = startX + progress * (finalX - startX)
-            fab.translationY = -400f * progress
+            Log.d("Fab Opening", "progress: ${progress}")
+
+            fab.x = fabOriginX + (progress * (finalX - fabOriginX))
+            Log.d("Fab Opening", "Fab.X: ${fab.x}")
+            fab.y = startY - 0.01F * ((fab.x - fabOriginX).pow(2))
+            Log.d("Fab Opening", "Fab.Y: ${fab.y}")
+
         }
         valueAnimator.doOnEnd {
             calculateFabPosition()
