@@ -18,7 +18,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     private var filterMaxWith: Int = 0
     private var filterMaxHeight: Int = 0
     private var filterFinalPosition = 0f
-    private var fabMiddlePosition: Float = 0f
+    private var fabMiddlePositionY: Float = 0f
 
     private val filterLayout = activity.filterLayout
     private val fab = activity.fab
@@ -31,8 +31,6 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                 it.alpha = progress
                 it.layoutParams.width = (progress * filterMaxWith).roundToInt()
 //            println("Width: ${filterLayout.layoutParams.width}")
-                fab.alpha = 1 - progress
-                fab.y = fabMiddlePosition + (activity.screenHeight - fabMiddlePosition - 400f) * (progress)
                 it.layoutParams.height = (progress * it.withoutTabsHeight.toFloat()).toInt()
 //            println("Height: ${filterLayout.layoutParams.height}")
                 it.requestLayout()
@@ -60,7 +58,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     }
 
     private fun calculateFabPosition() {
-        fabMiddlePosition = fab.y
+        fabMiddlePositionY = fab.y
     }
 
     internal fun animateFilterShowUp(isForward: Boolean) {
@@ -91,23 +89,38 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     }
 
     var fabOriginX = 0f
+    var startY = 0f
     private fun fabOpeningAnimator(isForward: Boolean): ValueAnimator {
-        // setup [fabOriginX]
+        // setup
         if (isForward && fabOriginX == 0f) {
             fabOriginX = fab.x
         }
+        if (isForward && startY == 0f) {
+            startY = fab.y
+        }
 
-        val startY = fab.y
         val finalX: Float = (activity.screenWidth / 2).toFloat()
         //TODO - Refactor: depois abstrair esse 1000L para poder ser usado pelo motion também
         val valueAnimator = Utils.getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
-            Log.d("Fab Opening", "progress: ${progress}")
-
-            fab.x = fabOriginX + (progress * (finalX - fabOriginX))
-            Log.d("Fab Opening", "Fab.X: ${fab.x}")
-            fab.y = startY - 0.01F * ((fab.x - fabOriginX).pow(2))
-            Log.d("Fab Opening", "Fab.Y: ${fab.y}")
-
+            val midlePointProgress = 0.5f
+            var relativeProgress = 0f
+            if (progress < midlePointProgress) {
+                relativeProgress = progress / midlePointProgress
+                Log.d("Fab Opening", "progress: ${relativeProgress}")
+                fab.x = fabOriginX +
+                        (relativeProgress * (finalX - fabOriginX))
+                Log.d("Fab Opening", "Fab.X: ${fab.x}")
+                fab.y = startY - 0.01F * ((fab.x - fabOriginX).pow(2))
+                Log.d("Fab Opening", "Fab.Y: ${fab.y}")
+            } else {
+                if (progress == 0.5f) {
+                    fabMiddlePositionY = fab.y
+                }
+                relativeProgress = progress / midlePointProgress - 1
+                fab.alpha = 1 - relativeProgress
+                fab.y = fabMiddlePositionY +
+                        (activity.screenHeight - fabMiddlePositionY - 400f) * (relativeProgress)
+            }
         }
         valueAnimator.doOnEnd {
             calculateFabPosition()
