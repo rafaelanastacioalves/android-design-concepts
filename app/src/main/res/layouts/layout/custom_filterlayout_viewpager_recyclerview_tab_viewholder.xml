@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="@dimen/customLayoutTabMaxHeight"
     android:layout_width="@dimen/viewpageging_tab_item_margin_horizonal"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="@layout/custom_filterlayout"
     xmlns:tools="http://schemas.android.com/tools"
     android:scaleX="0.9"

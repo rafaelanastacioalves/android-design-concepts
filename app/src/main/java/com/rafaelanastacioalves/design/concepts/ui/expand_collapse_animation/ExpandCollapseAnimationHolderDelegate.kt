@@ -5,10 +5,8 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
-import android.content.res.Resources
 import android.graphics.Point
 import android.util.Log
-import android.util.TypedValue
 import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.doOnEnd
@@ -17,8 +15,9 @@ import androidx.core.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
-import com.rafaelanastacioalves.design.concepts.common.Utils
-import com.rafaelanastacioalves.design.concepts.common.Utils.Companion.getValueAnimator
+import com.rafaelanastacioalves.design.concepts.common.dp
+import com.rafaelanastacioalves.design.concepts.common.getValueAnimator
+import com.rafaelanastacioalves.design.concepts.common.mergeColors
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.*
 import kotlinx.android.synthetic.main.expand_collapse_viewholder.view.*
 
@@ -39,10 +38,6 @@ class ExpandCollapseAnimationDelegate(val activity: Activity) {
     private val originalWidth: Int = activity.screenWidth - 48.dp
     private val additionalWidth: Int = 32.dp
 
-    private val Int.dp: Int
-        get() {
-            return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics).toInt()
-        }
 
 
     //            return Point().also { display?.getSize(it) }.x
@@ -121,7 +116,7 @@ class ExpandCollapseAnimationDelegate(val activity: Activity) {
                 container.layoutParams.height = originalHeight + ((additionalHeight) * progress).toInt()
                 chevron.rotation = 90 * progress
                 container.layoutParams.width = originalWidth + ((additionalWidth) * (progress)).toInt()
-                container.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(
+                container.backgroundTintList = ColorStateList.valueOf(mergeColors(
                         recyclerView.resources.getColor(R.color.expanded_foreground_color),
                         recyclerView.resources.getColor(R.color.container_collapsed),
 
@@ -145,7 +140,7 @@ class ExpandCollapseAnimationDelegate(val activity: Activity) {
                 container.layoutParams.height = originalHeight + ((additionalHeight) * (1 - progress)).toInt()
                 chevron.rotation = 90 * (1 - progress)
                 container.layoutParams.width = originalWidth + ((additionalWidth) * (1 - progress)).toInt()
-                container.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(
+                container.backgroundTintList = ColorStateList.valueOf(mergeColors(
                         recyclerView.resources.getColor(R.color.expanded_foreground_color),
                         recyclerView.resources.getColor(R.color.container_collapsed),
                         progress

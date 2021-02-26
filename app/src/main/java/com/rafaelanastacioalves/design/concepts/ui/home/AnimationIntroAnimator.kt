@@ -2,7 +2,7 @@ package com.rafaelanastacioalves.design.concepts.ui.home
 
 import android.content.Context
 import android.view.View
-import android.view.animation.AnimationUtils
+import android.view.animation.AnimationUtils.loadInterpolator
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
@@ -36,7 +36,7 @@ class AnimationIntroAnimator : DefaultItemAnimator() {
 //        Log.i(TAG,"Animation: counting " + count + " elements");
         val context: Context = holder.itemView.getContext()
         var offset = context.resources.getDimensionPixelSize(R.dimen.offset_y).toFloat()
-        val interpolator = AnimationUtils.loadInterpolator(holder.itemView.getContext(), android.R.interpolator.fast_out_slow_in)
+        val interpolator = loadInterpolator(holder.itemView.getContext(), android.R.interpolator.fast_out_slow_in)
         //
 //        // loop over the children setting an increasing translation y but the same animation
 //        // duration + interpolation
@@ -62,7 +62,7 @@ class AnimationIntroAnimator : DefaultItemAnimator() {
 //        Log.i(TAG,"Animation: counting " + count + " elements");
         val context: Context = holder.itemView.context
         var offset = context.resources.getDimensionPixelSize(R.dimen.offset_y).toFloat()
-        val interpolator = AnimationUtils.loadInterpolator(holder.itemView.context, android.R.interpolator.linear_out_slow_in)
+        val interpolator = loadInterpolator(holder.itemView.context, android.R.interpolator.linear_out_slow_in)
         //
 //        // loop over the children setting an increasing translation y but the same animation
 //        // duration + interpolation

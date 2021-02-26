@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.rafaelanastacioalves.design.concepts.R
-import com.rafaelanastacioalves.design.concepts.common.Utils
+import com.rafaelanastacioalves.design.concepts.common.getValueAnimator
+import com.rafaelanastacioalves.design.concepts.common.mergeColors
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.custom_filterlayout.view.*
@@ -126,10 +127,10 @@ class CustomFilterLayoutHandler(private val button_background: View,
     }
 
     private fun animateBottom(hasSelections: Boolean) {
-        val valueAnimator = Utils.getValueAnimator(hasSelections, 100, AccelerateInterpolator()) { progress ->
+        val valueAnimator = getValueAnimator(hasSelections, 100, AccelerateInterpolator()) { progress ->
 
             button_background.backgroundTintList = ColorStateList.valueOf(
-                    Utils.mergeColors(
+                    mergeColors(
                             resources.getColor(R.color.bottom_bar_color),
                             resources.getColor(R.color.colorAccent),
                             progress

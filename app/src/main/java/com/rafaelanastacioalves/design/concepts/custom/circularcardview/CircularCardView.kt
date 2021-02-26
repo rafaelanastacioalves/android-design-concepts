@@ -3,7 +3,6 @@ package com.rafaelanastacioalves.design.concepts.custom.circularcardview
 import android.content.Context
 import android.util.AttributeSet
 import androidx.cardview.widget.CardView
-import java.lang.Float.min
 import kotlin.math.min
 
 class CircularCardView @JvmOverloads constructor(

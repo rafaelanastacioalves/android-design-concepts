@@ -3,7 +3,6 @@ package com.rafaelanastacioalves.design.concepts.ui.articledetail
 import android.database.Cursor
 import android.os.Bundle
 import android.text.Html
-import android.text.format.DateUtils
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View

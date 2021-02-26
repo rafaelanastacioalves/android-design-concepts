@@ -25,7 +25,7 @@
 		xmlns:tools="http://schemas.android.com/tools"
 
 		android:visibility="gone"
-		android:id="@+id/normalFilterAndFab"
+		android:id="@+id/filterLayoutNormal"
 		tools:context=".ui.expand_collapse_animation.ExpandCollapseActivityWithMotion"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"

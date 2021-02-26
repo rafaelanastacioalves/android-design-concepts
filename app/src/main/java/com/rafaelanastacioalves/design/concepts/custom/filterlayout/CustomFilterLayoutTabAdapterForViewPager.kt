@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
-import com.rafaelanastacioalves.design.concepts.common.Utils
+import com.rafaelanastacioalves.design.concepts.common.mergeColors
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
 import com.rafaelanastacioalves.design.concepts.listeners.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.custom_filterlayout_viewpager_recyclerview_tab_viewholder.view.*
@@ -124,7 +124,7 @@ class TabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun setPercentActivated(percent: Float) {
-        itemView.tab.backgroundTintList = ColorStateList.valueOf(Utils.mergeColors(resources.getColor(R.color.ciano), resources.getColor(R.color.colorWhite), percent))
+        itemView.tab.backgroundTintList = ColorStateList.valueOf(mergeColors(resources.getColor(R.color.ciano), resources.getColor(R.color.colorWhite), percent))
         //TODO: Refatorar - isso aqui poderia estar parametrizado junto com o valor inicial setado no layout....
         itemView.scaleX = 0.9f + 0.15f * percent
         itemView.scaleY = 0.9f + 0.15f * percent

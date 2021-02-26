@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import com.rafaelanastacioalves.design.concepts.R
-import com.rafaelanastacioalves.design.concepts.common.Utils
+import com.rafaelanastacioalves.design.concepts.common.getValueAnimator
 import kotlinx.android.synthetic.main.custom_filterlayout.view.*
 import kotlin.math.roundToInt
 
@@ -89,7 +89,7 @@ class FilterLayout @JvmOverloads constructor(
     }
 
     fun expansonAnimator(isForward: Boolean): ValueAnimator {
-        return Utils.getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
+        return getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
             animateOpening(progress)
         }
     }

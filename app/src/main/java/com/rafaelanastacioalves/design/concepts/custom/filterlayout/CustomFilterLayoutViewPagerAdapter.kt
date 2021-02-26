@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelanastacioalves.design.concepts.R
-import com.rafaelanastacioalves.design.concepts.common.Utils
+import com.rafaelanastacioalves.design.concepts.common.getValueAnimator
+import com.rafaelanastacioalves.design.concepts.common.mergeColors
 import com.rafaelanastacioalves.design.concepts.domain.entities.CustomFilterLayoutTabItemElement
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.custom_filterlayout_viewpager_item_holder_1.*
@@ -54,9 +55,9 @@ class CustomFilterLayoutViewPagerAdapter(private val customFilter: ViewPagerFilt
     }
 
     private fun animateItemSelection(view: View, isSelection: Boolean) {
-        val valueAnimator = Utils.getValueAnimator(isSelection, 100L, AccelerateInterpolator()) { progress ->
+        val valueAnimator = getValueAnimator(isSelection, 100L, AccelerateInterpolator()) { progress ->
             view.backgroundTintList = ColorStateList.valueOf(
-                    Utils.mergeColors(view.resources.getColor(R.color.lightGreen),view.resources.getColor(R.color.windowBackground),  progress)
+                    mergeColors(view.resources.getColor(R.color.lightGreen), view.resources.getColor(R.color.windowBackground), progress)
             )
         }
         valueAnimator.start()

@@ -8,7 +8,8 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.doOnPreDraw
-import com.rafaelanastacioalves.design.concepts.common.Utils
+import com.rafaelanastacioalves.design.concepts.common.dp
+import com.rafaelanastacioalves.design.concepts.common.getValueAnimator
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -22,11 +23,12 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
     private val filterLayout = activity.filterLayout
     private val fab = activity.fab
+    private val container = activity.filterLayoutNormal
 
     private val expandCollapseAdapter = activity.expandCollapseAdapter
 
     fun showFilterAnimator(isForward: Boolean): ValueAnimator {
-        val valueAnimator = Utils.getValueAnimator(isForward, 1500, AccelerateDecelerateInterpolator()) { progress ->
+        val valueAnimator = getValueAnimator(isForward, 1500, AccelerateDecelerateInterpolator()) { progress ->
             filterLayout.let {
                 it.alpha = progress
                 it.layoutParams.width = (progress * filterMaxWith).roundToInt()
@@ -100,8 +102,9 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         }
 
         val finalX: Float = (activity.screenWidth / 2).toFloat()
+        val bottomMargin = 20.dp
         //TODO - Refactor: depois abstrair esse 1000L para poder ser usado pelo motion também
-        val valueAnimator = Utils.getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
+        val valueAnimator = getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
             val midlePointProgress = 0.5f
             var relativeProgress = 0f
             if (progress < midlePointProgress) {
@@ -110,22 +113,25 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                 fab.x = fabOriginX +
                         (relativeProgress * (finalX - fabOriginX))
                 Log.d("Fab Opening", "Fab.X: ${fab.x}")
-                fab.y = startY - 0.01F * ((fab.x - fabOriginX).pow(2))
+                fab.y = startY - 0.02F * ((fab.x - fabOriginX).pow(2))
                 Log.d("Fab Opening", "Fab.Y: ${fab.y}")
             } else {
-                if (progress == 0.5f) {
+                if (progress == midlePointProgress) {
                     fabMiddlePositionY = fab.y
                 }
                 relativeProgress = progress / midlePointProgress - 1
-                fab.alpha = 1 - relativeProgress
                 fab.y = fabMiddlePositionY +
-                        (activity.screenHeight - fabMiddlePositionY - 400f) * (relativeProgress)
+                        (container.height - fabMiddlePositionY - fab.height) * (relativeProgress)
             }
         }
         valueAnimator.doOnEnd {
             calculateFabPosition()
         }
         return valueAnimator
+    }
+
+    private fun getYFromCartesianPosition(position: Int): Int {
+        return (activity.screenHeight - position)
     }
 
 }

@@ -27,7 +27,7 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
         setupViews()
         // TODO: Refactor - deixar mais explicita a mudança de tela motion e não motion (07/02/2021)
         filterLayoutMotion.isVisible = false
-        normalFilterAndFab.isVisible = true
+        filterLayoutNormal.isVisible = true
 
         setupExpandCollapseRecyclerView()
         title = getString(R.string.expand_collapse_title)
