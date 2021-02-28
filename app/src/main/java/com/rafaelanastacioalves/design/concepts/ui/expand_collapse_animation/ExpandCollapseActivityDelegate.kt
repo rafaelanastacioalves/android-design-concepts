@@ -11,6 +11,8 @@ import androidx.core.view.doOnPreDraw
 import com.rafaelanastacioalves.design.concepts.common.dp
 import com.rafaelanastacioalves.design.concepts.common.getValueAnimator
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
+import java.text.DecimalFormat
+import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -92,6 +94,11 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
     var fabOriginX = 0f
     var startY = 0f
+    private val decimalFormat: DecimalFormat
+        get() {
+            return DecimalFormat("#.####")
+        }
+
     private fun fabOpeningAnimator(isForward: Boolean): ValueAnimator {
         // setup
         if (isForward && fabOriginX == 0f) {
@@ -101,7 +108,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             startY = fab.y
         }
 
-        val finalX: Float = (activity.screenWidth / 2).toFloat()
+        val finalX: Float = ((container.width / 2) - fab.width / 2).toFloat()
         val bottomMargin = 20.dp
         //TODO - Refactor: depois abstrair esse 1000L para poder ser usado pelo motion também
         val valueAnimator = getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
@@ -113,19 +120,22 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                 fab.x = fabOriginX +
                         (relativeProgress * (finalX - fabOriginX))
                 Log.d("Fab Opening", "Fab.X: ${fab.x}")
-                fab.y = startY - 0.02F * ((fab.x - fabOriginX).pow(2))
+                fab.y = startY - 0.01F * ((fab.x - fabOriginX).pow(2))
                 Log.d("Fab Opening", "Fab.Y: ${fab.y}")
             } else {
-                if (progress == midlePointProgress) {
+                if (abs(progress - midlePointProgress) < 0.001) {
                     fabMiddlePositionY = fab.y
                 }
                 relativeProgress = progress / midlePointProgress - 1
                 fab.y = fabMiddlePositionY +
-                        (container.height - fabMiddlePositionY - fab.height) * (relativeProgress)
+                        (container.height.toFloat() - fabMiddlePositionY - fab.height.toFloat()) * (relativeProgress)
+                Log.d("Fab Vertical movement", "Fab.Y: ${decimalFormat.format(fab.y)} && " +
+                        "relativeProgress: $relativeProgress &&" +
+                        " container.height: ${decimalFormat.format(container.height)} " +
+                        "&& fab.height: ${decimalFormat.format(fab.height)} " +
+                        "&& fabMiddlePositionY: ${decimalFormat.format(fabMiddlePositionY)}")
+
             }
-        }
-        valueAnimator.doOnEnd {
-            calculateFabPosition()
         }
         return valueAnimator
     }
