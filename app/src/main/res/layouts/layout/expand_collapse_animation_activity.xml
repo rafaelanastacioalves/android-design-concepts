@@ -31,20 +31,28 @@
 		android:layout_height="match_parent"
 		tools:visibility="visible">
 
-		<com.google.android.material.floatingactionbutton.FloatingActionButton
+		<androidx.cardview.widget.CardView
 			android:id="@+id/fab"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_width="@dimen/fab_diameter"
+			android:layout_height="@dimen/fab_diameter"
 			android:layout_marginEnd="16dp"
 			android:layout_marginRight="16dp"
 			android:layout_marginBottom="16dp"
 			android:layout_weight="1"
 			android:backgroundTint="@color/colorPrimaryDark"
-            android:clickable="true"
-            android:tint="@color/lightGrey"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_filter" />
+			app:cardCornerRadius="@dimen/fab_radius"
+			android:clickable="true"
+			android:tint="@color/lightGrey"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent">
+
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				app:srcCompat="@drawable/ic_filter"
+				app:tint="@color/colorWhite" />
+		</androidx.cardview.widget.CardView>
 
 		<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayout
 			android:id="@+id/filterLayout"

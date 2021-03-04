@@ -13,4 +13,6 @@
     <dimen name="fabMotionIconElevation">34dp</dimen>
     <dimen name="expansionBackGroundStartElevation">16dp</dimen>
     <dimen name="expansionBackGroundFinalElevation">32dp</dimen>
+    <dimen name="fab_diameter">72dp</dimen>
+    <dimen name="fab_radius">36dp</dimen>
 </resources>
