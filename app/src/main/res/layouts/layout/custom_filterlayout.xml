@@ -17,7 +17,7 @@
         android:clipToPadding="false"
         android:orientation="horizontal"
         android:paddingHorizontal="32dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/viewPager"
         tools:layout_height="@dimen/customLayoutTabMaxHeight"
         tools:listitem="@layout/custom_filterlayout_viewpager_recyclerview_tab_viewholder"
@@ -26,7 +26,7 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="@dimen/viewpager_content_height"
         android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@id/button_background"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
         <View
             android:id="@+id/button_background"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/bottom_buttons_bar"
             android:background="@color/lightGreen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

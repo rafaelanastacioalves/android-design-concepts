@@ -117,11 +117,17 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             if (progress < midlePointProgress) {
                 relativeProgress = progress / midlePointProgress
                 Log.d("Fab Opening", "progress: ${relativeProgress}")
+                // TODO: Refactor - esse codigo nao deveria estar instanciando tanto (05/03/2021)
+                // TODO: Refactor - extrair esse 364 dp para ser a soma das alturas... (05/03/2021)
+                val a: Float = (getYFromCartesianPosition(364.dp).toFloat() - startY) / ((finalX - fabOriginX).pow(2))
+
                 fab.x = fabOriginX +
                         (relativeProgress * (finalX - fabOriginX))
                 Log.d("Fab Opening", "Fab.X: ${fab.x}")
-                fab.y = startY - 0.01F * ((fab.x - fabOriginX).pow(2))
+
+                fab.y = startY + a * ((fab.x - fabOriginX).pow(2))
                 Log.d("Fab Opening", "Fab.Y: ${fab.y}")
+
             } else {
                 if (abs(progress - midlePointProgress) < 0.001) {
                     fabMiddlePositionY = fab.y
@@ -137,7 +143,17 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
             }
         }
+
+        valueAnimator.doOnStart {
+            if (isForward) {
+                calculateFilterInitialDimensions()
+            }
+        }
         return valueAnimator
+    }
+
+    private fun calculateFilterInitialDimensions() {
+
     }
 
     private fun getYFromCartesianPosition(position: Int): Int {

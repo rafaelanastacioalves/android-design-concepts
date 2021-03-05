@@ -15,4 +15,5 @@
     <dimen name="expansionBackGroundFinalElevation">32dp</dimen>
     <dimen name="fab_diameter">72dp</dimen>
     <dimen name="fab_radius">36dp</dimen>
+    <dimen name="viewpager_content_height">300dp</dimen>
 </resources>

@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.animation.doOnStart
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import com.rafaelanastacioalves.design.concepts.R
@@ -89,9 +90,15 @@ class FilterLayout @JvmOverloads constructor(
     }
 
     fun expansonAnimator(isForward: Boolean): ValueAnimator {
-        return getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
+        val animator = getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
             animateOpening(progress)
         }
+        animator.doOnStart {
+            if (isForward) {
+                tabRecyclerview.isVisible = true
+            }
+        }
+        return animator
     }
 
 }
