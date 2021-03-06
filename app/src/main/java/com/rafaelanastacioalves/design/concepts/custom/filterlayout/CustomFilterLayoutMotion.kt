@@ -20,7 +20,7 @@ class FilterLayoutMotion @JvmOverloads constructor(
 
 
     //TODO: Refactor - cuidado com todo o código repetido... vamos colocar numa classe pai....
-    private val tabMaxHeight by lazy { resources.getDimension(R.dimen.customLayoutTabMaxHeight) }
+    private val tabMaxHeight by lazy { resources.getDimension(R.dimen.custom_layout_tab_max_height) }
     var withoutTabsHeight: Int = 0
     private lateinit var delegate: FilterLayoutContract
     private var customFilterLayoutHandler: CustomFilterLayoutHandler

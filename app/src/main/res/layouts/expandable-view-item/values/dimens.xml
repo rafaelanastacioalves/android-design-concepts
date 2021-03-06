@@ -3,7 +3,7 @@
     <dimen name="viewpageging_tab_item_margin_horizonal">110dp</dimen>
     <dimen name="customfilterlayout_Item_height">40dp</dimen>
     <dimen name="custom_filter_main_height">300dp</dimen>
-    <dimen name="customLayoutTabMaxHeight">64dp</dimen>
+    <dimen name="custom_layout_tab_max_height">64dp</dimen>
     <dimen name="expand_collapse_holder_internal_horizontal_margin">32dp</dimen>
     <dimen name="bottom_buttons_bar">64dp</dimen>
     <dimen name="view_pager_elevation">33dp</dimen>

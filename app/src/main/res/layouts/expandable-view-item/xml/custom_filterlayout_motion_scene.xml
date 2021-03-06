@@ -162,7 +162,7 @@
             <Layout
 
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/customLayoutTabMaxHeight"
+                android:layout_height="@dimen/custom_layout_tab_max_height"
                 android:background="@color/tab_bg_color"
                 app:layout_constraintBottom_toTopOf="@id/viewPager"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -31,7 +31,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tabRecyclerview"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/customLayoutTabMaxHeight"
+            android:layout_height="@dimen/custom_layout_tab_max_height"
             android:background="@color/tab_bg_color"
             android:clipToPadding="false"
             android:elevation="@dimen/tab_view_elevation"
@@ -39,7 +39,7 @@
             android:paddingHorizontal="32dp"
             android:visibility="invisible"
             app:layout_constraintTop_toTopOf="@id/viewPager"
-            tools:layout_height="@dimen/customLayoutTabMaxHeight"
+            tools:layout_height="@dimen/custom_layout_tab_max_height"
             tools:listitem="@layout/custom_filterlayout_viewpager_recyclerview_tab_viewholder"
             tools:translationY="0dp"
             tools:visibility="visible" />
