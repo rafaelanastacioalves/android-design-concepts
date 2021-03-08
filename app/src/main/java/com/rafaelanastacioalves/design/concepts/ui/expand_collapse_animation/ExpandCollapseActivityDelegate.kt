@@ -2,7 +2,6 @@ package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
-import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.doOnEnd
@@ -36,9 +35,10 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             filterLayout.let {
                 it.alpha = progress
                 it.layoutParams.width = (progress * filterMaxWith).roundToInt()
-//            println("Width: ${filterLayout.layoutParams.width}")
+                println("Width: ${filterLayout.layoutParams.width}")
+                println("filterWidth: ${filterMaxWith}")
                 it.layoutParams.height = (progress * it.withoutTabsHeight.toFloat()).toInt()
-//            println("Height: ${filterLayout.layoutParams.height}")
+                println("Height: ${filterLayout.layoutParams.height}")
                 it.requestLayout()
             }
         }
@@ -86,7 +86,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     private fun calculateFilterFinalDimensions(view: View) {
         if (filterMaxHeight == 0 || filterMaxWith == 0) {
             filterFinalPosition = view.y
-            filterMaxWith = view.measuredWidth
+            filterMaxWith = container.width
             filterMaxHeight = view.height
         }
     }
@@ -96,6 +96,8 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     val finalX: Float = ((container.width / 2) - fab.width / 2).toFloat()
     var quadraticPathConstant: Float = 1F
     private var fabMiddlePositionY: Float = 0f
+    private var fabMiddlePositionX: Float = 0f
+
     private val decimalFormat: DecimalFormat = DecimalFormat("#.####")
 
     private fun fabOpeningAnimator(isForward: Boolean): ValueAnimator {
@@ -128,39 +130,50 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             calculateArcPathProgress(progress, midlePointProgress, finalX)
         } else {
             if (abs(progress - midlePointProgress) < 0.001) calculateFabMidlePosition()
-            else calculateFabExpansion(progress, midlePointProgress)
+            else {
+                // TODO: Refactor - Melhorar a leitura... (07/03/2021)
+                calculateFabExpansion(progress, midlePointProgress)
+            }
         }
     }
 
     private fun calculateFabMidlePosition() {
         fabMiddlePositionY = fab.y
+        fabMiddlePositionX = fab.x
     }
 
     private fun calculateArcPathProgress(progress: Float, midlePointProgress: Float, finalX: Float) {
         var relativeProgress = progress / midlePointProgress
-        Log.d("Fab Opening", "progress: ${relativeProgress}")
+//        Log.d("Fab Opening", "progress: ${relativeProgress}")
 
         var quadraticPathConstant =
                 (getYFromCartesianPosition(filterMaxHeightCalculated).toFloat() - startY) /
                         ((finalX - fabOriginX).pow(2))
 
         fab.x = fabOriginX + (relativeProgress * (finalX - fabOriginX))
-        Log.d("Fab Opening", "Fab.X: ${fab.x}")
+//        Log.d("Fab Opening", "Fab.X: ${fab.x}")
 
         fab.y = startY + quadraticPathConstant * ((fab.x - fabOriginX).pow(2))
-        Log.d("Fab Opening", "Fab.Y: ${fab.y}")
+//        Log.d("Fab Opening", "Fab.Y: ${fab.y}")
     }
 
+    val fabOriginalDiamater = activity.resources.getDimension(R.dimen.fab_diameter).toInt()
     private fun calculateFabExpansion(progress: Float, midlePointProgress: Float) {
+
         var relativeProgress = progress / midlePointProgress - 1
         fab.y = fabMiddlePositionY +
                 (container.height.toFloat() - fabMiddlePositionY - fab.height.toFloat()) *
                 (relativeProgress)
-        Log.d("Fab Vertical movement", "Fab.Y: ${decimalFormat.format(fab.y)} && " +
-                "relativeProgress: $relativeProgress &&" +
-                " container.height: ${decimalFormat.format(container.height)} " +
-                "&& fab.height: ${decimalFormat.format(fab.height)} " +
-                "&& fabMiddlePositionY: ${decimalFormat.format(fabMiddlePositionY)}")
+        fab.layoutParams.width = fabOriginalDiamater +
+                ((activity.screenWidth - fabOriginalDiamater) * relativeProgress).toInt()
+//        Log.d("Fab Vertical movement", "Fab.Y: ${decimalFormat.format(fab.y)} && " +
+//                "relativeProgress: $relativeProgress &&" +
+//                " container.height: ${decimalFormat.format(container.height)} " +
+//                "&& fab.height: ${decimalFormat.format(fab.height)} " +
+//                "&& fabMiddlePositionY: ${decimalFormat.format(fabMiddlePositionY)}")
+
+        container.requestLayout()
+        fab.x = fabMiddlePositionX + (0 - fabMiddlePositionX) * relativeProgress
     }
 
     private fun getYFromCartesianPosition(position: Int): Int {

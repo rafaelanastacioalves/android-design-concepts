@@ -19,12 +19,9 @@
 		app:layout_constraintTop_toTopOf="parent"
 		tools:listitem="@layout/expand_collapse_viewholder" />
 
-<!--	// TODO: Refactor - depois modificar para este constraint ser a classe FilterLayout por completo... para manter o padrão (07/02/2021)  -->
-	<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
-
-		android:visibility="gone"
+	<!--	// TODO: Refactor - depois modificar para este constraint ser a classe FilterLayout por completo... para manter o padrão (07/02/2021)  -->
+	<FrameLayout
+		android:visibility="visible"
 		android:id="@+id/filterLayoutNormal"
 		tools:context=".ui.expand_collapse_animation.ExpandCollapseActivityWithMotion"
 		android:layout_width="match_parent"
@@ -43,6 +40,7 @@
 			app:cardCornerRadius="@dimen/fab_radius"
 			android:clickable="true"
 			android:tint="@color/lightGrey"
+			android:layout_gravity="end|bottom"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent">
 
@@ -58,11 +56,9 @@
 			android:id="@+id/filterLayout"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:visibility="visible"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+			android:layout_gravity="bottom|center"
+			android:visibility="visible" />
+	</FrameLayout>
 
 
 	<com.rafaelanastacioalves.design.concepts.custom.filterlayout.FilterLayoutMotion
