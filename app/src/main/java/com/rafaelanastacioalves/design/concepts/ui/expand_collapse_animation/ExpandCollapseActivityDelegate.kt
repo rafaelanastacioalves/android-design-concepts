@@ -8,14 +8,17 @@ import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.doOnPreDraw
 import com.rafaelanastacioalves.design.concepts.R
+import com.rafaelanastacioalves.design.concepts.common.dp
 import com.rafaelanastacioalves.design.concepts.common.getValueAnimator
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
+import kotlinx.android.synthetic.main.expand_collapse_animation_activity.view.*
 import java.text.DecimalFormat
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
 class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivity) {
+
 
     private var filterMaxWith: Int = 0
     private var filterMaxHeight: Int = 0
@@ -97,6 +100,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     var quadraticPathConstant: Float = 1F
     private var fabMiddlePositionY: Float = 0f
     private var fabMiddlePositionX: Float = 0f
+    private var fabInternalIconMidlePositionY: Float = 0f
 
     private val decimalFormat: DecimalFormat = DecimalFormat("#.####")
 
@@ -140,6 +144,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     private fun calculateFabMidlePosition() {
         fabMiddlePositionY = fab.y
         fabMiddlePositionX = fab.x
+        fabInternalIconMidlePositionY = fab.fabInternalIcon.y
     }
 
     private fun calculateArcPathProgress(progress: Float, midlePointProgress: Float, finalX: Float) {
@@ -159,13 +164,11 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
     val fabOriginalDiamater = activity.resources.getDimension(R.dimen.fab_diameter).toInt()
     private fun calculateFabExpansion(progress: Float, midlePointProgress: Float) {
-
         var relativeProgress = progress / midlePointProgress - 1
-        fab.y = fabMiddlePositionY +
-                (container.height.toFloat() - fabMiddlePositionY - fab.height.toFloat()) *
-                (relativeProgress)
+
         fab.layoutParams.width = fabOriginalDiamater +
                 ((activity.screenWidth - fabOriginalDiamater) * relativeProgress).toInt()
+        fab.layoutParams.height = fabOriginalDiamater + ((filterMaxHeightCalculated - fabOriginalDiamater) * relativeProgress).toInt()
 //        Log.d("Fab Vertical movement", "Fab.Y: ${decimalFormat.format(fab.y)} && " +
 //                "relativeProgress: $relativeProgress &&" +
 //                " container.height: ${decimalFormat.format(container.height)} " +
@@ -173,6 +176,15 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 //                "&& fabMiddlePositionY: ${decimalFormat.format(fabMiddlePositionY)}")
 
         container.requestLayout()
+        fab.y = fabMiddlePositionY +
+                (container.height.toFloat() - fabMiddlePositionY - fab.height.toFloat()) *
+                (relativeProgress)
+        fab.fabInternalIcon.y = 0 +
+                (fab.height.toFloat() -
+                        0 -
+                        fab.fabInternalIcon.height.toFloat() -
+                        16.dp
+                        ) * (relativeProgress)
         fab.x = fabMiddlePositionX + (0 - fabMiddlePositionX) * relativeProgress
     }
 
