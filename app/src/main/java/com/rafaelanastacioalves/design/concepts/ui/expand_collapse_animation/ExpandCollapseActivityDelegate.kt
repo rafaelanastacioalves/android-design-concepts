@@ -4,6 +4,7 @@ import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.cardview.widget.CardView
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.doOnPreDraw
@@ -20,12 +21,12 @@ import kotlin.math.roundToInt
 class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivity) {
 
 
-    private var filterMaxWith: Int = 0
+    private var filterMaxWidth: Int = 0
     private var filterMaxHeight: Int = 0
     private var filterFinalPosition = 0f
 
     private val filterLayout = activity.filterLayout
-    private val fab = activity.fab
+    private val fab: CardView = activity.fab
     private val container = activity.filterLayoutNormal
 
     private val filterViewPagerContentHeight = activity.resources.getDimension(R.dimen.viewpager_content_height).toInt()
@@ -37,9 +38,9 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         val valueAnimator = getValueAnimator(isForward, 1500, AccelerateDecelerateInterpolator()) { progress ->
             filterLayout.let {
                 it.alpha = progress
-                it.layoutParams.width = (progress * filterMaxWith).roundToInt()
+                it.layoutParams.width = (progress * filterMaxWidth).roundToInt()
                 println("Width: ${filterLayout.layoutParams.width}")
-                println("filterWidth: ${filterMaxWith}")
+                println("filterWidth: ${filterMaxWidth}")
                 it.layoutParams.height = (progress * it.withoutTabsHeight.toFloat()).toInt()
                 println("Height: ${filterLayout.layoutParams.height}")
                 it.requestLayout()
@@ -48,7 +49,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         valueAnimator.doOnStart {
             filterLayout.prepareToOpenAnimation()
             filterLayout.doOnPreDraw {
-                if ((filterMaxWith + filterMaxHeight) == 0) {
+                if ((filterMaxWidth + filterMaxHeight) == 0) {
                     calculateFilterFinalDimensions(it)
                     filterLayout.alpha = 0f
                 }
@@ -87,19 +88,20 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     }
 
     private fun calculateFilterFinalDimensions(view: View) {
-        if (filterMaxHeight == 0 || filterMaxWith == 0) {
+        if (filterMaxHeight == 0 || filterMaxWidth == 0) {
             filterFinalPosition = view.y
-            filterMaxWith = container.width
+            filterMaxWidth = container.width
             filterMaxHeight = view.height
         }
     }
 
+    private val filterWidth = activity.screenWidth
+    val fabOriginalDiamater = activity.resources.getDimension(R.dimen.fab_diameter).toInt()
     var fabOriginX = 0f
     var startY = 0f
-    val finalX: Float = ((container.width / 2) - fab.width / 2).toFloat()
     var quadraticPathConstant: Float = 1F
     private var fabMiddlePositionY: Float = 0f
-    private var fabMiddlePositionX: Float = 0f
+    private val fabMiddlePositionX: Float = (filterWidth - fabOriginalDiamater).toFloat() / 2
     private var fabInternalIconMidlePositionY: Float = 0f
 
     private val decimalFormat: DecimalFormat = DecimalFormat("#.####")
@@ -128,10 +130,11 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         return valueAnimator
     }
 
+
     private fun calculateProgress(progress: Float) {
         val midlePointProgress = 0.5f
         if (progress < midlePointProgress) {
-            calculateArcPathProgress(progress, midlePointProgress, finalX)
+            calculateArcPathProgress(progress, midlePointProgress, fabMiddlePositionX)
         } else {
             if (abs(progress - midlePointProgress) < 0.001) calculateFabMidlePosition()
             else {
@@ -143,49 +146,57 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
     private fun calculateFabMidlePosition() {
         fabMiddlePositionY = fab.y
-        fabMiddlePositionX = fab.x
         fabInternalIconMidlePositionY = fab.fabInternalIcon.y
     }
 
-    private fun calculateArcPathProgress(progress: Float, midlePointProgress: Float, finalX: Float) {
+    private fun calculateArcPathProgress(progress: Float, midlePointProgress: Float, finalArcPathX: Float) {
         var relativeProgress = progress / midlePointProgress
 //        Log.d("Fab Opening", "progress: ${relativeProgress}")
 
         var quadraticPathConstant =
                 (getYFromCartesianPosition(filterMaxHeightCalculated).toFloat() - startY) /
-                        ((finalX - fabOriginX).pow(2))
+                        ((finalArcPathX - fabOriginX).pow(2))
 
-        fab.x = fabOriginX + (relativeProgress * (finalX - fabOriginX))
+        fab.x = fabOriginX + (relativeProgress * (finalArcPathX - fabOriginX))
 //        Log.d("Fab Opening", "Fab.X: ${fab.x}")
 
         fab.y = startY + quadraticPathConstant * ((fab.x - fabOriginX).pow(2))
 //        Log.d("Fab Opening", "Fab.Y: ${fab.y}")
     }
 
-    val fabOriginalDiamater = activity.resources.getDimension(R.dimen.fab_diameter).toInt()
     private fun calculateFabExpansion(progress: Float, midlePointProgress: Float) {
+        // TODO: Refactor - instanciacao... (10/03/2021)
         var relativeProgress = progress / midlePointProgress - 1
 
-        fab.layoutParams.width = fabOriginalDiamater +
-                ((activity.screenWidth - fabOriginalDiamater) * relativeProgress).toInt()
-        fab.layoutParams.height = fabOriginalDiamater + ((filterMaxHeightCalculated - fabOriginalDiamater) * relativeProgress).toInt()
+        if (relativeProgress < 0.8f) {
+            var expansionRelativeProgress = relativeProgress / 0.8f
+            fab.layoutParams.width = fabOriginalDiamater +
+                    ((filterWidth - fabOriginalDiamater) * expansionRelativeProgress).toInt()
+            fab.layoutParams.height = fabOriginalDiamater + ((filterMaxHeightCalculated - fabOriginalDiamater) * expansionRelativeProgress).toInt()
 //        Log.d("Fab Vertical movement", "Fab.Y: ${decimalFormat.format(fab.y)} && " +
 //                "relativeProgress: $relativeProgress &&" +
 //                " container.height: ${decimalFormat.format(container.height)} " +
 //                "&& fab.height: ${decimalFormat.format(fab.height)} " +
 //                "&& fabMiddlePositionY: ${decimalFormat.format(fabMiddlePositionY)}")
 
-        container.requestLayout()
-        fab.y = fabMiddlePositionY +
-                (container.height.toFloat() - fabMiddlePositionY - fab.height.toFloat()) *
-                (relativeProgress)
-        fab.fabInternalIcon.y = 0 +
-                (fab.height.toFloat() -
-                        0 -
-                        fab.fabInternalIcon.height.toFloat() -
-                        16.dp
-                        ) * (relativeProgress)
-        fab.x = fabMiddlePositionX + (0 - fabMiddlePositionX) * relativeProgress
+            container.requestLayout()
+            fab.y = fabMiddlePositionY +
+                    (container.height.toFloat() - fabMiddlePositionY - fab.height.toFloat()) *
+                    (expansionRelativeProgress)
+            fab.fabInternalIcon.y = 0 +
+                    (fab.height.toFloat() -
+                            0 -
+                            fab.fabInternalIcon.height.toFloat() -
+                            16.dp
+                            ) * (expansionRelativeProgress)
+            fab.x = fabMiddlePositionX - ((filterWidth - fabOriginalDiamater) / 2) * expansionRelativeProgress
+        }
+        if (relativeProgress >= 0.8f) {
+            // TODO: Refactor - instanciacao... nomes.... (10/03/2021)
+            var radiusChangeRelativeProgress = (relativeProgress - 0.8f) / 0.2f
+//            fab.radius = fabOriginalDiamater/2 +
+//                    (0 - fabOriginalDiamater/2)*radiusChangeRelativeProgress
+        }
     }
 
     private fun getYFromCartesianPosition(position: Int): Int {
