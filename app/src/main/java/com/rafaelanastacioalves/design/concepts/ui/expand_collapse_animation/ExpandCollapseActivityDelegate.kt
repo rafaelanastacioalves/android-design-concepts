@@ -2,6 +2,7 @@ package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.cardview.widget.CardView
@@ -132,11 +133,11 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
 
     private fun calculateProgress(progress: Float) {
-        val midlePointProgress = 0.5f
+        val midlePointProgress = 0.4f
         if (progress < midlePointProgress) {
             calculateArcPathProgress(progress, midlePointProgress, fabMiddlePositionX)
         } else {
-            if (abs(progress - midlePointProgress) < 0.001) calculateFabMidlePosition()
+            if (abs(progress - midlePointProgress) < 0.0000001) calculateFabMidlePosition()
             else {
                 // TODO: Refactor - Melhorar a leitura... (07/03/2021)
                 calculateFabExpansion(progress, midlePointProgress)
@@ -158,7 +159,8 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                         ((finalArcPathX - fabOriginX).pow(2))
 
         fab.x = fabOriginX + (relativeProgress * (finalArcPathX - fabOriginX))
-//        Log.d("Fab Opening", "Fab.X: ${fab.x}")
+        Log.d("Fab Opening", "finalArcPathX: ${finalArcPathX} -- " +
+                "relativeProgress $relativeProgress")
 
         fab.y = startY + quadraticPathConstant * ((fab.x - fabOriginX).pow(2))
 //        Log.d("Fab Opening", "Fab.Y: ${fab.y}")
@@ -166,18 +168,27 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
     private fun calculateFabExpansion(progress: Float, midlePointProgress: Float) {
         // TODO: Refactor - instanciacao... (10/03/2021)
-        var relativeProgress = progress / midlePointProgress - 1
 
-        if (relativeProgress < 0.8f) {
+        var relativeProgress = (progress - midlePointProgress) / (1 - midlePointProgress)
+        // TODO: Refactor - extrair o 0.8f (12/03/2021)
+        if (0 < (0.8f - relativeProgress) && (0.8f - relativeProgress) < 0.01) {
+            relativeProgress = 0.8f
+        }
+
+        if (relativeProgress <= 0.8f) {
             var expansionRelativeProgress = relativeProgress / 0.8f
             fab.layoutParams.width = fabOriginalDiamater +
                     ((filterWidth - fabOriginalDiamater) * expansionRelativeProgress).toInt()
             fab.layoutParams.height = fabOriginalDiamater + ((filterMaxHeightCalculated - fabOriginalDiamater) * expansionRelativeProgress).toInt()
-//        Log.d("Fab Vertical movement", "Fab.Y: ${decimalFormat.format(fab.y)} && " +
-//                "relativeProgress: $relativeProgress &&" +
-//                " container.height: ${decimalFormat.format(container.height)} " +
-//                "&& fab.height: ${decimalFormat.format(fab.height)} " +
-//                "&& fabMiddlePositionY: ${decimalFormat.format(fabMiddlePositionY)}")
+            fab.x = fabMiddlePositionX - ((filterWidth - fabOriginalDiamater) / 2) * expansionRelativeProgress
+
+            Log.d("Fab Vertical movement", "Fab.Y: ${decimalFormat.format(fab.y)} && " +
+                    "Fab.X: ${decimalFormat.format(fab.x)} && " +
+                    " fab.width: ${decimalFormat.format(fab.width)} " +
+                    "&& fab.height: ${decimalFormat.format(fab.height)} " +
+                    "expansionRelativeProgress: $expansionRelativeProgress &&" +
+                    " container.height: ${decimalFormat.format(container.height)} " +
+                    "&& fabMiddlePositionY: ${decimalFormat.format(fabMiddlePositionY)}")
 
             container.requestLayout()
             fab.y = fabMiddlePositionY +
@@ -189,13 +200,12 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                             fab.fabInternalIcon.height.toFloat() -
                             16.dp
                             ) * (expansionRelativeProgress)
-            fab.x = fabMiddlePositionX - ((filterWidth - fabOriginalDiamater) / 2) * expansionRelativeProgress
         }
         if (relativeProgress >= 0.8f) {
             // TODO: Refactor - instanciacao... nomes.... (10/03/2021)
             var radiusChangeRelativeProgress = (relativeProgress - 0.8f) / 0.2f
-//            fab.radius = fabOriginalDiamater/2 +
-//                    (0 - fabOriginalDiamater/2)*radiusChangeRelativeProgress
+            fab.radius = fabOriginalDiamater / 2 +
+                    (0 - fabOriginalDiamater / 2) * radiusChangeRelativeProgress
         }
     }
 
