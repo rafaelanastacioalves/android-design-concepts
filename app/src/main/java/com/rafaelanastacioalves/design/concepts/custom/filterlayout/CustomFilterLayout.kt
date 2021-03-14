@@ -97,6 +97,7 @@ class FilterLayout @JvmOverloads constructor(
             if (isForward) {
                 tabRecyclerview.isVisible = true
             }
+
         }
         return animator
     }

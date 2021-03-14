@@ -52,7 +52,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             filterLayout.doOnPreDraw {
                 if ((filterMaxWidth + filterMaxHeight) == 0) {
                     calculateFilterFinalDimensions(it)
-                    filterLayout.alpha = 0f
+//                    filterLayout.alpha = 0f
                 }
             }
             activity.showFilter()
@@ -79,11 +79,9 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         animatorSet.play(animateFab).with(animateScaleDown)
 
         if (isForward) {
-            animatorSet.play(animateFab).before(animateShowFilter)
-            animatorSet.play(animateShowFilter).before(animateFilterExpansion)
+            animatorSet.play(animateFab).before(animateFilterExpansion)
         } else {
-            animatorSet.play(animateShowFilter).after(animateFilterExpansion)
-            animatorSet.play(animateFab).after(animateShowFilter)
+            animatorSet.play(animateFab).after(animateFilterExpansion)
         }
         animatorSet.start()
     }
@@ -127,6 +125,25 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         ) { progress ->
             calculateProgress(progress)
         }
+
+        valueAnimator.doOnEnd {
+            // TODO: Refactor - meio bagunçado... (14/03/2021)
+
+            if (isForward) activity.run {
+                hideFab()
+                showFilter()
+            }
+            else {
+                activity.showFab()
+            }
+        }
+        valueAnimator.doOnStart {
+            if (isForward.not()) {
+                activity.showFab()
+                activity.hideFilter()
+            }
+        }
+
 
         return valueAnimator
     }

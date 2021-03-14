@@ -64,7 +64,7 @@ class ExpandCollapseActivity : AppCompatActivity(), FilterLayoutContract {
         filterLayout.isVisible = true
     }
 
-    private fun hideFilter() {
+    internal fun hideFilter() {
         filterLayout.isVisible = false
     }
 
