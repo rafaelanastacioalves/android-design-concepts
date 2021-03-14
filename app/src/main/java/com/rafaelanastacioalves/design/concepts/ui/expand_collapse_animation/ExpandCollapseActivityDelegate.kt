@@ -130,8 +130,8 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             // TODO: Refactor - meio bagunçado... (14/03/2021)
 
             if (isForward) activity.run {
-                hideFab()
                 showFilter()
+                hideFab()
             }
             else {
                 activity.showFab()
@@ -217,9 +217,9 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             fab.y = fabMiddlePositionY +
                     (container.height.toFloat() - fabMiddlePositionY - fab.height.toFloat()) *
                     (expansionRelativeProgress)
-            fab.fabInternalIcon.y = 0 +
+            fab.fabInternalIcon.y = fabInternalIconMidlePositionY +
                     (fab.height.toFloat() -
-                            0 -
+                            fabInternalIconMidlePositionY -
                             fab.fabInternalIcon.height.toFloat() -
                             16.dp
                             ) * (expansionRelativeProgress)

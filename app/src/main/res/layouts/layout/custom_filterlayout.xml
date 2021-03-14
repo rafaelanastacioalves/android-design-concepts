@@ -5,9 +5,9 @@
     android:id="@+id/filterLayoutContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/DarkGreen"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:background="@color/DarkGreen"
     tools:parentTag="android.widget.LinearLayout">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -49,11 +49,11 @@
             android:id="@+id/dismissButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_internal_margin"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/button_background"
             app:srcCompat="@drawable/ic_close"
             app:tint="@color/colorWhite"
             tools:visibility="visible" />
@@ -61,12 +61,12 @@
         <ImageView
             android:id="@+id/okButton"
             android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_internal_margin"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
-            app:layout_constraintTop_toTopOf="@id/button_background"
             app:srcCompat="@drawable/ic_filter"
             app:tint="@color/colorWhite"
             tools:visibility="visible" />

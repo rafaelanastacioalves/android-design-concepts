@@ -69,10 +69,9 @@ class FilterLayout @JvmOverloads constructor(
 
     private fun animateOpening(progress: Float) {
         okButton.isVisible = true
-        okButton.alpha = progress
         dismissButton.isVisible = true
         dismissButton.alpha = progress
-        okButton.x = width / 2 + (width / 4) * (progress)
+        okButton.x = width / 2 - okButton.width / 2 + (width / 4) * (progress)
         dismissButton.x = width / 2 - (width / 4) * (progress)
         tabRecyclerview.layoutParams.height = (tabMaxHeight * progress).toInt()
         layoutParams.height = withoutTabsHeight + (tabMaxHeight * progress).roundToInt()
