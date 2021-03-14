@@ -133,15 +133,12 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
 
     private fun calculateProgress(progress: Float) {
-        val midlePointProgress = 0.4f
+        val midlePointProgress = 0.6f
         if (progress < midlePointProgress) {
             calculateArcPathProgress(progress, midlePointProgress, fabMiddlePositionX)
         } else {
-            if (abs(progress - midlePointProgress) < 0.0000001) calculateFabMidlePosition()
-            else {
-                // TODO: Refactor - Melhorar a leitura... (07/03/2021)
-                calculateFabExpansion(progress, midlePointProgress)
-            }
+            // TODO: Refactor - Melhorar a leitura... (07/03/2021)
+            calculateFabExpansion(progress, midlePointProgress)
         }
     }
 
@@ -151,8 +148,14 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     }
 
     private fun calculateArcPathProgress(progress: Float, midlePointProgress: Float, finalArcPathX: Float) {
+
         var relativeProgress = progress / midlePointProgress
 //        Log.d("Fab Opening", "progress: ${relativeProgress}")
+
+        if (abs(progress - midlePointProgress) < 0.01) {
+            relativeProgress = 1f
+            calculateFabMidlePosition()
+        }
 
         var quadraticPathConstant =
                 (getYFromCartesianPosition(filterMaxHeightCalculated).toFloat() - startY) /
@@ -164,6 +167,9 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
         fab.y = startY + quadraticPathConstant * ((fab.x - fabOriginX).pow(2))
 //        Log.d("Fab Opening", "Fab.Y: ${fab.y}")
+
+        if (relativeProgress == 1f) calculateFabMidlePosition()
+
     }
 
     private fun calculateFabExpansion(progress: Float, midlePointProgress: Float) {
