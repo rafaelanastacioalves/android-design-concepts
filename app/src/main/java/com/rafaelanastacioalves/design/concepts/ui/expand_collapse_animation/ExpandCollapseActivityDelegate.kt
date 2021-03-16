@@ -202,8 +202,11 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             var expansionRelativeProgress = relativeProgress / 0.8f
             fab.layoutParams.width = fabOriginalDiamater +
                     ((filterWidth - fabOriginalDiamater) * expansionRelativeProgress).toInt()
-            fab.layoutParams.height = fabOriginalDiamater + ((filterMaxHeightCalculated - fabOriginalDiamater) * expansionRelativeProgress).toInt()
-            fab.x = fabMiddlePositionX - ((filterWidth - fabOriginalDiamater) / 2) * expansionRelativeProgress
+            fab.layoutParams.height =
+                    fabOriginalDiamater + ((filterMaxHeightCalculated - fabOriginalDiamater) *
+                            expansionRelativeProgress).toInt()
+            fab.x = fabMiddlePositionX - ((filterWidth - fabOriginalDiamater) / 2) *
+                    expansionRelativeProgress
 
             Log.d("Fab Vertical movement", "Fab.Y: ${decimalFormat.format(fab.y)} && " +
                     "Fab.X: ${decimalFormat.format(fab.x)} && " +
@@ -214,6 +217,8 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                     "&& fabMiddlePositionY: ${decimalFormat.format(fabMiddlePositionY)}")
 
             container.requestLayout()
+
+            fab.radius = (fab.layoutParams.width / 2).toFloat()
             fab.y = fabMiddlePositionY +
                     (container.height.toFloat() - fabMiddlePositionY - fab.height.toFloat()) *
                     (expansionRelativeProgress)
@@ -224,11 +229,11 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                             16.dp
                             ) * (expansionRelativeProgress)
         }
-        if (relativeProgress >= 0.8f) {
+        if (relativeProgress > 0.8f) {
             // TODO: Refactor - instanciacao... nomes.... (10/03/2021)
             var radiusChangeRelativeProgress = (relativeProgress - 0.8f) / 0.2f
-            fab.radius = fabOriginalDiamater / 2 +
-                    (0 - fabOriginalDiamater / 2) * radiusChangeRelativeProgress
+            fab.radius = filterWidth / 2 +
+                    (0 - filterWidth / 2) * radiusChangeRelativeProgress
         }
     }
 
