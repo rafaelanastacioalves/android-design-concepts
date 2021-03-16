@@ -10,7 +10,6 @@ import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.doOnPreDraw
 import com.rafaelanastacioalves.design.concepts.R
-import com.rafaelanastacioalves.design.concepts.common.dp
 import com.rafaelanastacioalves.design.concepts.common.getValueAnimator
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.view.*
@@ -222,12 +221,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             fab.y = fabMiddlePositionY +
                     (container.height.toFloat() - fabMiddlePositionY - fab.height.toFloat()) *
                     (expansionRelativeProgress)
-            fab.fabInternalIcon.y = fabInternalIconMidlePositionY +
-                    (fab.height.toFloat() -
-                            fabInternalIconMidlePositionY -
-                            fab.fabInternalIcon.height.toFloat() -
-                            16.dp
-                            ) * (expansionRelativeProgress)
+
         }
         if (relativeProgress > 0.8f) {
             // TODO: Refactor - instanciacao... nomes.... (10/03/2021)
