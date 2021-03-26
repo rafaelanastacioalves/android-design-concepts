@@ -3,9 +3,8 @@ package com.rafaelanastacioalves.design.concepts.custom.filterlayout
 import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.animation.doOnStart
 import androidx.core.view.doOnLayout
@@ -18,19 +17,18 @@ import kotlin.math.roundToInt
 @Suppress("DEPRECATION")
 class FilterLayout @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
 
     //TODO: O maxheight vai ser usado tanto aqui quanto em XML do motion layout... melhor unificar
     private val tabMaxHeight by lazy { resources.getDimension(R.dimen.custom_layout_tab_max_height) }
     var withoutTabsHeight: Int = 0
     private lateinit var delegate: FilterLayoutContract
-    private var customFilterLayoutHandler : CustomFilterLayoutHandler
+    private var customFilterLayoutHandler: CustomFilterLayoutHandler
 
     init {
 
         //TODO: Refactor - esses métodos poderiam estar encapsulados... no mínimo
-        gravity = Gravity.BOTTOM
-        orientation = VERTICAL
+
         background = resources.getDrawable(R.color.DarkGreen)
         inflate(context, R.layout.custom_filterlayout, this)
         customFilterLayoutHandler = CustomFilterLayoutHandler(button_background, tabRecyclerview, viewPager)
@@ -83,7 +81,7 @@ class FilterLayout @JvmOverloads constructor(
     private fun calculateTabDimensions() {
         isVisible = true
         doOnLayout {
-            withoutTabsHeight = it.measuredHeight
+            withoutTabsHeight = it.width
             isVisible = false
         }
     }

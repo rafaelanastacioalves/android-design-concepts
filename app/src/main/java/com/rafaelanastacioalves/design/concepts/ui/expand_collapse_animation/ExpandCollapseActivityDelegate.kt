@@ -3,26 +3,21 @@ package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.util.Log
-import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.cardview.widget.CardView
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
-import androidx.core.view.doOnPreDraw
 import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.common.getValueAnimator
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
-import kotlinx.android.synthetic.main.expand_collapse_animation_activity.view.*
 import java.text.DecimalFormat
 import kotlin.math.abs
 import kotlin.math.pow
-import kotlin.math.roundToInt
 
 class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivity) {
 
 
     private var filterMaxWidth: Int = 0
-    private var filterMaxHeight: Int = 0
     private var filterFinalPosition = 0f
 
     private val filterLayout = activity.filterLayout
@@ -31,47 +26,17 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
     private val filterViewPagerContentHeight = activity.resources.getDimension(R.dimen.viewpager_content_height).toInt()
     private val filterTabRecyclerView: Int = activity.resources.getDimension(R.dimen.custom_layout_tab_max_height).toInt()
-    private val filterMaxHeightCalculated: Int = filterViewPagerContentHeight + filterTabRecyclerView
+    private val filterMaxHeightCalculated: Int = activity.screenWidth
     private val expandCollapseAdapter = activity.expandCollapseAdapter
-
-    fun showFilterAnimator(isForward: Boolean): ValueAnimator {
-        val valueAnimator = getValueAnimator(isForward, 1500, AccelerateDecelerateInterpolator()) { progress ->
-            filterLayout.let {
-                it.alpha = progress
-                it.layoutParams.width = (progress * filterMaxWidth).roundToInt()
-                println("Width: ${filterLayout.layoutParams.width}")
-                println("filterWidth: ${filterMaxWidth}")
-                it.layoutParams.height = (progress * it.withoutTabsHeight.toFloat()).toInt()
-                println("Height: ${filterLayout.layoutParams.height}")
-                it.requestLayout()
-            }
-        }
-        valueAnimator.doOnStart {
-            filterLayout.prepareToOpenAnimation()
-            filterLayout.doOnPreDraw {
-                if ((filterMaxWidth + filterMaxHeight) == 0) {
-                    calculateFilterFinalDimensions(it)
-//                    filterLayout.alpha = 0f
-                }
-            }
-            activity.showFilter()
-            if (isForward.not()) {
-                activity.showFab()
-            }
-        }
-        valueAnimator.doOnEnd {
-            if (isForward) activity.hideFab() else {
-                activity.showFab()
-            }
-        }
-        return valueAnimator
-    }
+    val fabOriginalDiamater = activity.resources.getDimension(R.dimen.fab_diameter).toInt()
+    private val filterWidth = activity.screenWidth
+    private val fabMiddlePositionY = container.height.toFloat() - (filterMaxHeightCalculated.toFloat() - fabOriginalDiamater.toFloat()) / 2
+    private val fabMiddlePositionX: Float = (filterWidth - fabOriginalDiamater).toFloat() / 2
 
 
     internal fun animateFilterShowUp(isForward: Boolean) {
         val animateScaleDown = expandCollapseAdapter.holdersScaleDownAnimator(isForward)
         val animateFab = fabOpeningAnimator(isForward)
-        val animateShowFilter = showFilterAnimator(isForward)
         val animateFilterExpansion = filterLayout.expansonAnimator(isForward)
 
         val animatorSet = AnimatorSet()
@@ -85,21 +50,11 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         animatorSet.start()
     }
 
-    private fun calculateFilterFinalDimensions(view: View) {
-        if (filterMaxHeight == 0 || filterMaxWidth == 0) {
-            filterFinalPosition = view.y
-            filterMaxWidth = container.width
-            filterMaxHeight = view.height
-        }
-    }
 
-    private val filterWidth = activity.screenWidth
-    val fabOriginalDiamater = activity.resources.getDimension(R.dimen.fab_diameter).toInt()
     var fabOriginX = 0f
     var startY = 0f
-    var quadraticPathConstant: Float = 1F
-    private var fabMiddlePositionY: Float = 0f
-    private val fabMiddlePositionX: Float = (filterWidth - fabOriginalDiamater).toFloat() / 2
+    var quadraticPathConstant: Float = 0f
+
     private var fabInternalIconMidlePositionY: Float = 0f
 
     private val decimalFormat: DecimalFormat = DecimalFormat("#.####")
@@ -149,7 +104,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
 
     private fun calculateProgress(progress: Float) {
-        val midlePointProgress = 0.6f
+        val midlePointProgress = 0.5f
         if (progress < midlePointProgress) {
             calculateArcPathProgress(progress, midlePointProgress, fabMiddlePositionX)
         } else {
@@ -158,33 +113,24 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         }
     }
 
-    private fun calculateFabMidlePosition() {
-        fabMiddlePositionY = fab.y
-        fabInternalIconMidlePositionY = fab.fabInternalIcon.y
-    }
-
     private fun calculateArcPathProgress(progress: Float, midlePointProgress: Float, finalArcPathX: Float) {
 
         var relativeProgress = progress / midlePointProgress
-//        Log.d("Fab Opening", "progress: ${relativeProgress}")
 
         if (abs(progress - midlePointProgress) < 0.01) {
             relativeProgress = 1f
-            calculateFabMidlePosition()
         }
 
         var quadraticPathConstant =
-                (getYFromCartesianPosition(filterMaxHeightCalculated).toFloat() - startY) /
+                (fabMiddlePositionY - startY) /
                         ((finalArcPathX - fabOriginX).pow(2))
 
         fab.x = fabOriginX + (relativeProgress * (finalArcPathX - fabOriginX))
-        Log.d("Fab Opening", "finalArcPathX: ${finalArcPathX} -- " +
-                "relativeProgress $relativeProgress")
+
 
         fab.y = startY + quadraticPathConstant * ((fab.x - fabOriginX).pow(2))
-//        Log.d("Fab Opening", "Fab.Y: ${fab.y}")
-
-        if (relativeProgress == 1f) calculateFabMidlePosition()
+        Log.d("Fab Opening", "finalArcPathX: ${finalArcPathX} -- " + "fab.Y = ${fab.y} " +
+                "fabMiddlePositionY: ${fabMiddlePositionY} " + "relativeProgress $relativeProgress")
 
     }
 
@@ -204,6 +150,16 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             fab.layoutParams.height =
                     fabOriginalDiamater + ((filterMaxHeightCalculated - fabOriginalDiamater) *
                             expansionRelativeProgress).toInt()
+
+
+            container.requestLayout()
+
+            fab.radius = (fab.layoutParams.width / 2).toFloat()
+
+            fab.y = fabMiddlePositionY + (container.height.toFloat() - fabMiddlePositionY - filterMaxHeightCalculated.toFloat()) * (expansionRelativeProgress)
+
+            +(filterMaxHeightCalculated.toFloat() - fabOriginalDiamater.toFloat()) * (expansionRelativeProgress)
+
             fab.x = fabMiddlePositionX - ((filterWidth - fabOriginalDiamater) / 2) *
                     expansionRelativeProgress
 
@@ -213,14 +169,8 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                     "&& fab.height: ${decimalFormat.format(fab.height)} " +
                     "expansionRelativeProgress: $expansionRelativeProgress &&" +
                     " container.height: ${decimalFormat.format(container.height)} " +
-                    "&& fabMiddlePositionY: ${decimalFormat.format(fabMiddlePositionY)}")
-
-            container.requestLayout()
-
-            fab.radius = (fab.layoutParams.width / 2).toFloat()
-            fab.y = fabMiddlePositionY +
-                    (container.height.toFloat() - fabMiddlePositionY - fab.height.toFloat()) *
-                    (expansionRelativeProgress)
+                    "&& fabMiddlePositionY: ${decimalFormat.format(fabMiddlePositionY)} " +
+                    "Fab.visibility = ${fab.visibility.toString()}")
 
         }
         if (relativeProgress > 0.8f) {

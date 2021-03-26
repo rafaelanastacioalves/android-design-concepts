@@ -38,7 +38,7 @@
 			app:cardBackgroundColor="@color/colorPrimaryDark"
 			app:cardCornerRadius="@dimen/fab_radius"
 			android:clickable="true"
-			android:layout_gravity="end|bottom">
+			android:layout_gravity="bottom|end">
 
 			<ImageView
 				android:id="@+id/fabInternalIcon"
