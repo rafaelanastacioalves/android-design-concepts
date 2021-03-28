@@ -2,8 +2,8 @@
 <resources>
 
     <!--    animation duration-->
-    <integer name="path_duration">2000</integer>
-    <integer name="escale_down_duration">2000</integer>
-    <integer name="expansion_duraiton">2000</integer>
+    <integer name="path_duration">1000</integer>
+    <integer name="escale_down_duration">1000</integer>
+    <integer name="expansion_duraiton">1000</integer>
     <integer name="settle_duration">1000</integer>
 </resources>

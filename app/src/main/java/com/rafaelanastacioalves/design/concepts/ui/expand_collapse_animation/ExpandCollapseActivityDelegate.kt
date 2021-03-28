@@ -11,7 +11,6 @@ import com.rafaelanastacioalves.design.concepts.R
 import com.rafaelanastacioalves.design.concepts.common.getValueAnimator
 import kotlinx.android.synthetic.main.expand_collapse_animation_activity.*
 import java.text.DecimalFormat
-import kotlin.math.abs
 import kotlin.math.pow
 
 class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivity) {
@@ -36,16 +35,19 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
     internal fun animateFilterShowUp(isForward: Boolean) {
         val animateScaleDown = expandCollapseAdapter.holdersScaleDownAnimator(isForward)
-        val animateFab = fabOpeningAnimator(isForward)
-        val animateFilterExpansion = filterLayout.expansonAnimator(isForward)
+        val animateFabPath = fabPathAnimator(isForward)
+        val animateExpansion = fabExpansionAnimator(isForward)
+        val animateFilterSettle = filterLayout.setlleAnimator(isForward)
 
         val animatorSet = AnimatorSet()
-        animatorSet.play(animateFab).with(animateScaleDown)
+        animatorSet.play(animateFabPath).with(animateScaleDown)
 
         if (isForward) {
-            animatorSet.play(animateFab).before(animateFilterExpansion)
+            animatorSet.play(animateFabPath).before(animateExpansion)
+            animatorSet.play(animateExpansion).before(animateFilterSettle)
         } else {
-            animatorSet.play(animateFab).after(animateFilterExpansion)
+            animatorSet.play(animateExpansion).after(animateFilterSettle)
+            animatorSet.play(animateFabPath).after(animateExpansion)
         }
         animatorSet.start()
     }
@@ -59,7 +61,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
     private val decimalFormat: DecimalFormat = DecimalFormat("#.####")
 
-    private fun fabOpeningAnimator(isForward: Boolean): ValueAnimator {
+    private fun fabPathAnimator(isForward: Boolean): ValueAnimator {
         // setup
         if (isForward && fabOriginX == 0f) {
             fabOriginX = fab.x
@@ -71,56 +73,24 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         val valueAnimator = getValueAnimator(
                 isForward,
                 activity.resources.run {
-                    getInteger(R.integer.path_duration).plus(
-                            getInteger(R.integer.expansion_duraiton)
-                    )
+                    getInteger(R.integer.path_duration)
                 }.toLong(),
                 AccelerateDecelerateInterpolator()
         ) { progress ->
-            calculateProgress(progress)
+            calculateArcPathProgress(progress, fabMiddlePositionX)
         }
 
         valueAnimator.doOnEnd {
             // TODO: Refactor - meio bagunçado... (14/03/2021)
-
-            if (isForward) activity.run {
-                showFilter()
-                hideFab()
-            }
-            else {
-                activity.showFab()
-            }
-        }
-        valueAnimator.doOnStart {
             if (isForward.not()) {
                 activity.showFab()
-                activity.hideFilter()
             }
         }
-
 
         return valueAnimator
     }
 
-
-    private fun calculateProgress(progress: Float) {
-        val midlePointProgress = 0.5f
-        if (progress < midlePointProgress) {
-            calculateArcPathProgress(progress, midlePointProgress, fabMiddlePositionX)
-        } else {
-            // TODO: Refactor - Melhorar a leitura... (07/03/2021)
-            calculateFabExpansion(progress, midlePointProgress)
-        }
-    }
-
-    private fun calculateArcPathProgress(progress: Float, midlePointProgress: Float, finalArcPathX: Float) {
-
-        var relativeProgress = progress / midlePointProgress
-
-        if (abs(progress - midlePointProgress) < 0.01) {
-            relativeProgress = 1f
-        }
-
+    private fun calculateArcPathProgress(relativeProgress: Float, finalArcPathX: Float) {
         var quadraticPathConstant =
                 (fabMiddlePositionY - startY) /
                         ((finalArcPathX - fabOriginX).pow(2))
@@ -134,14 +104,8 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
     }
 
-    private fun calculateFabExpansion(progress: Float, midlePointProgress: Float) {
-        // TODO: Refactor - instanciacao... (10/03/2021)
+    private fun calculateFabExpansion(relativeProgress: Float) {
 
-        var relativeProgress = (progress - midlePointProgress) / (1 - midlePointProgress)
-        // TODO: Refactor - extrair o 0.8f (12/03/2021)
-        if (0 < (0.8f - relativeProgress) && (0.8f - relativeProgress) < 0.01) {
-            relativeProgress = 0.8f
-        }
 
         if (relativeProgress <= 0.8f) {
             var expansionRelativeProgress = relativeProgress / 0.8f
@@ -160,7 +124,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
             +(filterMaxHeightCalculated.toFloat() - fabOriginalDiamater.toFloat()) * (expansionRelativeProgress)
 
-            fab.x = fabMiddlePositionX - ((filterWidth - fabOriginalDiamater) / 2) *
+            fab.x = fabMiddlePositionX + ((-filterWidth + fabOriginalDiamater) / 2) *
                     expansionRelativeProgress
 
             Log.d("Fab Vertical movement", "Fab.Y: ${decimalFormat.format(fab.y)} && " +
@@ -180,6 +144,38 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                     (0 - filterWidth / 2) * radiusChangeRelativeProgress
         }
     }
+
+    private fun fabExpansionAnimator(isForward: Boolean): ValueAnimator {
+        val valueAnimator = getValueAnimator(
+                isForward,
+                activity.resources.run {
+                    getInteger(R.integer.expansion_duraiton)
+                }.toLong(),
+                AccelerateDecelerateInterpolator()
+        ) { progress ->
+            // TODO: Refactor - extrair o 0.8f (12/03/2021)
+            if (0 < (0.8f - progress) && (0.8f - progress) < 0.01) {
+                calculateFabExpansion(0.8f)
+            } else {
+                calculateFabExpansion(progress)
+            }
+        }
+
+        valueAnimator.doOnEnd {
+            if (isForward) activity.run {
+                showFilter()
+                hideFab()
+            }
+        }
+        valueAnimator.doOnStart {
+            if (isForward.not()) {
+                activity.showFab()
+                activity.hideFilter()
+            }
+        }
+        return valueAnimator
+    }
+
 
     private fun getYFromCartesianPosition(position: Int): Int {
         return (activity.screenHeight - position)

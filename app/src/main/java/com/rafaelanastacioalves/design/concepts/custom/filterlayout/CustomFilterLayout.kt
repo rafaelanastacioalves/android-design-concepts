@@ -86,7 +86,7 @@ class FilterLayout @JvmOverloads constructor(
         }
     }
 
-    fun expansonAnimator(isForward: Boolean): ValueAnimator {
+    fun setlleAnimator(isForward: Boolean): ValueAnimator {
         val animator = getValueAnimator(isForward, 1000L, AccelerateDecelerateInterpolator()) { progress ->
             animateOpening(progress)
         }
