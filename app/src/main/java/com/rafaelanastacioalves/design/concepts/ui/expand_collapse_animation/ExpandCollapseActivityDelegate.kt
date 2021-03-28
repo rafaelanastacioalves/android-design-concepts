@@ -71,9 +71,9 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         val valueAnimator = getValueAnimator(
                 isForward,
                 activity.resources.run {
-                    getInteger(R.integer.path_duration)
-                    +
-                    getInteger(R.integer.expansion_duraiton)
+                    getInteger(R.integer.path_duration).plus(
+                            getInteger(R.integer.expansion_duraiton)
+                    )
                 }.toLong(),
                 AccelerateDecelerateInterpolator()
         ) { progress ->
