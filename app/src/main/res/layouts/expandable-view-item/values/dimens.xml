@@ -5,7 +5,7 @@
     <dimen name="custom_filter_main_height">300dp</dimen>
     <dimen name="custom_layout_tab_max_height">64dp</dimen>
     <dimen name="expand_collapse_holder_internal_horizontal_margin">32dp</dimen>
-    <dimen name="bottom_buttons_bar">64dp</dimen>
+    <dimen name="bottom_buttons_bar">@dimen/fab_diameter</dimen>
     <dimen name="view_pager_elevation">33dp</dimen>
     <dimen name="tab_view_elevation">32dp</dimen>
     <dimen name="bottom_buttons_bar_elevation">33dp</dimen>
