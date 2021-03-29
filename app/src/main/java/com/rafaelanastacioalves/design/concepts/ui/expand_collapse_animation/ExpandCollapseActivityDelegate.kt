@@ -29,7 +29,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     private val expandCollapseAdapter = activity.expandCollapseAdapter
     val fabOriginalDiamater = activity.resources.getDimension(R.dimen.fab_diameter).toInt()
     private val filterWidth = activity.screenWidth
-    private val fabMiddlePositionY = container.height.toFloat() - (filterMaxHeightCalculated.toFloat() - fabOriginalDiamater.toFloat()) / 2
+    private val fabMiddlePositionY = container.height.toFloat() - (filterMaxHeightCalculated.toFloat() + fabOriginalDiamater.toFloat()) / 2
     private val fabMiddlePositionX: Float = (filterWidth - fabOriginalDiamater).toFloat() / 2
 
 
