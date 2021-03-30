@@ -29,7 +29,7 @@ class FilterLayout @JvmOverloads constructor(
 
         //TODO: Refactor - esses métodos poderiam estar encapsulados... no mínimo
 
-        background = resources.getDrawable(R.color.DarkGreen)
+        background = resources.getDrawable(R.color.colorPrimaryDark)
         inflate(context, R.layout.custom_filterlayout, this)
         customFilterLayoutHandler = CustomFilterLayoutHandler(button_background, tabRecyclerview, viewPager)
         calculateTabDimensions()
@@ -65,18 +65,6 @@ class FilterLayout @JvmOverloads constructor(
         constraintSet.applyTo(buttonsContainer)
     }
 
-    private fun animateOpening(progress: Float) {
-        okButton.isVisible = true
-        dismissButton.isVisible = true
-        dismissButton.alpha = progress
-        okButton.x = width / 2 - okButton.width / 2 + (width / 4) * (progress)
-        dismissButton.x = width / 2 - (width / 4) * (progress)
-        tabRecyclerview.layoutParams.height = (tabMaxHeight * progress).toInt()
-        layoutParams.height = withoutTabsHeight + (tabMaxHeight * progress).roundToInt()
-//        println("With Tab Height: ${layoutParams.height}")
-
-        requestLayout()
-    }
 
     private fun calculateTabDimensions() {
         isVisible = true
@@ -93,10 +81,25 @@ class FilterLayout @JvmOverloads constructor(
         animator.doOnStart {
             if (isForward) {
                 tabRecyclerview.isVisible = true
+                okButton.isVisible = true
+                dismissButton.isVisible = true
             }
-
         }
         return animator
+    }
+
+    private fun animateOpening(progress: Float) {
+
+        dismissButton.alpha = progress
+        okButton.x = width / 2 - okButton.width / 2 + (width / 4) * (progress)
+        viewPager.alpha = progress
+        dismissButton.x = width / 2 - (width / 4) * (progress)
+        tabRecyclerview.layoutParams.height = (tabMaxHeight * progress).toInt()
+        tabRecyclerview.alpha = progress
+        layoutParams.height = withoutTabsHeight + (tabMaxHeight * progress).roundToInt()
+//        println("With Tab Height: ${layoutParams.height}")
+
+        requestLayout()
     }
 
 }
