@@ -8,44 +8,42 @@
     android:gravity="bottom"
     tools:parentTag="android.widget.FrameLayout">
 
-    <LinearLayout
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/tabRecyclerviewContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:background="@color/tab_bg_color">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tabRecyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/custom_layout_tab_max_height"
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
-            android:visibility="gone"
-            android:background="@color/tab_bg_color"
-            app:layout_constraintBottom_toTopOf="@id/viewPager"
             tools:layout_height="@dimen/custom_layout_tab_max_height"
+            tools:translationY="@dimen/custom_layout_tab_translationY"
             tools:listitem="@layout/custom_filterlayout_viewpager_recyclerview_tab_viewholder"
             tools:visibility="visible">
 
         </androidx.recyclerview.widget.RecyclerView>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/viewpager_content_height"
-            android:background="@color/colorPrimaryDark">
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/viewpager_content_height"
-                android:paddingBottom="@dimen/bottom_buttons_bar"
-                app:layout_constraintBottom_toTopOf="@id/button_background"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/custom_filterlayout_viewpager_item_holder_3" />
-        </FrameLayout>
+    </FrameLayout>
 
 
-    </LinearLayout>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/viewpager_content_height"
+        android:paddingBottom="@dimen/bottom_buttons_bar"
+        tools:listitem="@layout/custom_filterlayout_viewpager_item_holder_3" />
 
+</LinearLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttonsContainer"
         android:layout_width="match_parent"

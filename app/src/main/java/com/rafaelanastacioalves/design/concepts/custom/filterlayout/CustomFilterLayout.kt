@@ -94,8 +94,9 @@ class FilterLayout @JvmOverloads constructor(
         viewPager.alpha = progress
         viewPager.translationY = tabMaxHeight * (1 - progress)
         dismissButton.x = width / 2 - (width / 4) * (progress)
-//        tabRecyclerview.layoutParams.height = (tabMaxHeight * progress).toInt()
+        tabRecyclerviewContainer.layoutParams.height = (tabMaxHeight * progress).toInt()
         layoutParams.height = withoutTabsHeight + (tabMaxHeight * progress).roundToInt()
+
         tabRecyclerview.translationY = tabMaxHeight * (1 - progress)
 //        println("With Tab Height: ${layoutParams.height}")
 

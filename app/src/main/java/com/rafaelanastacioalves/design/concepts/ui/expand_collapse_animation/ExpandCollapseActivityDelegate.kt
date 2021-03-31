@@ -164,6 +164,8 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         valueAnimator.doOnEnd {
             if (isForward) activity.run {
                 showFilter()
+                filterLayout.layoutParams.height = filterMaxHeightCalculated
+                filterLayout.requestLayout()
                 hideFab()
             }
         }
