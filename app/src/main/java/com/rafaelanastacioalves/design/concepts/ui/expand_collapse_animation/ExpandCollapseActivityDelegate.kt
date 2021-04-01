@@ -1,9 +1,11 @@
 package com.rafaelanastacioalves.design.concepts.ui.expand_collapse_animation
 
 import android.animation.AnimatorSet
+import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.util.Log
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.cardview.widget.CardView
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
@@ -31,7 +33,8 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
     private val filterWidth = activity.screenWidth
     private val fabMiddlePositionY = container.height.toFloat() - (filterMaxHeightCalculated.toFloat() + fabOriginalDiamater.toFloat()) / 2
     private val fabMiddlePositionX: Float = (filterWidth - fabOriginalDiamater).toFloat() / 2
-
+    private val fabElevation: Float = activity.resources.getDimension(R.dimen.fab_elevation)
+    private val fabElevation2: Float = activity.resources.getDimension(R.dimen.fab_elevation_2)
 
     internal fun animateFilterShowUp(isForward: Boolean) {
         val animateScaleDown = expandCollapseAdapter.holdersScaleDownAnimator(isForward)
@@ -75,7 +78,8 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                 activity.resources.run {
                     getInteger(R.integer.path_duration)
                 }.toLong(),
-                AccelerateDecelerateInterpolator()
+                if (isForward) DecelerateInterpolator() as TimeInterpolator
+                else AccelerateDecelerateInterpolator()
         ) { progress ->
             calculateArcPathProgress(progress, fabMiddlePositionX)
         }
@@ -97,7 +101,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
         fab.x = fabOriginX + (relativeProgress * (finalArcPathX - fabOriginX))
 
-
+        fab.elevation = fabElevation + (fabElevation2 - fabElevation) * relativeProgress
         fab.y = startY + quadraticPathConstant * ((fab.x - fabOriginX).pow(2))
         Log.d("Fab Opening", "finalArcPathX: ${finalArcPathX} -- " + "fab.Y = ${fab.y} " +
                 "fabMiddlePositionY: ${fabMiddlePositionY} " + "relativeProgress $relativeProgress")
