@@ -108,6 +108,41 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
 
     }
 
+
+    private fun fabExpansionAnimator(isForward: Boolean): ValueAnimator {
+        val valueAnimator = getValueAnimator(
+                isForward,
+                activity.resources.run {
+                    getInteger(R.integer.expansion_duraiton)
+                }.toLong(),
+                AccelerateDecelerateInterpolator()
+        ) { progress ->
+            // TODO: Refactor - extrair o 0.8f (12/03/2021)
+            if (0 < (0.8f - progress) && (0.8f - progress) < 0.01) {
+                calculateFabExpansion(0.8f)
+            } else {
+                calculateFabExpansion(progress)
+            }
+        }
+
+        valueAnimator.doOnEnd {
+            if (isForward) activity.run {
+                showFilter()
+                filterLayout.layoutParams.height = filterMaxHeightCalculated
+                filterLayout.requestLayout()
+                hideFab()
+            }
+        }
+        valueAnimator.doOnStart {
+            if (isForward.not()) {
+                activity.showFab()
+                activity.hideFilter()
+            }
+        }
+        return valueAnimator
+    }
+
+
     private fun calculateFabExpansion(relativeProgress: Float) {
 
 
@@ -147,39 +182,6 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             fab.radius = filterWidth / 2 +
                     (0 - filterWidth / 2) * radiusChangeRelativeProgress
         }
-    }
-
-    private fun fabExpansionAnimator(isForward: Boolean): ValueAnimator {
-        val valueAnimator = getValueAnimator(
-                isForward,
-                activity.resources.run {
-                    getInteger(R.integer.expansion_duraiton)
-                }.toLong(),
-                AccelerateDecelerateInterpolator()
-        ) { progress ->
-            // TODO: Refactor - extrair o 0.8f (12/03/2021)
-            if (0 < (0.8f - progress) && (0.8f - progress) < 0.01) {
-                calculateFabExpansion(0.8f)
-            } else {
-                calculateFabExpansion(progress)
-            }
-        }
-
-        valueAnimator.doOnEnd {
-            if (isForward) activity.run {
-                showFilter()
-                filterLayout.layoutParams.height = filterMaxHeightCalculated
-                filterLayout.requestLayout()
-                hideFab()
-            }
-        }
-        valueAnimator.doOnStart {
-            if (isForward.not()) {
-                activity.showFab()
-                activity.hideFilter()
-            }
-        }
-        return valueAnimator
     }
 
 
