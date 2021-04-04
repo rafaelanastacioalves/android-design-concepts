@@ -118,9 +118,12 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                 AccelerateDecelerateInterpolator()
         ) { progress ->
             // TODO: Refactor - extrair o 0.8f (12/03/2021)
-            if (0 < (0.8f - progress) && (0.8f - progress) < 0.01) {
-                calculateFabExpansion(0.8f)
+            if (progress <= 0.8f) {
+                calculateFabExpansion(progress)
             } else {
+                if ((0.8f - progress) < 0.1){
+                    calculateFabExpansion(0.8f)
+                }
                 calculateFabExpansion(progress)
             }
         }
@@ -155,7 +158,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                             expansionRelativeProgress).toInt()
 
 
-            container.requestLayout()
+            fab.requestLayout()
 
             fab.radius = (fab.layoutParams.width / 2).toFloat()
 
