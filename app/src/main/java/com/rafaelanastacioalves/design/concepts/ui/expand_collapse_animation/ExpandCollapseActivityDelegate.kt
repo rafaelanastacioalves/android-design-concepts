@@ -121,7 +121,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
             if (progress <= 0.8f) {
                 calculateFabExpansion(progress)
             } else {
-                if ((0.8f - progress) < 0.1){
+                if (progress != 0.8f) {
                     calculateFabExpansion(0.8f)
                 }
                 calculateFabExpansion(progress)
@@ -152,22 +152,21 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
         if (relativeProgress <= 0.8f) {
             var expansionRelativeProgress = relativeProgress / 0.8f
             fab.layoutParams.width = fabOriginalDiamater +
-                    ((filterWidth - fabOriginalDiamater) * expansionRelativeProgress).toInt()
+                    ((filterWidth.toFloat() - fabOriginalDiamater.toFloat()) * expansionRelativeProgress).toInt()
             fab.layoutParams.height =
                     fabOriginalDiamater + ((filterMaxHeightCalculated - fabOriginalDiamater) *
                             expansionRelativeProgress).toInt()
 
-
             fab.requestLayout()
-
-            fab.radius = (fab.layoutParams.width / 2).toFloat()
 
             fab.y = fabMiddlePositionY + (container.height.toFloat() - fabMiddlePositionY - filterMaxHeightCalculated.toFloat()) * (expansionRelativeProgress)
 
             +(filterMaxHeightCalculated.toFloat() - fabOriginalDiamater.toFloat()) * (expansionRelativeProgress)
 
-            fab.x = fabMiddlePositionX + ((-filterWidth + fabOriginalDiamater) / 2) *
+            fab.x = fabMiddlePositionX + ((-filterWidth.toFloat() + fabOriginalDiamater.toFloat()) / 2) *
                     expansionRelativeProgress
+
+            fab.radius = (fab.layoutParams.width / 2).toFloat()
 
             Log.d("Fab Vertical movement", "Fab.Y: ${decimalFormat.format(fab.y)} && " +
                     "Fab.X: ${decimalFormat.format(fab.x)} && " +
@@ -178,8 +177,7 @@ class ExpandCollapseActivityDelegate(private val activity: ExpandCollapseActivit
                     "&& fabMiddlePositionY: ${decimalFormat.format(fabMiddlePositionY)} " +
                     "Fab.visibility = ${fab.visibility.toString()}")
 
-        }
-        if (relativeProgress > 0.8f) {
+        } else {
             // TODO: Refactor - instanciacao... nomes.... (10/03/2021)
             var radiusChangeRelativeProgress = (relativeProgress - 0.8f) / 0.2f
             fab.radius = filterWidth / 2 +
