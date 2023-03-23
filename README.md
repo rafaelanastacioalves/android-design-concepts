@@ -5,7 +5,7 @@
 
 I tried to implement the layout from the following Medium [article by @nikhilpanju](https://medium.com/proandroiddev/complex-ui-animations-on-android-featuring-motionlayout-aa82d83b8660) on my own.
 
-During the implementation, whenever I encountered difficulties, I referred to his [repository]([https://github.com/nikhilpanju/Android-UI-Complex](https://github.com/nikhilpanju/FabFilter)) so that I could understand the differences and learn from them.
+During the implementation, whenever I encountered difficulties, I referred to his [repository](https://github.com/nikhilpanju/FabFilter) so that I could understand the differences and learn from them.
 
 I attempted to implement the same animation twice, first using "low-level of abstraction" techniques, and secondly, using [motion layout](https://developer.android.com/training/constraint-layout/motionlayout).
 
