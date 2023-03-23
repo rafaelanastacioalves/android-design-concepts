@@ -30,5 +30,5 @@ The code can be checked [here](https://github.com/rafaelanastacioalves/android-d
 
 # Building
 
-The building process is pretty straightforward, just like any other Android [App](https://developer.android.com/studio/run) 😊.
+The building process is pretty straightforward, just like any other Android App 😊.
 
